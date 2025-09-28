@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHub - Computer Architecture: Binary Numbers & Data Types</title>
+    <style>
+        :root {
+            --primary-light: #667eea;
+            --secondary-light: #764ba2;
+            --bg-light: #f8fafc;
+            --surface-light: #ffffff;
+            --text-light: #2d3748;
+            --text-secondary-light: #718096;
+            --border-light: #e2e8f0;
+            --code-bg-light: #f7fafc;
+            --accent-light: #4299e1;
+            
+            --primary-dark: #9f7aea;
+            --secondary-dark: #667eea;
+            --bg-dark: #0f172a;
+            --surface-dark: #1e293b;
+            --text-dark: #f1f5f9;
+            --text-secondary-dark: #94a3b8;
+            --border-dark: #334155;
+            --code-bg-dark: #1e293b;
+            --accent-dark: #60a5fa;
+            
+            --gradient-light: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-dark: linear-gradient(135deg, #9f7aea 0%, #667eea 100%);
+            --glass-light: rgba(255, 255, 255, 0.25);
+            --glass-dark: rgba(30, 41, 59, 0.25);
+        }
+
+        [data-theme="light"] {
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --bg: var(--bg-light);
+            --surface: var(--surface-light);
+            --text: var(--text-light);
+            --text-secondary: var(--text-secondary-light);
+            --border: var(--border-light);
+            --code-bg: var(--code-bg-light);
+            --accent: var(--accent-light);
+            --gradient: var(--gradient-light);
+            --glass: var(--glass-light);
+        }
+
+        [data-theme="dark"] {
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --bg: var(--bg-dark);
+            --surface: var(--surface-dark);
+            --text: var(--text-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --border: var(--border-dark);
+            --code-bg: var(--code-bg-dark);
+            --accent: var(--accent-dark);
+            --gradient: var(--gradient-dark);
+            --glass: var(--glass-dark);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            background: var(--border);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--surface);
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .theme-toggle::before {
+            transform: translateX(28px);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 20%; left: 80%; animation-delay: 5s; }
+        .floating-element:nth-child(3) { top: 60%; left: 20%; animation-delay: 10s; }
+        .floating-element:nth-child(4) { top: 70%; left: 70%; animation-delay: 15s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+            75% { transform: translateY(-15px) rotate(270deg); }
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-section:hover::before {
+            transform: translateX(0);
+        }
+
+        .content-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-emoji {
+            font-size: 2rem;
+        }
+
+        .subsection {
+            margin: 2rem 0;
+        }
+
+        .subsection h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .subsection h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--text);
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient);
+        }
+
+        .binary {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .decimal {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .hex {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table tr:hover {
+            background: var(--glass);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Lists */
+        .styled-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .styled-list li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .styled-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Practice Questions */
+        .practice-questions {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .practice-questions h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .question {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .data-table {
+                font-size: 0.9rem;
+            }
+
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section {
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        .content-section:nth-child(2) { animation-delay: 0.1s; }
+        .content-section:nth-child(3) { animation-delay: 0.2s; }
+        .content-section:nth-child(4) { animation-delay: 0.3s; }
+        .content-section:nth-child(5) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body data-theme="light">
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">EduHub</div>
+                <div class="theme-toggle" onclick="toggleTheme()"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="hero">
+                <div class="floating-elements">
+                    <div class="floating-element">🔢</div>
+                    <div class="floating-element">💻</div>
+                    <div class="floating-element">⚡</div>
+                    <div class="floating-element">🧠</div>
+                </div>
+                <h1>Computer Architecture</h1>
+                <p>Master Binary Numbers, Data Types, and Computer Operations with Interactive Learning</p>
+            </div>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    What is Computer Architecture?
+                </h2>
+                <p><strong>Computer Architecture</strong> is the study of how computers are designed and how they work at a fundamental level.</p>
+                
+                <div class="subsection">
+                    <p>It covers:</p>
+                    <ul class="styled-list">
+                        <li>How data is represented inside a computer</li>
+                        <li>How instructions are executed</li>
+                        <li>How memory and registers are organized</li>
+                        <li>How the CPU processes binary numbers</li>
+                    </ul>
+                </div>
+
+                <div class="card-grid">
+                    <div class="info-card">
+                        <div class="card-icon">💾</div>
+                        <div class="card-title">Data Representation</div>
+                        <p>Learn how computers store and process different types of information using binary digits.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">⚙️</div>
+                        <div class="card-title">Instruction Execution</div>
+                        <p>Understand how the CPU fetches, decodes, and executes instructions.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🧮</div>
+                        <div class="card-title">Number Systems</div>
+                        <p>Master binary, decimal, and hexadecimal number systems used in computing.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Number Systems in Computers
+                </h2>
+                <p>Computers don't understand human languages like English. They only understand <strong>binary digits (bits)</strong>:</p>
+                
+                <div class="code-block">
+                    <span class="binary">0</span> → Low voltage (off)<br>
+                    <span class="binary">1</span> → High voltage (on)
+                </div>
+
+                <div class="subsection">
+                    <h3>Other Number Systems:</h3>
+                    <ul class="styled-list">
+                        <li><strong>Decimal (Base 10)</strong> – what humans use (0–9)</li>
+                        <li><strong>Binary (Base 2)</strong> – what computers use (0, 1)</li>
+                        <li><strong>Hexadecimal (Base 16)</strong> – often used as shorthand in computing (0–9, A–F)</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>Example Conversions:</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Decimal</th>
+                                <th>Binary</th>
+                                <th>Hexadecimal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="decimal">10</td>
+                                <td class="binary">1010</td>
+                                <td class="hex">A</td>
+                            </tr>
+                            <tr>
+                                <td class="decimal">255</td>
+                                <td class="binary">11111111</td>
+                                <td class="hex">FF</td>
+                            </tr>
+                            <tr>
+                                <td class="decimal">42</td>
+                                <td class="binary">101010</td>
+                                <td class="hex">2A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Unsigned Integers
+                </h2>
+                <p>Unsigned numbers = <strong>only positive numbers (including zero).</strong></p>
+                
+                <div class="code-block">
+                    Range for <code>n</code> bits = <strong>0 to (2ⁿ − 1)</strong>
+                </div>
+
+                <div class="card-grid">
+                    <div class="info-card">
+                        <div class="card-icon">4️⃣</div>
+                        <div class="card-title">4-bit Unsigned</div>
+                        <p>Range: 0 to 15<br>Example: <code class="binary">1111</code> = 15</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">8️⃣</div>
+                        <div class="card-title">8-bit Unsigned</div>
+                        <p>Range: 0 to 255<br>Example: <code class="binary">11111111</code> = 255</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Examples (8-bit unsigned):</h3>
+                    <div class="code-block">
+                        <span class="binary">00000001</span> = <span class="decimal">1</span><br>
+                        <span class="binary">11111111</span> = <span class="decimal">255</span><br>
+                        <span class="binary">01010101</span> = <span class="decimal">85</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Signed Integers
+                </h2>
+                <p>Signed numbers = <strong>positive and negative numbers.</strong></p>
+                <p>The <strong>Most Significant Bit (MSB)</strong> is used as the <strong>sign bit</strong>:</p>
+                
+                <div class="code-block">
+                    <span class="binary">0</span> → Positive<br>
+                    <span class="binary">1</span> → Negative
+                </div>
+
+                <div class="subsection">
+                    <h3>Ways to Represent Signed Numbers:</h3>
+                    
+                    <h4>1. Sign-Magnitude Representation</h4>
+                    <ul class="styled-list">
+                        <li>MSB = sign, remaining bits = magnitude</li>
+                        <li>Example (8 bits): <code class="binary">00000101</code> = +5, <code class="binary">10000101</code> = −5</li>
+                        <li>❌ Problem: Has two zeros (<code class="binary">00000000</code> = +0, <code class="binary">10000000</code> = −0)</li>
+                    </ul>
+
+                    <h4>2. One's Complement</h4>
+                    <ul class="styled-list">
+                        <li>Negative numbers are formed by <strong>flipping all bits</strong></li>
+                        <li>Example (8 bits for −5): +5 = <code class="binary">00000101</code> → One's complement = <code class="binary">11111010</code> (−5)</li>
+                        <li>❌ Problem: Still has two zeros</li>
+                    </ul>
+
+                    <h4>3. Two's Complement (Standard System)</h4>
+                    <ul class="styled-list">
+                        <li>Negative numbers are formed by: 1) Take positive number 2) Flip all bits 3) Add 1</li>
+                        <li>Example (8 bits for −5): +5 = <code class="binary">00000101</code> → Flip → <code class="binary">11111010</code> → Add 1 → <code class="binary">11111011</code> (−5)</li>
+                        <li>✅ Only one zero, easy arithmetic, used in all modern CPUs</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    <strong>Range of two's complement (n bits) = −2ⁿ⁻¹ to (2ⁿ⁻¹ − 1)</strong><br>
+                    8-bit → −128 to +127
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Arithmetic in Two's Complement
+                </h2>
+                <p>Two's complement allows <strong>addition & subtraction</strong> to work naturally:</p>
+                
+                <div class="subsection">
+                    <h3>Example: 7 + (−5) in 4-bit system</h3>
+                    <div class="code-block">
+                        +7 = <span class="binary">0111</span><br>
+                        −5: +5 = <span class="binary">0101</span> → Flip = <span class="binary">1010</span> → Add 1 = <span class="binary">1011</span><br>
+                        Add: <span class="binary">0111 + 1011 = 10010</span> → drop overflow → <span class="binary">0010</span> = <span class="decimal">2</span> ✅
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Overflow Detection</h3>
+                    <p>We have overflow if:</p>
+                    <ul class="styled-list">
+                        <li>Signs of both operands are the same, and</li>
+                        <li>Sign of sum is different</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        Example overflow:<br>
+                        <span class="binary">01000</span> (8) + <span class="binary">01001</span> (9) = <span class="binary">10001</span> (-15) ❌<br>
+                        Two positive numbers shouldn't give negative result!
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Parity Check (Error Detection)
+                </h2>
+                <p>Computers must ensure data is not corrupted during transmission. <strong>Parity bits</strong> are extra bits added for <strong>error detection</strong>.</p>
+                
+                <div class="card-grid">
+                    <div class="info-card">
+                        <div class="card-icon">⚖️</div>
+                        <div class="card-title">Even Parity</div>
+                        <p>Total number of 1s (data + parity) is even</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🔢</div>
+                        <div class="card-title">Odd Parity</div>
+                        <p>Total number of 1s is odd</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Example: Data = <code class="binary">1010</code> (two 1s)</h3>
+                    <div class="code-block">
+                        Even parity → add <span class="binary">0</span> → <span class="binary">10100</span><br>
+                        Odd parity → add <span class="binary">1</span> → <span class="binary">10101</span>
+                    </div>
+                    <p>👉 Parity can <strong>detect single-bit errors</strong>, but not correct them.</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    LC-3 (Little Computer 3) Basics
+                </h2>
+                <p>The <strong>LC-3</strong> is a simple educational computer architecture used to teach how CPUs work.</p>
+                
+                <div class="subsection">
+                    <h3>Key Features:</h3>
+                    <ul class="styled-list">
+                        <li><strong>16-bit architecture</strong> (instructions and data are 16 bits)</li>
+                        <li><strong>Registers</strong>: 8 general-purpose registers (R0–R7)</li>
+                        <li><strong>Memory</strong>: 65,536 locations (2¹⁶)</li>
+                        <li><strong>Instruction Set</strong>: Load, Store, Add, AND, NOT, Branch, etc.</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    👉 Example LC-3 instruction: <code>ADD R1, R2, R3</code><br>
+                    Meaning: R1 ← R2 + R3
+                </div>
+
+                <div class="subsection">
+                    <h3>LC-3 Data Types:</h3>
+                    <ul class="styled-list">
+                        <li>Only one supported data type: <strong>16-bit 2's complement signed integer</strong></li>
+                        <li>Operations: ADD, AND, NOT</li>
+                        <li>Other data types supported by interpreting 16-bit values as logical, text, fixed-point, etc.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="practice-questions">
+                <h3>🔹 Practice Questions</h3>
+                <div class="question">
+                    <strong>1.</strong> Represent <strong>−9</strong> in 8-bit two's complement.
+                </div>
+                <div class="question">
+                    <strong>2.</strong> Represent <strong>−12</strong> in 8-bit one's complement.
+                </div>
+                <div class="question">
+                    <strong>3.</strong> Convert decimal <strong>45</strong> into binary and hexadecimal.
+                </div>
+                <div class="question">
+                    <strong>4.</strong> If you transmit <code>1011001</code> using <strong>even parity</strong>, what is the final sequence?
+                </div>
+                <div class="question">
+                    <strong>5.</strong> In LC-3, what does <code>AND R3, R2, R1</code> mean?
+                </div>
+            </div>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Logical Operations
+                </h2>
+                <p>Operations on logical TRUE or FALSE with two states. Takes one bit to represent: <strong>TRUE=1, FALSE=0</strong></p>
+                <p>View n-bit number as a collection of n logical values with operation applied to each bit independently.</p>
+
+                <div class="subsection">
+                    <h3>Truth Tables:</h3>
+                    <div class="card-grid">
+                        <div class="info-card">
+                            <div class="card-title">AND Operation</div>
+                            <table class="data-table" style="margin: 1rem 0; font-size: 0.9rem;">
+                                <thead>
+                                    <tr><th>A</th><th>B</th><th>A AND B</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>0</td><td>0</td><td>0</td></tr>
+                                    <tr><td>0</td><td>1</td><td>0</td></tr>
+                                    <tr><td>1</td><td>0</td><td>0</td></tr>
+                                    <tr><td>1</td><td>1</td><td>1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="info-card">
+                            <div class="card-title">OR Operation</div>
+                            <table class="data-table" style="margin: 1rem 0; font-size: 0.9rem;">
+                                <thead>
+                                    <tr><th>A</th><th>B</th><th>A OR B</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>0</td><td>0</td><td>0</td></tr>
+                                    <tr><td>0</td><td>1</td><td>1</td></tr>
+                                    <tr><td>1</td><td>0</td><td>1</td></tr>
+                                    <tr><td>1</td><td>1</td><td>1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="info-card">
+                            <div class="card-title">NOT Operation</div>
+                            <table class="data-table" style="margin: 1rem 0; font-size: 0.9rem;">
+                                <thead>
+                                    <tr><th>A</th><th>NOT A</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>0</td><td>1</td></tr>
+                                    <tr><td>1</td><td>0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Practical Applications:</h3>
+                    <div class="code-block">
+                        <strong>AND - Clearing Bits:</strong><br>
+                        <span class="binary">11000101</span> AND <span class="binary">00001111</span> = <span class="binary">00000101</span><br>
+                        AND with zero = 0, AND with one = no change<br><br>
+
+                        <strong>OR - Setting Bits:</strong><br>
+                        <span class="binary">11000101</span> OR <span class="binary">00001111</span> = <span class="binary">11001111</span><br>
+                        OR with zero = no change, OR with one = 1<br><br>
+
+                        <strong>NOT - Flipping Bits:</strong><br>
+                        NOT <span class="binary">11000101</span> = <span class="binary">00111010</span><br>
+                        Unary operation -- flips every bit
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Hexadecimal Notation
+                </h2>
+                <p>It is often convenient to write binary (base-2) numbers as hexadecimal (base-16) numbers instead.</p>
+                
+                <div class="card-grid">
+                    <div class="info-card">
+                        <div class="card-icon">🔢</div>
+                        <div class="card-title">Why Hexadecimal?</div>
+                        <p>• Fewer digits — four bits per hex digit<br>
+                        • Less error prone — easy to corrupt long string of 1's and 0's</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Conversion Table:</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Binary</th>
+                                <th>Hex</th>
+                                <th>Decimal</th>
+                                <th>Binary</th>
+                                <th>Hex</th>
+                                <th>Decimal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="binary">0000</td><td class="hex">0</td><td class="decimal">0</td><td class="binary">1000</td><td class="hex">8</td><td class="decimal">8</td></tr>
+                            <tr><td class="binary">0001</td><td class="hex">1</td><td class="decimal">1</td><td class="binary">1001</td><td class="hex">9</td><td class="decimal">9</td></tr>
+                            <tr><td class="binary">0010</td><td class="hex">2</td><td class="decimal">2</td><td class="binary">1010</td><td class="hex">A</td><td class="decimal">10</td></tr>
+                            <tr><td class="binary">0011</td><td class="hex">3</td><td class="decimal">3</td><td class="binary">1011</td><td class="hex">B</td><td class="decimal">11</td></tr>
+                            <tr><td class="binary">0100</td><td class="hex">4</td><td class="decimal">4</td><td class="binary">1100</td><td class="hex">C</td><td class="decimal">12</td></tr>
+                            <tr><td class="binary">0101</td><td class="hex">5</td><td class="decimal">5</td><td class="binary">1101</td><td class="hex">D</td><td class="decimal">13</td></tr>
+                            <tr><td class="binary">0110</td><td class="hex">6</td><td class="decimal">6</td><td class="binary">1110</td><td class="hex">E</td><td class="decimal">14</td></tr>
+                            <tr><td class="binary">0111</td><td class="hex">7</td><td class="decimal">7</td><td class="binary">1111</td><td class="hex">F</td><td class="decimal">15</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>Converting from Binary to Hexadecimal:</h3>
+                    <p>Every four bits is a hex digit. Start grouping from right-hand side:</p>
+                    <div class="code-block">
+                        <span class="binary">011101010001111010011010111</span><br>
+                        Group: <span class="binary">0111 0101 0001 1110 1001 1010 111</span><br>
+                        Result: <span class="hex">7</span><span class="hex">5</span><span class="hex">1</span><span class="hex">E</span><span class="hex">9</span><span class="hex">A</span><span class="hex">7</span> = <span class="hex">7515E9A7</span>
+                    </div>
+                    <p><em>This is not a new machine representation, just a convenient way to write the number.</em></p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Floating-Point Numbers
+                </h2>
+                <p>For very large and very small numbers, we use floating-point representation.</p>
+                
+                <div class="subsection">
+                    <h3>Why Floating-Point?</h3>
+                    <div class="code-block">
+                        Large values: 6.023 × 10²³ — requires 79 bits<br>
+                        Small values: 6.626 × 10⁻³⁴ — requires >110 bits
+                    </div>
+                    <p>Use equivalent of "scientific notation": F × 2^E</p>
+                    <p>Need to represent F (fraction), E (exponent), and sign.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>IEEE 754 Floating-Point Standard (32-bits):</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Sign (S)</th>
+                                <th>Exponent</th>
+                                <th>Fraction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1 bit</td>
+                                <td>8 bits</td>
+                                <td>23 bits</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="code-block">
+                        Value = (-1)^S × (1 + fraction) × 2^(exponent - 127)
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Example:</h3>
+                    <div class="code-block">
+                        Single-precision: <span class="binary">10111111010000000000000000000000</span><br><br>
+                        • Sign is <span class="binary">1</span> – number is negative<br>
+                        • Exponent field is <span class="binary">01111110</span> = 126 (decimal)<br>
+                        • Fraction is <span class="binary">0.100000000000…</span> = 0.5 (decimal)<br><br>
+                        Value = -1.5 × 2^(126-127) = -1.5 × 2^(-1) = -0.75
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Text: ASCII Characters
+                </h2>
+                <p><strong>ASCII</strong>: Maps 128 characters to 7-bit code, including both printable and non-printable characters.</p>
+                
+                <div class="subsection">
+                    <h3>Interesting Properties of ASCII:</h3>
+                    <ul class="styled-list">
+                        <li><strong>Decimal digits ('0', '1', …)</strong>: ASCII code = decimal value + 48</li>
+                        <li><strong>Case conversion</strong>: Difference between uppercase and lowercase is exactly 32</li>
+                        <li><strong>Alphabetical order</strong>: ASCII values maintain alphabetical ordering</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    Examples:<br>
+                    '0' = 48, '1' = 49, '9' = 57<br>
+                    'A' = 65, 'a' = 97 (difference = 32)<br>
+                    'Z' = 90, 'z' = 122
+                </div>
+
+                <p><strong>Question:</strong> Are 128 characters enough? Modern systems use <strong>Unicode</strong> for international character support!</p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-title">
+                    <span class="section-emoji">🔹</span>
+                    Key Takeaways & Summary
+                </h2>
+                <div class="card-grid">
+                    <div class="info-card">
+                        <div class="card-icon">🔢</div>
+                        <div class="card-title">Binary Foundation</div>
+                        <p>Computers use binary (0 and 1) for all operations and data storage.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">➕</div>
+                        <div class="card-title">Number Types</div>
+                        <p>Unsigned (positive only) vs Signed (positive & negative using two's complement).</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-title">Operations</div>
+                        <p>Logical operations (AND, OR, NOT) and arithmetic work at the bit level.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Error Detection</div>
+                        <p>Parity bits help detect transmission errors in digital systems.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🏛️</div>
+                        <div class="card-title">LC-3 Architecture</div>
+                        <p>Simple 16-bit educational computer for learning CPU fundamentals.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🌐</div>
+                        <div class="card-title">Data Types</div>
+                        <p>Various representations: integers, floating-point, text, and multimedia data.</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Essential Concepts Review:</h3>
+                    <ol class="styled-list">
+                        <li>Computers use <strong>binary</strong> (0 and 1)</li>
+                        <li><strong>Unsigned integers</strong> → only positive values</li>
+                        <li><strong>Signed integers</strong> → positive & negative (two's complement is the standard)</li>
+                        <li><strong>One's complement</strong> → flip bits (older system, two zeros)</li>
+                        <li><strong>Two's complement</strong> → flip + 1 (modern system, easy math)</li>
+                        <li><strong>Parity bits</strong> → used for error detection in data</li>
+                        <li><strong>LC-3 basics</strong> → simple 16-bit computer used for teaching</li>
+                    </ol>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">EduHub</div>
+                <div class="footer-text">Crafted with ❤️ by Kenzy</div>
+                <div class="footer-text">© 2024 EduHub. Educational Excellence in Computer Architecture.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+        });
+
+        // Smooth scroll for internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Add intersection observer for animation triggers
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all content sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Add copy functionality for code blocks
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block');
+            
+            codeBlocks.forEach(block => {
+                block.addEventListener('dblclick', function() {
+                    const text = this.textContent;
+                    navigator.clipboard.writeText(text).then(() => {
+                        // Create temporary notification
+                        const notification = document.createElement('div');
+                        notification.textContent = 'Copied to clipboard!';
+                        notification.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: var(--primary);
+                            color: white;
+                            padding: 12px 24px;
+                            border-radius: 8px;
+                            font-weight: 600;
+                            z-index: 10000;
+                            animation: slideInRight 0.3s ease-out;
+                        `;
+                        document.body.appendChild(notification);
+                        
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 2000);
+                    });
+                });
+            });
+        });
+
+        // Add keyframe for notification
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

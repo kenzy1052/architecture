@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHub: Bits, Data Types, and Operations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff6b6b;
+            --light-bg: #f8f9fa;
+            --light-card: #ffffff;
+            --light-text: #333333;
+            --light-secondary: #6c757d;
+            --dark-bg: #1a1a2e;
+            --dark-card: #16213e;
+            --dark-text: #eaeaea;
+            --dark-secondary: #a0a0a0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 100%);
+            color: var(--light-text);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f3460 100%);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 70px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .theme-toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 29px;
+            height: 29px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .theme-toggle-circle {
+            transform: translateX(35px);
+        }
+
+        .theme-toggle-circle i {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--light-secondary);
+        }
+
+        body.dark-mode .hero p {
+            color: var(--dark-secondary);
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--light-card);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .nav-container {
+            background: var(--dark-card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-link {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        /* Content Section */
+        .content-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 70%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--light-card);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-content {
+            color: var(--light-secondary);
+        }
+
+        body.dark-mode .card-content {
+            color: var(--dark-secondary);
+        }
+
+        .card ul {
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.2), rgba(37, 117, 252, 0.2));
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        body.dark-mode .highlight {
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.3), rgba(37, 117, 252, 0.3));
+        }
+
+        /* Special Elements */
+        .binary-example {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        body.dark-mode .binary-example {
+            background: var(--dark-bg);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--light-card);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        body.dark-mode table {
+            background: var(--dark-card);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode th, body.dark-mode td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-text {
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+
+        .footer-heart {
+            color: var(--accent);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>EduHub</h1>
+                </div>
+                <div class="theme-toggle" id="theme-toggle">
+                    <div class="theme-toggle-circle">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Bits, Data Types, and Operations</h2>
+            <p>Understanding how computers represent and manipulate data at the most fundamental level</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="nav-container">
+            <h3 class="nav-title">Quick Navigation</h3>
+            <div class="nav-links">
+                <a href="#binary-system" class="nav-link"><i class="fas fa-microchip"></i> Binary System</a>
+                <a href="#data-representation" class="nav-link"><i class="fas fa-database"></i> Data Representation</a>
+                <a href="#integers" class="nav-link"><i class="fas fa-sort-numeric-up"></i> Integers</a>
+                <a href="#operations" class="nav-link"><i class="fas fa-cogs"></i> Operations</a>
+                <a href="#floating-point" class="nav-link"><i class="fas fa-chart-line"></i> Floating Point</a>
+                <a href="#text" class="nav-link"><i class="fas fa-font"></i> Text & ASCII</a>
+
+<a href="lecture1.html" class="nav-link"><i class="fas fa-font"></i> Signed & Unsigned - Alternative</a>
+
+            </div>
+        </div>
+
+        <section id="binary-system" class="content-section">
+            <h2 class="section-title">Binary System & Bits</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-power-off"></i> Binary States</h3>
+                    <div class="card-content">
+                        <p>Computers are electronic machines that work by controlling the flow of electrons. They recognize two fundamental states:</p>
+                        <ul>
+                            <li><span class="highlight">Presence of voltage</span> - represented as state "1"</li>
+                            <li><span class="highlight">Absence of voltage</span> - represented as state "0"</li>
+                        </ul>
+                        <p>This binary system is simpler to implement than measuring or regulating precise voltage levels.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-memory"></i> Bits & Binary Digits</h3>
+                    <div class="card-content">
+                        <p>The basic unit of information in computing is the <span class="highlight">binary digit</span>, or <span class="highlight">bit</span>.</p>
+                        <p>Multiple bits can represent more complex information:</p>
+                        <ul>
+                            <li>2 bits = 4 possible states: 00, 01, 10, 11</li>
+                            <li>3 bits = 8 possible states: 000, 001, 010, 011, 100, 101, 110, 111</li>
+                            <li>n bits = 2<sup>n</sup> possible states</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-digital-tachograph"></i> Digital System</h3>
+                    <div class="card-content">
+                        <p>A computer is a <span class="highlight">binary digital system</span>:</p>
+                        <ul>
+                            <li><span class="highlight">Binary</span>: Has only two states (0 and 1)</li>
+                            <li><span class="highlight">Digital</span>: Uses a finite number of symbols</li>
+                        </ul>
+                        <div class="binary-example">0 1 0 1 1 0 1 0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-representation" class="content-section">
+            <h2 class="section-title">Data Representation</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-list-alt"></i> Types of Data</h3>
+                    <div class="card-content">
+                        <p>Computers need to represent various types of information:</p>
+                        <ul>
+                            <li><span class="highlight">Numbers</span>: Signed, unsigned, integers, floating point</li>
+                            <li><span class="highlight">Text</span>: Characters, strings</li>
+                            <li><span class="highlight">Images</span>: Pixels, colors, shapes</li>
+                            <li><span class="highlight">Sound</span>: Audio waveforms</li>
+                            <li><span class="highlight">Logical values</span>: True, false</li>
+                            <li><span class="highlight">Instructions</span>: Machine code</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-project-diagram"></i> Data Types</h3>
+                    <div class="card-content">
+                        <p>A <span class="highlight">data type</span> defines:</p>
+                        <ul>
+                            <li>How data is represented in the computer</li>
+                            <li>What operations can be performed on the data</li>
+                        </ul>
+                        <p>Different data types require different representation schemes and operations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="integers" class="content-section">
+            <h2 class="section-title">Integer Representation</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-plus-square"></i> Unsigned Integers</h3>
+                    <div class="card-content">
+                        <p><span class="highlight">Weighted positional notation</span> is used to represent unsigned integers:</p>
+                        <div class="binary-example">
+                            329 = 3×100 + 2×10 + 9×1<br>
+                            101 = 1×4 + 0×2 + 1×1 = 5
+                        </div>
+                        <p>An n-bit unsigned integer represents values from 0 to 2<sup>n</sup>-1.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exchange-alt"></i> Signed Integers</h3>
+                    <div class="card-content">
+                        <p>Three common representations for signed integers:</p>
+                        <ul>
+                            <li><span class="highlight">Sign-magnitude</span>: MSB indicates sign (0=positive, 1=negative)</li>
+                            <li><span class="highlight">One's complement</span>: Flip all bits to represent negative</li>
+                            <li><span class="highlight">Two's complement</span>: Most widely used in modern computers</li>
+                        </ul>
+                        <p>Two's complement simplifies arithmetic operations and avoids having two representations of zero.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-calculator"></i> Two's Complement</h3>
+                    <div class="card-content">
+                        <p>To represent a negative number in two's complement:</p>
+                        <ol>
+                            <li>Start with the positive number</li>
+                            <li>Flip every bit (one's complement)</li>
+                            <li>Add 1 to the result</li>
+                        </ol>
+                        <div class="binary-example">
+                            5 = 00101<br>
+                            One's complement = 11010<br>
+                            Add 1 = 11011 (-5)
+                        </div>
+                        <p>Shortcut: Copy bits from right until first 1, then flip remaining bits.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-sort-numeric-down"></i> Integer Range</h3>
+                    <div class="card-content">
+                        <p>Range of an n-bit two's complement number:</p>
+                        <ul>
+                            <li>Minimum: -2<sup>n-1</sup></li>
+                            <li>Maximum: 2<sup>n-1</sup> - 1</li>
+                        </ul>
+                        <p>For example, an 8-bit two's complement number ranges from -128 to 127.</p>
+                        <p>The most negative number (-2<sup>n-1</sup>) has no positive counterpart.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="operations" class="content-section">
+            <h2 class="section-title">Operations</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-plus"></i> Addition & Subtraction</h3>
+                    <div class="card-content">
+                        <p>Two's complement addition is straightforward binary addition:</p>
+                        <ul>
+                            <li>Add from right to left, propagating carry</li>
+                            <li>Ignore final carry out</li>
+                        </ul>
+                        <p>Subtraction is performed by negating the subtrahend and adding:</p>
+                        <div class="binary-example">
+                            104 - 16 = 104 + (-16) = 88
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-expand-arrows-alt"></i> Sign Extension</h3>
+                    <div class="card-content">
+                        <p>To add numbers with different bit lengths:</p>
+                        <ul>
+                            <li>Replicate the MSB (sign bit) to fill the new bits</li>
+                            <li>For positive numbers: fill with 0s</li>
+                            <li>For negative numbers: fill with 1s</li>
+                        </ul>
+                        <div class="binary-example">
+                            4 (0100) → 8-bit: 00000100<br>
+                            -4 (1100) → 8-bit: 11111100
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i> Overflow</h3>
+                    <div class="card-content">
+                        <p>Overflow occurs when the result of an operation cannot be represented in the available bits:</p>
+                        <ul>
+                            <li>Signs of operands are the same, but sign of result is different</li>
+                            <li>Carry into MS bit ≠ carry out of MS bit</li>
+                        </ul>
+                        <div class="binary-example">
+                            8 + 9 = 17 (overflow in 5-bit)<br>
+                            01000 + 01001 = 10001 (-15)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-logic"></i> Logical Operations</h3>
+                    <div class="card-content">
+                        <p>Basic logical operations applied bit by bit:</p>
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Description</th>
+                                    <th>Use Case</th>
+                                </tr>
+                                <tr>
+                                    <td>AND</td>
+                                    <td>Output 1 only if both inputs are 1</td>
+                                    <td>Clearing bits (AND with 0)</td>
+                                </tr>
+                                <tr>
+                                    <td>OR</td>
+                                    <td>Output 1 if at least one input is 1</td>
+                                    <td>Setting bits (OR with 1)</td>
+                                </tr>
+                                <tr>
+                                    <td>NOT</td>
+                                    <td>Invert the input bit</td>
+                                    <td>Complementing values</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="floating-point" class="content-section">
+            <h2 class="section-title">Floating Point & Fractions</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-divide"></i> Fixed-Point Representation</h3>
+                    <div class="card-content">
+                        <p>Fractions can be represented using a "binary point" to separate positive and negative powers of two:</p>
+                        <div class="binary-example">
+                            00101000.101 = 40.625<br>
+                            2<sup>5</sup> + 2<sup>3</sup> + 2<sup>-1</sup> + 2<sup>-3</sup>
+                        </div>
+                        <p>Standard addition and subtraction operations work as long as binary points are aligned.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-chart-line"></i> Floating-Point Representation</h3>
+                    <div class="card-content">
+                        <p>For very large or very small numbers, use scientific notation: F × 2<sup>E</sup></p>
+                        <p>IEEE 754 Floating-Point Standard (32 bits):</p>
+                        <ul>
+                            <li>1 bit: Sign (S)</li>
+                            <li>8 bits: Exponent (E)</li>
+                            <li>23 bits: Fraction (F)</li>
+                        </ul>
+                        <p>Value = (-1)<sup>S</sup> × (1.F) × 2<sup>E-127</sup></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="text" class="content-section">
+            <h2 class="section-title">Text Representation & Other Data Types</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-font"></i> ASCII Characters</h3>
+                    <div class="card-content">
+                        <p>ASCII maps 128 characters to 7-bit codes:</p>
+                        <ul>
+                            <li>Printable characters: letters, digits, punctuation</li>
+                            <li>Non-printable control characters: ESC, DEL, etc.</li>
+                        </ul>
+                        <p>Interesting properties:</p>
+                        <ul>
+                            <li>Difference between '0' and its ASCII code is 48</li>
+                            <li>Uppercase and lowercase differ by 32</li>
+                            <li>Alphabetical order matches ASCII order</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-images"></i> Other Data Types</h3>
+                    <div class="card-content">
+                        <p>Common data types beyond numbers and text:</p>
+                        <ul>
+                            <li><span class="highlight">Text strings</span>: Sequences of characters, often null-terminated</li>
+                            <li><span class="highlight">Images</span>: Arrays of pixels (monochrome: 1 bit/pixel; color: RGB components)</li>
+                            <li><span class="highlight">Sound</span>: Sequences of fixed-point numbers representing audio waveforms</li>
+                        </ul>
+                        <p>These are typically implemented in software rather than directly in hardware.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-microchip"></i> LC-2/LC-3 Data Types</h3>
+                    <div class="card-content">
+                        <p>The LC-2/LC-3 architecture supports:</p>
+                        <ul>
+                            <li>16-bit two's complement signed integers</li>
+                            <li>Operations: ADD, AND, NOT</li>
+                        </ul>
+                        <p>Other data types (logical, text, fixed-point) are implemented through software interpretation of these 16-bit values.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>EduHub</span>
+                </div>
+                <p class="footer-text">Crafted with <span class="footer-heart">♥</span> by Kenzy</p>
+                <p>© 2025 EduHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleCircle = document.querySelector('.theme-toggle-circle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggleCircle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Update the icon
+            if (body.classList.contains('dark-mode')) {
+                themeToggleCircle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggleCircle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add animation to cards when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Initially hide cards and observe them
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

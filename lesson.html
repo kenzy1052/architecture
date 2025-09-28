@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduHub - Bits, Data Types, and Operations</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        /* 🚀 Next-gen gradient color schemes */
+
+        --primary-gradient: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 40%,
+          #ec4899 100%
+        );
+        /* Indigo → Violet → Pink */
+
+        --secondary-gradient: linear-gradient(
+          135deg,
+          #06b6d4 0%,
+          #3b82f6 50%,
+          #6366f1 100%
+        );
+        /* Cyan → Blue → Indigo */
+
+        --accent-gradient: linear-gradient(
+          135deg,
+          #f472b6 0%,
+          #fb7185 40%,
+          #f59e0b 100%
+        );
+        /* Rose → Red → Amber */
+
+        --success-gradient: linear-gradient(
+          135deg,
+          #22c55e 0%,
+          #10b981 50%,
+          #06b6d4 100%
+        );
+        /* Emerald → Teal → Cyan */
+
+        --warning-gradient: linear-gradient(
+          135deg,
+          #facc15 0%,
+          #f97316 40%,
+          #ef4444 100%
+        );
+        /* Yellow → Orange → Red */
+
+        --dark-gradient: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #334155 100%
+        );
+        /* Navy → Slate → Gray */
+
+        /* 🌙 Light & Dark modes */
+        --bg-light: #f9fafb;
+        --bg-dark: #0a0f1e;
+        --card-light: rgba(255, 255, 255, 0.95);
+        --card-dark: rgba(15, 23, 42, 0.92);
+        --text-light: #1e293b;
+        --text-dark: #f1f5f9;
+        --border-light: rgba(148, 163, 184, 0.15);
+        --border-dark: rgba(148, 163, 184, 0.1);
+
+        /* 🌀 Premium shadows with depth */
+        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
+          0 8px 16px rgba(0, 0, 0, 0.05);
+        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
+          0 8px 16px rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        transition: all 0.3s ease;
+        background: var(--bg-light);
+        color: var(--text-light);
+      }
+
+      body.dark-mode {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+      }
+
+      /* Navigation */
+      nav {
+        background: var(--card-light);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-light);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode nav {
+        background: var(--card-dark);
+        border-bottom-color: var(--border-dark);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: inherit;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-links a:hover {
+        background: var(--primary-gradient);
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        position: relative;
+        width: 60px;
+        height: 30px;
+        background: var(--primary-gradient);
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .dark-mode .theme-toggle::before {
+        transform: translateX(30px);
+      }
+
+      /* Main Content */
+      main {
+        margin-top: 100px;
+        min-height: calc(100vh - 100px);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 4rem 0;
+        background: var(--primary-gradient);
+        color: white;
+        margin: -2rem -2rem 4rem -2rem;
+        border-radius: 0 0 2rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="20" fill="url(%23grain)"/></svg>');
+        opacity: 0.1;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Cards */
+      .section-card {
+        background: var(--card-light);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: visible;
+      }
+
+      .dark-mode .section-card {
+        background: var(--card-dark);
+        box-shadow: var(--shadow-dark);
+        border-color: var(--border-dark);
+      }
+
+      .section-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+      }
+
+      .dark-mode .section-card:hover {
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Binary Visualization */
+      .binary-demo {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 0.5rem;
+        margin: 1rem 0;
+        padding: 1rem;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1),
+          rgba(118, 75, 162, 0.1)
+        );
+        border-radius: 0.5rem;
+        border: 2px dashed var(--border-light);
+      }
+
+      .dark-mode .binary-demo {
+        border-color: var(--border-dark);
+      }
+
+      .bit {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--secondary-gradient);
+        color: white;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .bit:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .bit.zero {
+        background: #6b7280;
+      }
+
+      .bit.one {
+        background: var(--success-gradient);
+      }
+
+      /* Tables */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+      }
+
+      .dark-mode .data-table {
+        box-shadow: var(--shadow-dark);
+      }
+
+      .data-table th {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      .data-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-light);
+        background: var(--card-light);
+      }
+
+      .dark-mode .data-table td {
+        border-color: var(--border-dark);
+        background: var(--card-dark);
+      }
+
+      .data-table tr:hover td {
+        background: rgba(102, 126, 234, 0.1);
+      }
+
+      /* Code Blocks */
+      .code-block {
+        background: #1a1b26;
+        color: #a9b1d6;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        overflow-x: auto;
+        font-family: "Consolas", "Monaco", "Courier New", monospace;
+        position: relative;
+      }
+
+      .code-block::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--accent-gradient);
+      }
+
+      /* Highlight boxes */
+      .highlight-box {
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        border-left: 4px solid;
+      }
+
+      .highlight-box.info {
+        background: rgba(79, 172, 254, 0.1);
+        border-color: #4facfe;
+      }
+
+      .highlight-box.warning {
+        background: rgba(250, 112, 154, 0.1);
+        border-color: #fa709a;
+      }
+
+      .highlight-box.success {
+        background: rgba(67, 233, 123, 0.1);
+        border-color: #43e97b;
+      }
+
+      .highlight-box.error {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+      }
+
+      /* Interactive Examples */
+      .interactive-example {
+        background: var(--card-light);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 2px solid var(--border-light);
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode .interactive-example {
+        background: var(--card-dark);
+        border-color: var(--border-dark);
+      }
+
+      .interactive-example:hover {
+        border-color: #4facfe;
+      }
+
+      /* Math expressions */
+      .math-expr {
+        background: var(--dark-gradient);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        font-family: "Consolas", "Monaco", "Courier New", monospace;
+        display: inline-block;
+        margin: 0.25rem;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark-gradient);
+        color: white;
+        text-align: center;
+        padding: 3rem 2rem;
+        margin-top: 4rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-heart {
+        color: #ff6b6b;
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.2);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.2);
+        }
+        70% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+
+        .binary-demo {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .data-table {
+          font-size: 0.9rem;
+        }
+
+        .section-card {
+          padding: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .binary-demo {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .bit {
+          width: 35px;
+          height: 35px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          EduHub
+        </div>
+        <div class="nav-links">
+          <a href="lecture1.html">Signed & Unsigned Bits</a>
+          <div class="theme-toggle" onclick="toggleTheme()"></div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="hero">
+        <h1>Bits, Data Types, and Operations</h1>
+        <p>Master the fundamental building blocks of computer systems</p>
+      </div>
+
+      <div class="container">
+        <!-- Introduction Section -->
+        <section class="section-card" id="basics">
+          <h2 class="section-title">
+            <i class="fas fa-microchip"></i>
+            How Computers Represent Data
+          </h2>
+
+          <p>
+            At its core, a computer is an electronic machine that works by
+            controlling the flow of electrons. Think of it like a massive
+            collection of light switches - each switch can either be ON (1) or
+            OFF (0). This simple concept forms the foundation of all digital
+            computing.
+          </p>
+
+          <div class="highlight-box info">
+            <strong>Key Concept:</strong> Computers use a binary system because
+            it's much easier to build electronic circuits that can reliably
+            detect two states (presence or absence of voltage) rather than
+            trying to measure exact voltage levels.
+          </div>
+
+          <h3>Why Binary?</h3>
+          <p>
+            Just like the famous "hanging chad" voting controversy, detecting
+            whether something is present or absent is much more reliable than
+            trying to interpret subtle differences. In computers:
+          </p>
+          <ul>
+            <li><strong>State "1":</strong> Presence of voltage (switch ON)</li>
+            <li><strong>State "0":</strong> Absence of voltage (switch OFF)</li>
+          </ul>
+
+          <div class="binary-demo">
+            <div class="bit one">1</div>
+            <div class="bit zero">0</div>
+            <div class="bit one">1</div>
+            <div class="bit zero">0</div>
+            <div class="bit one">1</div>
+            <div class="bit one">1</div>
+            <div class="bit zero">0</div>
+            <div class="bit one">1</div>
+          </div>
+          <p>
+            <em
+              >Click the bits above to see how binary works! Each position
+              represents a different power of 2.</em
+            >
+          </p>
+
+          <h3>Digital vs Analog</h3>
+          <p>A computer is a <strong>binary digital system</strong>:</p>
+          <ul>
+            <li><strong>Binary:</strong> Only two states (0 and 1)</li>
+            <li>
+              <strong>Digital:</strong> Finite number of symbols (as opposed to
+              analog systems with infinite possibilities)
+            </li>
+          </ul>
+
+          <div class="highlight-box success">
+            <strong>Power of Binary:</strong> With just n bits, we can represent
+            2ⁿ different values. For example: <br />• 8 bits = 2⁸ = 256
+            different values <br />• 16 bits = 2¹⁶ = 65,536 different values
+          </div>
+        </section>
+
+        <!-- Unsigned Integers Section -->
+        <section class="section-card" id="numbers">
+          <h2 class="section-title">
+            <i class="fas fa-calculator"></i>
+            Representing Numbers: Unsigned Integers
+          </h2>
+
+          <h3>Positional Notation</h3>
+          <p>
+            Just like decimal numbers where position determines value (the "3"
+            in "329" is worth 300), binary uses positional notation with powers
+            of 2 instead of powers of 10.
+          </p>
+
+          <div class="interactive-example">
+            <h4>Example: Binary 101₂ to Decimal</h4>
+            <div class="math-expr">
+              1×2² + 0×2¹ + 1×2⁰ = 1×4 + 0×2 + 1×1 = 5₁₀
+            </div>
+          </div>
+
+          <h3>Range of Unsigned Integers</h3>
+          <p>An n-bit unsigned integer can represent values from 0 to 2ⁿ-1.</p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Binary</th>
+                <th>Calculation</th>
+                <th>Decimal Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>000</td>
+                <td>0×4 + 0×2 + 0×1</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>001</td>
+                <td>0×4 + 0×2 + 1×1</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>010</td>
+                <td>0×4 + 1×2 + 0×1</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>011</td>
+                <td>0×4 + 1×2 + 1×1</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>100</td>
+                <td>1×4 + 0×2 + 0×1</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>101</td>
+                <td>1×4 + 0×2 + 1×1</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>110</td>
+                <td>1×4 + 1×2 + 0×1</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>111</td>
+                <td>1×4 + 1×2 + 1×1</td>
+                <td>7</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Binary Arithmetic</h3>
+          <p>
+            Binary addition works just like decimal addition, but you carry when
+            you reach 2 instead of 10:
+          </p>
+
+          <div class="code-block">
+            10010 (18 in decimal) + 1001 ( 9 in decimal) ------- 11011 (27 in
+            decimal)
+          </div>
+
+          <div class="highlight-box warning">
+            <strong>Remember:</strong> 0 + 0 = 0, 0 + 1 = 1, 1 + 0 = 1, 1 + 1 =
+            10 (carry the 1)
+          </div>
+        </section>
+
+        <!-- Signed Integers Section -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-plus-minus"></i>
+            Signed Integers: Handling Negative Numbers
+          </h2>
+
+          <p>
+            With n bits, we have 2ⁿ possible values. For signed integers, we
+            split these roughly in half between positive and negative numbers.
+          </p>
+
+          <h3>Three Common Approaches:</h3>
+
+          <div class="highlight-box info">
+            <h4>1. Sign-Magnitude</h4>
+            <p>
+              Use the leftmost bit for sign (0 = positive, 1 = negative),
+              remaining bits for magnitude.
+            </p>
+            <p>Example: 00101 = +5, 10101 = -5</p>
+            <p>
+              <strong>Problem:</strong> Two representations of zero (+0 and -0),
+              complex arithmetic circuits
+            </p>
+          </div>
+
+          <div class="highlight-box warning">
+            <h4>2. One's Complement</h4>
+            <p>Flip every bit to represent the negative.</p>
+            <p>Example: 00101 = +5, 11010 = -5</p>
+            <p>
+              <strong>Problem:</strong> Still has two zeros, arithmetic needs
+              special handling
+            </p>
+          </div>
+
+          <div class="highlight-box success">
+            <h4>3. Two's Complement (The Winner!)</h4>
+            <p>
+              The standard method used in modern computers because it makes
+              arithmetic simple.
+            </p>
+          </div>
+
+          <h3>Two's Complement Method</h3>
+          <p>To convert a positive number to its negative equivalent:</p>
+          <ol>
+            <li>Start with the positive binary representation</li>
+            <li>Flip every bit (one's complement)</li>
+            <li>Add 1</li>
+          </ol>
+
+          <div class="interactive-example">
+            <h4>Example: Converting +5 to -5</h4>
+            <div class="code-block">
+              Step 1: +5 = 00101 Step 2: Flip bits = 11010 Step 3: Add 1 = 11011
+              = -5
+            </div>
+          </div>
+
+          <h3>Two's Complement Shortcut</h3>
+          <p>
+            Copy bits from right to left until (and including) the first "1",
+            then flip all remaining bits to the left.
+          </p>
+
+          <div class="code-block">
+            Original: 011010000 Shortcut: 100110000 (copy) (flip)
+          </div>
+
+          <h3>Range and Properties</h3>
+          <p>For n-bit two's complement:</p>
+          <ul>
+            <li><strong>Range:</strong> -2ⁿ⁻¹ to 2ⁿ⁻¹ - 1</li>
+            <li>
+              <strong>Most Significant Bit:</strong> Sign bit with weight -2ⁿ⁻¹
+            </li>
+            <li>
+              <strong>Special case:</strong> The most negative number (-2ⁿ⁻¹)
+              has no positive counterpart
+            </li>
+          </ul>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>4-bit Binary</th>
+                <th>Two's Complement Value</th>
+                <th>Calculation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0000</td>
+                <td>0</td>
+                <td>0×(-8) + 0×4 + 0×2 + 0×1</td>
+              </tr>
+              <tr>
+                <td>0001</td>
+                <td>1</td>
+                <td>0×(-8) + 0×4 + 0×2 + 1×1</td>
+              </tr>
+              <tr>
+                <td>0111</td>
+                <td>7</td>
+                <td>0×(-8) + 1×4 + 1×2 + 1×1</td>
+              </tr>
+              <tr>
+                <td>1000</td>
+                <td>-8</td>
+                <td>1×(-8) + 0×4 + 0×2 + 0×1</td>
+              </tr>
+              <tr>
+                <td>1001</td>
+                <td>-7</td>
+                <td>1×(-8) + 0×4 + 0×2 + 1×1</td>
+              </tr>
+              <tr>
+                <td>1111</td>
+                <td>-1</td>
+                <td>1×(-8) + 1×4 + 1×2 + 1×1</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Operations Section -->
+        <section class="section-card" id="operations">
+          <h2 class="section-title">
+            <i class="fas fa-cogs"></i>
+            Arithmetic Operations
+          </h2>
+
+          <h3>Addition in Two's Complement</h3>
+          <p>
+            The beauty of two's complement is that addition works exactly like
+            unsigned binary addition - just ignore the final carry out!
+          </p>
+
+          <div class="interactive-example">
+            <h4>Examples:</h4>
+            <div class="code-block">
+              01101000 (+104) 11110110 (-10) + 11110000 (-16) + 11110111 (-9)
+              ----------- ----------- 01011000 (+88) 11101101 (-19)
+            </div>
+          </div>
+
+          <h3>Subtraction</h3>
+          <p>
+            Subtraction is just addition with the negated subtrahend (second
+            number):
+          </p>
+          <p><strong>A - B = A + (-B)</strong></p>
+
+          <div class="interactive-example">
+            <h4>Example: 104 - 16</h4>
+            <div class="code-block">
+              01101000 (104) - 00010000 (16) becomes: 01101000 (104) + 11110000
+              (-16) ----------- 01011000 (88)
+            </div>
+          </div>
+
+          <h3>Sign Extension</h3>
+          <p>
+            When adding numbers with different bit widths, extend the shorter
+            number by replicating its sign bit:
+          </p>
+
+          <div class="highlight-box warning">
+            <strong>Wrong way:</strong> Padding with zeros <br />4-bit 1100 (-4)
+            → 8-bit 00001100 (12) ❌ <br /><br />
+            <strong>Correct way:</strong> Sign extension <br />4-bit 1100 (-4) →
+            8-bit 11111100 (-4) ✅
+          </div>
+
+          <h3>Overflow Detection</h3>
+          <p>
+            Overflow occurs when the result cannot be represented in the
+            available number of bits.
+          </p>
+
+          <div class="highlight-box error">
+            <strong>Overflow conditions:</strong>
+            <br />• Both operands have the same sign, but the result has a
+            different sign <br />• Alternative test: carry into MSB ≠ carry out
+            of MSB
+          </div>
+
+          <div class="interactive-example">
+            <h4>Overflow Examples:</h4>
+            <div class="code-block">
+              01000 (+8) 11000 (-8) + 01001 (+9) + 10111 (-9) -----------
+              ----------- 10001 (-15) 01111 (+15) OVERFLOW! OVERFLOW!
+            </div>
+            <p>
+              In both cases, we expected a negative result but got positive (or
+              vice versa).
+            </p>
+          </div>
+
+          <h3>Logical Operations</h3>
+          <p>
+            These operations work on individual bits and are fundamental to
+            computer logic:
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Operation</th>
+                <th>Symbol</th>
+                <th>Description</th>
+                <th>Truth Table</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>AND</td>
+                <td>&</td>
+                <td>True only if both inputs are true</td>
+                <td>0&0=0, 0&1=0, 1&0=0, 1&1=1</td>
+              </tr>
+              <tr>
+                <td>OR</td>
+                <td>|</td>
+                <td>True if either input is true</td>
+                <td>0|0=0, 0|1=1, 1|0=1, 1|1=1</td>
+              </tr>
+              <tr>
+                <td>NOT</td>
+                <td>~</td>
+                <td>Flips every bit</td>
+                <td>~0=1, ~1=0</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="interactive-example">
+            <h4>Practical Applications:</h4>
+            <div class="code-block">
+              // Clearing specific bits (use AND with 0) 11000101 AND 00001111 ←
+              mask to keep only last 4 bits ----------- 00000101 // Setting
+              specific bits (use OR with 1) 11000101 OR 00001111 ← mask to set
+              last 4 bits to 1 ----------- 11001111 // Flipping all bits (use
+              NOT) NOT 11000101 ----------- 00111010
+            </div>
+          </div>
+        </section>
+
+        <!-- Number Systems Section -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-hashtag"></i>
+            Number Systems & Conversions
+          </h2>
+
+          <h3>Hexadecimal (Base-16)</h3>
+          <p>
+            Hexadecimal is a compact way to represent binary numbers. Each hex
+            digit represents exactly 4 binary digits:
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Binary</th>
+                <th>Hex</th>
+                <th>Decimal</th>
+                <th>Binary</th>
+                <th>Hex</th>
+                <th>Decimal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>1000</td>
+                <td>8</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>0001</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1001</td>
+                <td>9</td>
+                <td>9</td>
+              </tr>
+              <tr>
+                <td>0010</td>
+                <td>2</td>
+                <td>2</td>
+                <td>1010</td>
+                <td>A</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>0011</td>
+                <td>3</td>
+                <td>3</td>
+                <td>1011</td>
+                <td>B</td>
+                <td>11</td>
+              </tr>
+              <tr>
+                <td>0100</td>
+                <td>4</td>
+                <td>4</td>
+                <td>1100</td>
+                <td>C</td>
+                <td>12</td>
+              </tr>
+              <tr>
+                <td>0101</td>
+                <td>5</td>
+                <td>5</td>
+                <td>1101</td>
+                <td>D</td>
+                <td>13</td>
+              </tr>
+              <tr>
+                <td>0110</td>
+                <td>6</td>
+                <td>6</td>
+                <td>1110</td>
+                <td>E</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td>0111</td>
+                <td>7</td>
+                <td>7</td>
+                <td>1111</td>
+                <td>F</td>
+                <td>15</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="interactive-example">
+            <h4>Binary to Hex Conversion:</h4>
+            <div class="code-block">
+              Binary: 011101010001111010011010111 Group by 4 from right:
+              0111|0101|0001|1110|1001|1010|111 Add leading zero to leftmost
+              group: 0111|0101|0001|1110|1001|1010|0111 Convert each group: 7 5
+              1 E 9 A 7 Result: 751E9A7₁₆
+            </div>
+          </div>
+
+          <h3>Conversion Methods</h3>
+
+          <div class="highlight-box info">
+            <h4>Method 1: Division by Base</h4>
+            <p>Repeatedly divide by the target base, collecting remainders:</p>
+            <div class="code-block">
+              Convert 104₁₀ to binary: 104 ÷ 2 = 52 remainder 0 52 ÷ 2 = 26
+              remainder 0 26 ÷ 2 = 13 remainder 0 13 ÷ 2 = 6 remainder 1 6 ÷ 2 =
+              3 remainder 0 3 ÷ 2 = 1 remainder 1 1 ÷ 2 = 0 remainder 1 Read
+              remainders upward: 1101000₂
+            </div>
+          </div>
+
+          <div class="highlight-box success">
+            <h4>Method 2: Subtract Powers</h4>
+            <p>Subtract the largest power that fits, then continue:</p>
+            <div class="code-block">
+              Convert 104₁₀ to binary: 104 - 64 (2⁶) = 40 → bit 6 = 1 40 - 32
+              (2⁵) = 8 → bit 5 = 1 8 - 8 (2³) = 0 → bit 3 = 1 Result: 01101000₂
+            </div>
+          </div>
+        </section>
+
+        <!-- Data Types Section -->
+        <section class="section-card" id="data-types">
+          <h2 class="section-title">
+            <i class="fas fa-database"></i>
+            Advanced Data Types
+          </h2>
+
+          <h3>Fixed-Point Numbers</h3>
+          <p>
+            For representing fractions, we use a "binary point" (like a decimal
+            point, but for base-2):
+          </p>
+
+          <div class="interactive-example">
+            <h4>Example: 40.625 in binary</h4>
+            <div class="math-expr">
+              101000.101₂ = 1×32 + 0×16 + 1×8 + 0×4 + 0×2 + 0×1 + 1×0.5 + 0×0.25
+              + 1×0.125
+            </div>
+            <div class="math-expr">= 32 + 8 + 0.5 + 0.125 = 40.625₁₀</div>
+          </div>
+
+          <div class="highlight-box info">
+            <strong>Key Insight:</strong> Fixed-point arithmetic uses the same
+            addition/subtraction as integers - just keep track of where the
+            binary point is!
+          </div>
+
+          <h3>Floating-Point Numbers</h3>
+          <p>
+            For very large or very small numbers, we use scientific notation: F
+            × 2^E
+          </p>
+
+          <div class="highlight-box warning">
+            <strong>IEEE 754 Standard (32-bit):</strong>
+            <br />• 1 bit for sign (S) <br />• 8 bits for exponent (E) <br />•
+            23 bits for fraction (F) <br /><br />
+            Value = (-1)^S × 1.F × 2^(E-127)
+          </div>
+
+          <div class="interactive-example">
+            <h4>Example: Decode 10111111010000000000000000000000</h4>
+            <div class="code-block">
+              S = 1 (negative number) E = 01111110₂ = 126₁₀ F =
+              10000000000000000000000₂ = 0.5₁₀ Value = (-1)¹ × 1.5 × 2^(126-127)
+              = -1 × 1.5 × 2^(-1) = -1.5 × 0.5 = -0.75
+            </div>
+          </div>
+
+          <h3>Text: ASCII Characters</h3>
+          <p>
+            ASCII maps 128 characters to 7-bit codes. Here are some key
+            patterns:
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Character Type</th>
+                <th>ASCII Range</th>
+                <th>Pattern</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Digits '0'-'9'</td>
+                <td>48-57</td>
+                <td>Add 48 to digit value</td>
+              </tr>
+              <tr>
+                <td>Uppercase 'A'-'Z'</td>
+                <td>65-90</td>
+                <td>Add 65 to position (A=0, B=1...)</td>
+              </tr>
+              <tr>
+                <td>Lowercase 'a'-'z'</td>
+                <td>97-122</td>
+                <td>Add 97 to position (a=0, b=1...)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="highlight-box success">
+            <strong>Cool ASCII Tricks:</strong>
+            <br />• Difference between uppercase and lowercase is exactly 32
+            <br />• To convert digit character to number: subtract 48 <br />•
+            Alphabetical order follows ASCII order
+          </div>
+
+          <h3>Other Data Types</h3>
+
+          <div class="interactive-example">
+            <h4>Images</h4>
+            <p>Represented as arrays of pixels:</p>
+            <ul>
+              <li>
+                <strong>Monochrome:</strong> 1 bit per pixel (0=white, 1=black)
+              </li>
+              <li>
+                <strong>Color:</strong> Typically 24 bits per pixel (8 bits each
+                for Red, Green, Blue)
+              </li>
+              <li>
+                <strong>Alpha channel:</strong> Additional 8 bits for
+                transparency
+              </li>
+            </ul>
+          </div>
+
+          <div class="interactive-example">
+            <h4>Sound</h4>
+            <p>Represented as sequences of fixed-point numbers:</p>
+            <ul>
+              <li>
+                <strong>Sample rate:</strong> How many measurements per second
+                (e.g., 44.1 kHz)
+              </li>
+              <li>
+                <strong>Bit depth:</strong> How many bits per sample (e.g.,
+                16-bit, 24-bit)
+              </li>
+              <li>
+                <strong>Channels:</strong> Mono (1), Stereo (2), Surround (5.1,
+                7.1)
+              </li>
+            </ul>
+          </div>
+
+          <div class="interactive-example">
+            <h4>Text Strings</h4>
+            <p>Sequences of characters, typically terminated with NULL (0):</p>
+            <div class="code-block">
+              "Hello" = [72, 101, 108, 108, 111, 0] in ASCII = [01001000,
+              01100101, 01101100, 01101100, 01101111, 00000000] in binary
+            </div>
+          </div>
+        </section>
+
+        <!-- LC-3 Specific Section -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-computer"></i>
+            LC-2/LC-3 Architecture
+          </h2>
+
+          <p>
+            The LC-2 and LC-3 are educational computer architectures designed to
+            teach fundamental concepts:
+          </p>
+
+          <div class="highlight-box info">
+            <strong>LC-2/LC-3 Specifications:</strong>
+            <br />• <strong>Word size:</strong> 16 bits <br />•
+            <strong>Data type:</strong> 16-bit two's complement signed integers
+            only <br />• <strong>Basic operations:</strong> ADD, AND, NOT
+            <br />• <strong>Range:</strong> -32,768 to 32,767
+          </div>
+
+          <h3>Supported Operations</h3>
+          <ul>
+            <li><strong>ADD:</strong> Two's complement addition</li>
+            <li><strong>AND:</strong> Bitwise logical AND</li>
+            <li><strong>NOT:</strong> Bitwise logical NOT (flip all bits)</li>
+          </ul>
+
+          <div class="interactive-example">
+            <h4>Building Complex Operations</h4>
+            <p>
+              Other data types are created by interpreting the same 16-bit
+              patterns differently:
+            </p>
+            <ul>
+              <li>
+                <strong>Unsigned integers:</strong> Interpret bits without sign
+              </li>
+              <li><strong>Characters:</strong> Use ASCII interpretation</li>
+              <li>
+                <strong>Fixed-point:</strong> Assume binary point at specific
+                position
+              </li>
+              <li>
+                <strong>Logical values:</strong> 0 = false, non-zero = true
+              </li>
+            </ul>
+          </div>
+
+          <div class="highlight-box warning">
+            <strong>Remember:</strong> The hardware only knows about 16-bit
+            patterns. It's the software (programs we write) that gives meaning
+            to these bit patterns by interpreting them as different data types!
+          </div>
+        </section>
+
+        <!-- Summary Section -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-lightbulb"></i>
+            Key Takeaways
+          </h2>
+
+          <div class="highlight-box success">
+            <h4>Essential Concepts:</h4>
+            <ol>
+              <li>
+                <strong>Binary Foundation:</strong> All computer data is
+                represented using just 0s and 1s
+              </li>
+              <li>
+                <strong>Two's Complement:</strong> The standard way to represent
+                signed integers
+              </li>
+              <li>
+                <strong>Data Types:</strong> Different interpretations of the
+                same bit patterns
+              </li>
+              <li>
+                <strong>Operations:</strong> Arithmetic and logical operations
+                work on bit patterns
+              </li>
+              <li>
+                <strong>Representation Limits:</strong> Every representation has
+                a finite range
+              </li>
+            </ol>
+          </div>
+
+          <div class="highlight-box info">
+            <h4>Practical Applications:</h4>
+            <ul>
+              <li>
+                <strong>Programming:</strong> Understanding overflow, precision,
+                and data limits
+              </li>
+              <li>
+                <strong>Digital Design:</strong> Building circuits that process
+                binary data
+              </li>
+              <li>
+                <strong>Computer Graphics:</strong> Representing colors and
+                images
+              </li>
+              <li>
+                <strong>Audio Processing:</strong> Digital representation of
+                sound
+              </li>
+              <li>
+                <strong>Communication:</strong> Encoding text and multimedia
+                data
+              </li>
+            </ul>
+          </div>
+
+          <div class="highlight-box warning">
+            <h4>Common Pitfalls to Avoid:</h4>
+            <ul>
+              <li>Forgetting about overflow in arithmetic operations</li>
+              <li>Mixing signed and unsigned interpretations</li>
+              <li>Assuming infinite precision in floating-point numbers</li>
+              <li>Not considering endianness in multi-byte data</li>
+              <li>
+                Ignoring the difference between logical and arithmetic
+                operations
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <p>
+          Crafted with <span class="footer-heart">❤</span> by
+          <strong>Kenzy</strong>
+        </p>
+        <p>&copy; 2025 EduHub - Empowering Digital Learning</p>
+      </div>
+    </footer>
+
+    <script>
+      // Theme toggle functionality
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem(
+          "darkMode",
+          document.body.classList.contains("dark-mode")
+        );
+      }
+
+      // Load saved theme
+      if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+      }
+
+      // Binary demo interaction
+      document.querySelectorAll(".bit").forEach((bit) => {
+        bit.addEventListener("click", function () {
+          if (this.classList.contains("zero")) {
+            this.classList.remove("zero");
+            this.classList.add("one");
+            this.textContent = "1";
+          } else {
+            this.classList.remove("one");
+            this.classList.add("zero");
+            this.textContent = "0";
+          }
+        });
+      });
+
+      // Smooth scrolling for navigation
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Interactive code examples
+      document.querySelectorAll(".code-block").forEach((block) => {
+        block.addEventListener("mouseover", function () {
+          this.style.transform = "scale(1.02)";
+          this.style.transition = "transform 0.3s ease";
+        });
+
+        block.addEventListener("mouseout", function () {
+          this.style.transform = "scale(1)";
+        });
+      });
+
+      // Add copy functionality to code blocks
+      document.querySelectorAll(".code-block").forEach((block) => {
+        const copyBtn = document.createElement("button");
+        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+        copyBtn.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(255, 255, 255, 0.1);
+                border: none;
+                color: white;
+                padding: 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+
+        block.style.position = "relative";
+        block.appendChild(copyBtn);
+
+        block.addEventListener("mouseenter", () => {
+          copyBtn.style.opacity = "1";
+        });
+
+        block.addEventListener("mouseleave", () => {
+          copyBtn.style.opacity = "0";
+        });
+
+        copyBtn.addEventListener("click", () => {
+          navigator.clipboard.writeText(block.textContent.replace("", ""));
+          copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+          setTimeout(() => {
+            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+          }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>
