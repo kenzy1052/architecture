@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduHub - Boolean Algebra</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 40%,
+          #ec4899 100%
+        );
+        --secondary-gradient: linear-gradient(
+          135deg,
+          #06b6d4 0%,
+          #3b82f6 50%,
+          #6366f1 100%
+        );
+        --accent-gradient: linear-gradient(
+          135deg,
+          #f472b6 0%,
+          #fb7185 40%,
+          #f59e0b 100%
+        );
+        --success-gradient: linear-gradient(
+          135deg,
+          #22c55e 0%,
+          #10b981 50%,
+          #06b6d4 100%
+        );
+        --warning-gradient: linear-gradient(
+          135deg,
+          #facc15 0%,
+          #f97316 40%,
+          #ef4444 100%
+        );
+        --dark-gradient: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #334155 100%
+        );
+
+        --bg-light: #f9fafb;
+        --bg-dark: #0a0f1e;
+        --card-light: rgba(255, 255, 255, 0.95);
+        --card-dark: rgba(15, 23, 42, 0.92);
+        --text-light: #1e293b;
+        --text-dark: #f1f5f9;
+        --border-light: rgba(148, 163, 184, 0.15);
+        --border-dark: rgba(148, 163, 184, 0.1);
+        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
+          0 8px 16px rgba(0, 0, 0, 0.05);
+        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
+          0 8px 16px rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        transition: all 0.3s ease;
+        background: var(--bg-light);
+        color: var(--text-light);
+        overflow-x: hidden;
+      }
+
+      body.dark-mode {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+      }
+
+      /* Animated Background */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.1;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        top: 10%;
+        left: 10%;
+        animation-duration: 25s;
+      }
+
+      .circle:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(135deg, #ec4899, #f472b6);
+        top: 60%;
+        right: 15%;
+        animation-duration: 30s;
+        animation-delay: -5s;
+      }
+
+      .circle:nth-child(3) {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
+        bottom: 15%;
+        left: 20%;
+        animation-duration: 35s;
+        animation-delay: -10s;
+      }
+
+      .circle:nth-child(4) {
+        width: 180px;
+        height: 180px;
+        background: linear-gradient(135deg, #22c55e, #10b981);
+        top: 40%;
+        right: 30%;
+        animation-duration: 28s;
+        animation-delay: -15s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(50px, -50px) rotate(90deg);
+        }
+        50% {
+          transform: translate(-30px, 40px) rotate(180deg);
+        }
+        75% {
+          transform: translate(40px, 30px) rotate(270deg);
+        }
+      }
+
+      /* Navigation */
+      nav {
+        background: var(--card-light);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-light);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode nav {
+        background: var(--card-dark);
+        border-bottom-color: var(--border-dark);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .theme-toggle {
+        position: relative;
+        width: 60px;
+        height: 30px;
+        background: var(--primary-gradient);
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .dark-mode .theme-toggle::before {
+        transform: translateX(30px);
+      }
+
+      /* Main Content */
+      main {
+        margin-top: 100px;
+        min-height: calc(100vh - 100px);
+        position: relative;
+        z-index: 1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 4rem 0;
+        background: var(--primary-gradient);
+        color: white;
+        margin: -2rem -2rem 4rem -2rem;
+        border-radius: 0 0 2rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="20" fill="url(%23grain)"/></svg>');
+        opacity: 0.1;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Cards */
+      .section-card {
+        background: var(--card-light);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .dark-mode .section-card {
+        background: var(--card-dark);
+        box-shadow: var(--shadow-dark);
+        border-color: var(--border-dark);
+      }
+
+      .section-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+      }
+
+      .dark-mode .section-card:hover {
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      h3 {
+        font-size: 1.4rem;
+        margin: 1.5rem 0 1rem 0;
+        color: inherit;
+      }
+
+      /* Tables */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+      }
+
+      .dark-mode .data-table {
+        box-shadow: var(--shadow-dark);
+      }
+
+      .data-table th {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      .data-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-light);
+        background: var(--card-light);
+      }
+
+      .dark-mode .data-table td {
+        border-color: var(--border-dark);
+        background: var(--card-dark);
+      }
+
+      .data-table tr:hover td {
+        background: rgba(102, 126, 234, 0.1);
+      }
+
+      /* Highlight boxes */
+      .highlight-box {
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        border-left: 4px solid;
+      }
+
+      .highlight-box.info {
+        background: rgba(79, 172, 254, 0.1);
+        border-color: #4facfe;
+      }
+
+      .highlight-box.warning {
+        background: rgba(250, 112, 154, 0.1);
+        border-color: #fa709a;
+      }
+
+      .highlight-box.success {
+        background: rgba(67, 233, 123, 0.1);
+        border-color: #43e97b;
+      }
+
+      .highlight-box.error {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+      }
+
+      /* Code Blocks */
+      .code-block {
+        background: #1a1b26;
+        color: #a9b1d6;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        overflow-x: auto;
+        font-family: "Consolas", "Monaco", "Courier New", monospace;
+        position: relative;
+      }
+
+      .code-block::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--accent-gradient);
+      }
+
+      /* Interactive Examples */
+      .interactive-example {
+        background: var(--card-light);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 2px solid var(--border-light);
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode .interactive-example {
+        background: var(--card-dark);
+        border-color: var(--border-dark);
+      }
+
+      .interactive-example:hover {
+        border-color: #4facfe;
+      }
+
+      /* Logic Gates */
+      .gate-demo {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .gate {
+        background: var(--secondary-gradient);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .gate:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Lists */
+      ul,
+      ol {
+        margin: 1rem 0 1rem 2rem;
+      }
+
+      li {
+        margin: 0.5rem 0;
+      }
+
+      p {
+        margin: 1rem 0;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark-gradient);
+        color: white;
+        text-align: center;
+        padding: 3rem 2rem;
+        margin-top: 4rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-heart {
+        color: #ff6b6b;
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.2);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.2);
+        }
+        70% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+
+        .section-card {
+          padding: 1.5rem;
+        }
+
+        .gate-demo {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="animated-bg">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+
+    <nav>
+      <div class="nav-container">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          EduHub
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()"></div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="hero">
+        <h1>Boolean Algebra</h1>
+        <p>Master the logic that powers digital circuits and computing</p>
+      </div>
+
+      <div class="container">
+        <!-- Introduction -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-lightbulb"></i>
+            Introduction to Boolean Algebra
+          </h2>
+
+          <p>
+            Boolean Algebra is a branch of mathematics that deals with variables
+            that have only two possible values: TRUE (1) or FALSE (0). Named
+            after mathematician George Boole, it forms the foundation of digital
+            logic and computer circuit design.
+          </p>
+
+          <div class="highlight-box info">
+            <strong>Key Concept:</strong> Unlike regular algebra which deals
+            with numbers, Boolean algebra deals with truth values and logical
+            operations. Every expression in Boolean algebra evaluates to either
+            TRUE or FALSE.
+          </div>
+
+          <h3>The Three Basic Operations</h3>
+          <p>
+            Boolean algebra has three fundamental operations that form the basis
+            of all logical operations:
+          </p>
+
+          <div class="gate-demo">
+            <div class="gate">AND (·)</div>
+            <div class="gate">OR (+)</div>
+            <div class="gate">NOT (¬)</div>
+          </div>
+        </section>
+
+        <!-- Basic Operations -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-project-diagram"></i>
+            Basic Boolean Operations
+          </h2>
+
+          <h3>1. AND Operation (Logical Multiplication)</h3>
+          <p>
+            The AND operation returns TRUE only when both inputs are TRUE. It's
+            denoted by · or simply by placing variables next to each other (AB
+            means A AND B).
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>A · B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="highlight-box info">
+            <strong>Real-world analogy:</strong> Think of two switches in
+            series. The light only turns on when BOTH switches are closed.
+          </div>
+
+          <h3>2. OR Operation (Logical Addition)</h3>
+          <p>
+            The OR operation returns TRUE when at least one input is TRUE. It's
+            denoted by the + symbol.
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>A + B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="highlight-box info">
+            <strong>Real-world analogy:</strong> Think of two switches in
+            parallel. The light turns on when EITHER switch is closed.
+          </div>
+
+          <h3>3. NOT Operation (Logical Complement)</h3>
+          <p>
+            The NOT operation inverts the input value. It's denoted by ¬, ', or
+            a bar over the variable (Ā).
+          </p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>A</th>
+                <th>¬A (NOT A)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="highlight-box success">
+            <strong>Remember:</strong> NOT simply flips the value: 0 becomes 1,
+            and 1 becomes 0.
+          </div>
+        </section>
+
+        <!-- Boolean Laws -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-balance-scale"></i>
+            Fundamental Boolean Laws
+          </h2>
+
+          <p>
+            Boolean algebra follows specific laws that allow us to simplify and
+            manipulate logical expressions. These laws are essential for circuit
+            optimization and logical reasoning.
+          </p>
+
+          <h3>Identity Laws</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              A · 1 = A (AND with 1 gives back A) A + 0 = A (OR with 0 gives
+              back A)
+            </div>
+          </div>
+
+          <h3>Null (Dominance) Laws</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              A · 0 = 0 (AND with 0 always gives 0) A + 1 = 1 (OR with 1 always
+              gives 1)
+            </div>
+          </div>
+
+          <h3>Idempotent Laws</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              A · A = A (A AND A equals A) A + A = A (A OR A equals A)
+            </div>
+          </div>
+
+          <h3>Complement Laws</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              A · ¬A = 0 (A AND NOT-A is always 0) A + ¬A = 1 (A OR NOT-A is
+              always 1)
+            </div>
+          </div>
+
+          <h3>Involution (Double Negation) Law</h3>
+          <div class="interactive-example">
+            <div class="code-block">¬(¬A) = A (NOT NOT A equals A)</div>
+          </div>
+
+          <div class="highlight-box warning">
+            <strong>Important:</strong> The complement laws show that a variable
+            and its negation can never both be true (AND gives 0) and can never
+            both be false (OR gives 1).
+          </div>
+
+          <h3>Commutative Laws</h3>
+          <p>The order of operands doesn't matter:</p>
+          <div class="interactive-example">
+            <div class="code-block">
+              A · B = B · A (AND is commutative) A + B = B + A (OR is
+              commutative)
+            </div>
+          </div>
+
+          <h3>Associative Laws</h3>
+          <p>Grouping doesn't matter when all operations are the same:</p>
+          <div class="interactive-example">
+            <div class="code-block">
+              (A · B) · C = A · (B · C) (AND is associative) (A + B) + C = A +
+              (B + C) (OR is associative)
+            </div>
+          </div>
+
+          <h3>Distributive Laws</h3>
+          <p>These laws show how AND and OR interact:</p>
+          <div class="interactive-example">
+            <div class="code-block">
+              A · (B + C) = (A · B) + (A · C) (AND distributes over OR) A + (B ·
+              C) = (A + B) · (A + C) (OR distributes over AND)
+            </div>
+          </div>
+
+          <div class="highlight-box info">
+            <strong>Note:</strong> The second distributive law is unique to
+            Boolean algebra. In regular algebra, addition doesn't distribute
+            over multiplication!
+          </div>
+
+          <h3>Absorption Laws</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              A + (A · B) = A (A absorbs A·B) A · (A + B) = A (A absorbs A+B)
+            </div>
+          </div>
+
+          <h3>De Morgan's Laws</h3>
+          <p>These crucial laws show how to negate compound expressions:</p>
+          <div class="interactive-example">
+            <div class="code-block">
+              ¬(A · B) = ¬A + ¬B (NOT of AND becomes OR of NOTs) ¬(A + B) = ¬A ·
+              ¬B (NOT of OR becomes AND of NOTs)
+            </div>
+          </div>
+
+          <div class="highlight-box success">
+            <strong>De Morgan's Laws in plain English:</strong><br />
+            • "Not (A and B)" is the same as "(not A) or (not B)"<br />
+            • "Not (A or B)" is the same as "(not A) and (not B)"
+          </div>
+        </section>
+
+        <!-- Simplification -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-compress-alt"></i>
+            Boolean Expression Simplification
+          </h2>
+
+          <p>
+            Simplifying Boolean expressions is crucial for designing efficient
+            digital circuits. Simpler expressions mean fewer gates, less cost,
+            and better performance.
+          </p>
+
+          <h3>Example 1: Using Complement Laws</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              Simplify: A · B + A · ¬B Solution: A · B + A · ¬B = A · (B + ¬B)
+              [Distributive law] = A · 1 [Complement law: B + ¬B = 1] = A
+              [Identity law: A · 1 = A]
+            </div>
+          </div>
+
+          <h3>Example 2: Using Absorption</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              Simplify: A + A · B Solution: A + A · B = A · 1 + A · B [Identity:
+              A = A · 1] = A · (1 + B) [Distributive law] = A · 1 [Null law: 1 +
+              B = 1] = A [Identity law]
+            </div>
+          </div>
+
+          <h3>Example 3: Complex Simplification</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              Simplify: (A + B) · (A + ¬B) Solution: (A + B) · (A + ¬B) = A + (B
+              · ¬B) [Distributive law] = A + 0 [Complement: B · ¬B = 0] = A
+              [Identity: A + 0 = A]
+            </div>
+          </div>
+
+          <div class="highlight-box warning">
+            <strong>Strategy for Simplification:</strong><br />
+            1. Look for complement pairs (A and ¬A)<br />
+            2. Apply distributive laws to factor<br />
+            3. Use identity and null laws<br />
+            4. Apply absorption when possible<br />
+            5. Check if De Morgan's laws can help
+          </div>
+        </section>
+
+        <!-- Applications -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-microchip"></i>
+            Applications in Digital Circuits
+          </h2>
+
+          <h3>Logic Gates</h3>
+          <p>
+            Boolean operations are implemented using logic gates in digital
+            circuits:
+          </p>
+
+          <ul>
+            <li>
+              <strong>AND Gate:</strong> Outputs 1 only when all inputs are 1
+            </li>
+            <li>
+              <strong>OR Gate:</strong> Outputs 1 when at least one input is 1
+            </li>
+            <li>
+              <strong>NOT Gate (Inverter):</strong> Outputs the opposite of the
+              input
+            </li>
+            <li>
+              <strong>NAND Gate:</strong> Outputs 0 only when all inputs are 1
+              (NOT-AND)
+            </li>
+            <li>
+              <strong>NOR Gate:</strong> Outputs 1 only when all inputs are 0
+              (NOT-OR)
+            </li>
+            <li>
+              <strong>XOR Gate:</strong> Outputs 1 when inputs are different
+            </li>
+          </ul>
+
+          <div class="highlight-box info">
+            <strong>Universal Gates:</strong> NAND and NOR gates are called
+            "universal" because any Boolean function can be implemented using
+            only NAND gates or only NOR gates.
+          </div>
+
+          <h3>Circuit Design Example</h3>
+          <p>Consider designing a circuit for: F = A · B + ¬C</p>
+
+          <div class="interactive-example">
+            <p><strong>This requires:</strong></p>
+            <ul>
+              <li>1 AND gate (for A · B)</li>
+              <li>1 NOT gate (for ¬C)</li>
+              <li>1 OR gate (to combine A·B and ¬C)</li>
+            </ul>
+          </div>
+
+          <h3>Practical Applications</h3>
+          <ul>
+            <li>
+              <strong>Computer processors:</strong> ALUs (Arithmetic Logic
+              Units) use Boolean logic
+            </li>
+            <li>
+              <strong>Digital systems:</strong> Control circuits, multiplexers,
+              decoders
+            </li>
+            <li>
+              <strong>Programming:</strong> Conditional statements (if/else),
+              logical operators
+            </li>
+            <li>
+              <strong>Search engines:</strong> Boolean search queries (AND, OR,
+              NOT)
+            </li>
+            <li>
+              <strong>Database queries:</strong> WHERE clauses use Boolean logic
+            </li>
+          </ul>
+        </section>
+
+        <!-- Truth Tables -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-table"></i>
+            Truth Tables
+          </h2>
+
+          <p>
+            Truth tables show all possible input combinations and their
+            corresponding outputs. They're essential for analyzing and verifying
+            Boolean expressions.
+          </p>
+
+          <h3>Constructing a Truth Table</h3>
+          <p>
+            For a function with n variables, you'll have 2ⁿ rows (one for each
+            possible combination).
+          </p>
+
+          <div class="interactive-example">
+            <h4>Example: F = A · B + ¬C</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>C</th>
+                  <th>A · B</th>
+                  <th>¬C</th>
+                  <th>F = A·B + ¬C</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="highlight-box success">
+            <strong>Truth Table Tips:</strong><br />
+            • List inputs in binary counting order (000, 001, 010, 011...)<br />
+            • Work through intermediate steps in separate columns<br />
+            • Double-check each row calculation<br />
+            • Truth tables can verify if two expressions are equivalent
+          </div>
+
+          <h3>Using Truth Tables to Verify Equivalence</h3>
+          <p>
+            If two Boolean expressions have identical truth tables, they are
+            logically equivalent.
+          </p>
+
+          <div class="interactive-example">
+            <h4>Verify: ¬(A · B) = ¬A + ¬B (De Morgan's Law)</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A · B</th>
+                  <th>¬(A · B)</th>
+                  <th>¬A</th>
+                  <th>¬B</th>
+                  <th>¬A + ¬B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              <strong>Result:</strong> Both expressions have identical outputs,
+              confirming De Morgan's Law!
+            </p>
+          </div>
+        </section>
+
+        <!-- Standard Forms -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-layer-group"></i>
+            Standard Forms of Boolean Expressions
+          </h2>
+
+          <p>
+            Boolean expressions can be written in standardized forms that make
+            them easier to work with and implement in circuits.
+          </p>
+
+          <h3>Sum of Products (SOP) Form</h3>
+          <p>
+            Also called Disjunctive Normal Form (DNF), this expresses a function
+            as an OR of AND terms.
+          </p>
+
+          <div class="interactive-example">
+            <div class="code-block">
+              F = A·B·C + A·¬B·C + ¬A·B·¬C Structure: (product) + (product) +
+              (product) Each product is called a "minterm"
+            </div>
+          </div>
+
+          <div class="highlight-box info">
+            <strong>Creating SOP from Truth Table:</strong><br />
+            1. Find all rows where output is 1<br />
+            2. For each row, create a product term with all variables<br />
+            3. Use the variable if it's 1, use ¬variable if it's 0<br />
+            4. OR all the product terms together
+          </div>
+
+          <h3>Product of Sums (POS) Form</h3>
+          <p>
+            Also called Conjunctive Normal Form (CNF), this expresses a function
+            as an AND of OR terms.
+          </p>
+
+          <div class="interactive-example">
+            <div class="code-block">
+              F = (A + B + C) · (A + ¬B + C) · (¬A + B + ¬C) Structure: (sum) ·
+              (sum) · (sum) Each sum is called a "maxterm"
+            </div>
+          </div>
+
+          <div class="highlight-box info">
+            <strong>Creating POS from Truth Table:</strong><br />
+            1. Find all rows where output is 0<br />
+            2. For each row, create a sum term with all variables<br />
+            3. Use ¬variable if it's 1, use variable if it's 0<br />
+            4. AND all the sum terms together
+          </div>
+
+          <h3>Example: Converting Truth Table to SOP</h3>
+          <div class="interactive-example">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Row</th>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>C</th>
+                  <th>F</th>
+                  <th>Minterm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>¬A·¬B·C</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>¬A·B·C</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>A·¬B·C</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>A·B·C</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="code-block">
+              SOP Form: F = ¬A·¬B·C + ¬A·B·C + A·¬B·C + A·B·C Simplified: F =
+              C·(¬A·¬B + ¬A·B + A·¬B + A·B) = C
+            </div>
+          </div>
+        </section>
+
+        <!-- Karnaugh Maps -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-th"></i>
+            Karnaugh Maps (K-Maps)
+          </h2>
+
+          <p>
+            Karnaugh Maps provide a visual method for simplifying Boolean
+            expressions. They're especially useful for expressions with 2-4
+            variables.
+          </p>
+
+          <h3>What is a K-Map?</h3>
+          <p>
+            A K-Map is a grid where each cell represents a minterm (a unique
+            combination of input values). Adjacent cells differ by only one
+            variable.
+          </p>
+
+          <div class="highlight-box info">
+            <strong>K-Map Rules:</strong><br />
+            • Each cell represents one row from the truth table<br />
+            • Adjacent cells (including wraparound) differ by exactly one bit<br />
+            • Group 1s in rectangles of size 1, 2, 4, 8, 16...<br />
+            • Larger groups lead to simpler expressions<br />
+            • Groups can overlap<br />
+            • Every 1 must be in at least one group
+          </div>
+
+          <h3>2-Variable K-Map Example</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              B 0 1 ┌───┬───┐ 0 │ 1 │ 0 │ A ├───┼───┤ 1 │ 1 │ 1 │ └───┴───┘
+              Groups: • Vertical group (A=1): covers A·¬B and A·B → simplifies
+              to A • Horizontal group (B=0): covers ¬A·¬B and A·¬B → simplifies
+              to ¬B Result: F = A + ¬B
+            </div>
+          </div>
+
+          <h3>3-Variable K-Map Structure</h3>
+          <div class="interactive-example">
+            <div class="code-block">
+              BC 00 01 11 10 ┌───┬───┬───┬───┐ 0 │ 0 │ 1 │ 1 │ 0 │ A
+              ├───┼───┼───┼───┤ 1 │ 1 │ 1 │ 0 │ 0 │ └───┴───┴───┴───┘ Note: Gray
+              code ordering (00, 01, 11, 10) Adjacent cells differ by only one
+              bit
+            </div>
+          </div>
+
+          <div class="highlight-box success">
+            <strong>Grouping Strategy:</strong><br />
+            1. Find the largest possible groups first<br />
+            2. Cover all 1s with minimum number of groups<br />
+            3. Each group eliminates one or more variables<br />
+            4. Variables that change within a group are eliminated
+          </div>
+
+          <h3>K-Map Simplification Steps</h3>
+          <ol>
+            <li>
+              <strong>Fill the K-Map:</strong> Place 1s for each minterm where
+              output is 1
+            </li>
+            <li>
+              <strong>Identify groups:</strong> Circle groups of 1, 2, 4, or 8
+              adjacent 1s
+            </li>
+            <li>
+              <strong>Write product terms:</strong> For each group, write the
+              variables that don't change
+            </li>
+            <li>
+              <strong>OR the terms:</strong> Combine all product terms with OR
+            </li>
+          </ol>
+        </section>
+
+        <!-- XOR and XNOR -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-exchange-alt"></i>
+            Special Operations: XOR and XNOR
+          </h2>
+
+          <h3>XOR (Exclusive OR)</h3>
+          <p>XOR returns TRUE when inputs are different. Symbol: ⊕</p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>A ⊕ B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="interactive-example">
+            <h4>XOR in Boolean Algebra:</h4>
+            <div class="code-block">
+              A ⊕ B = A·¬B + ¬A·B (one is true, but not both) A ⊕ B = (A +
+              B)·¬(A·B) (at least one, but not both)
+            </div>
+          </div>
+
+          <div class="highlight-box info">
+            <strong>XOR Properties:</strong><br />
+            • A ⊕ 0 = A (identity)<br />
+            • A ⊕ 1 = ¬A (inversion)<br />
+            • A ⊕ A = 0 (self-cancel)<br />
+            • A ⊕ ¬A = 1 (always true)<br />
+            • A ⊕ B = B ⊕ A (commutative)<br />
+            • (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C) (associative)
+          </div>
+
+          <h3>XNOR (Exclusive NOR)</h3>
+          <p>XNOR returns TRUE when inputs are the same. Symbol: ⊙ or ≡</p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>A ⊙ B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="interactive-example">
+            <h4>XNOR in Boolean Algebra:</h4>
+            <div class="code-block">
+              A ⊙ B = A·B + ¬A·¬B (both same value) A ⊙ B = ¬(A ⊕ B) (NOT of
+              XOR)
+            </div>
+          </div>
+
+          <h3>Applications of XOR</h3>
+          <ul>
+            <li>
+              <strong>Parity checking:</strong> Error detection in data
+              transmission
+            </li>
+            <li>
+              <strong>Encryption:</strong> Simple ciphers use XOR with a key
+            </li>
+            <li>
+              <strong>Addition:</strong> XOR gives the sum bit without carry
+            </li>
+            <li>
+              <strong>Comparison:</strong> XNOR tests if two values are equal
+            </li>
+            <li><strong>Toggle operations:</strong> XOR with 1 flips a bit</li>
+          </ul>
+        </section>
+
+        <!-- Practical Examples -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-wrench"></i>
+            Practical Problem Solving
+          </h2>
+
+          <h3>Problem 1: Design a Voting System</h3>
+          <div class="interactive-example">
+            <p>
+              <strong>Scenario:</strong> Three people vote (A, B, C). The motion
+              passes if at least 2 vote YES (1).
+            </p>
+
+            <p><strong>Solution:</strong></p>
+            <div class="code-block">
+              Truth Table: A B C | Output 0 0 0 | 0 0 0 1 | 0 0 1 0 | 0 0 1 1 |
+              1 (2 votes) 1 0 0 | 0 1 0 1 | 1 (2 votes) 1 1 0 | 1 (2 votes) 1 1
+              1 | 1 (3 votes) SOP Form: F = ¬A·B·C + A·¬B·C + A·B·¬C + A·B·C
+              Simplified: F = B·C + A·C + A·B (any two voting yes is sufficient)
+            </div>
+          </div>
+
+          <h3>Problem 2: Priority Encoder</h3>
+          <div class="interactive-example">
+            <p>
+              <strong>Scenario:</strong> System with 4 inputs (I₃, I₂, I₁, I₀).
+              Output should indicate the highest priority active input.
+            </p>
+
+            <div class="code-block">
+              If I₃ = 1, output 11 (highest priority) If I₃ = 0 and I₂ = 1,
+              output 10 If I₃ = 0, I₂ = 0, and I₁ = 1, output 01 If only I₀ = 1,
+              output 00 Boolean expressions: O₁ = I₃ + I₂·¬I₃ O₀ = I₃ + ¬I₂·I₁
+            </div>
+          </div>
+
+          <h3>Problem 3: Seven-Segment Display</h3>
+          <div class="interactive-example">
+            <p>
+              <strong>Scenario:</strong> Design logic to display decimal digits
+              0-9 on a seven-segment display.
+            </p>
+
+            <p>
+              Each segment (a-g) requires its own Boolean function based on the
+              4-bit BCD input (A, B, C, D).
+            </p>
+
+            <div class="code-block">
+              Example for segment 'a': Lights up for: 0, 2, 3, 5, 6, 7, 8, 9
+              Doesn't light for: 1, 4 Using K-map and simplification: a = A + C
+              + B·D + ¬B·¬D
+            </div>
+          </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="section-card">
+          <h2 class="section-title">
+            <i class="fas fa-star"></i>
+            Key Takeaways
+          </h2>
+
+          <div class="highlight-box success">
+            <h4>Essential Concepts:</h4>
+            <ol>
+              <li>
+                <strong>Three Basic Operations:</strong> AND, OR, and NOT form
+                the foundation
+              </li>
+              <li>
+                <strong>Boolean Laws:</strong> Identity, null, complement, De
+                Morgan's, distributive, etc.
+              </li>
+              <li>
+                <strong>Simplification:</strong> Use laws and K-maps to minimize
+                expressions
+              </li>
+              <li>
+                <strong>Standard Forms:</strong> SOP and POS provide systematic
+                representation
+              </li>
+              <li>
+                <strong>Truth Tables:</strong> Verify correctness and
+                equivalence
+              </li>
+            </ol>
+          </div>
+
+          <div class="highlight-box info">
+            <h4>Problem-Solving Strategy:</h4>
+            <ol>
+              <li>Understand the problem requirements</li>
+              <li>Create a truth table with all input combinations</li>
+              <li>Write the Boolean expression (SOP or POS)</li>
+              <li>Simplify using laws or K-maps</li>
+              <li>Verify with truth table</li>
+              <li>Implement using logic gates</li>
+            </ol>
+          </div>
+
+          <div class="highlight-box warning">
+            <h4>Common Mistakes to Avoid:</h4>
+            <ul>
+              <li>Confusing OR with XOR (1+1=1 in Boolean, not 0)</li>
+              <li>Forgetting to use Gray code ordering in K-maps</li>
+              <li>Missing wraparound groupings in K-maps</li>
+              <li>
+                Applying regular algebra rules that don't work in Boolean
+                algebra
+              </li>
+              <li>Not checking if expressions are in simplest form</li>
+            </ul>
+          </div>
+
+          <div class="highlight-box info">
+            <h4>Real-World Impact:</h4>
+            <p>Boolean algebra is the mathematical foundation of:</p>
+            <ul>
+              <li>
+                <strong>Digital Electronics:</strong> Every chip in your
+                computer
+              </li>
+              <li>
+                <strong>Programming:</strong> Conditional logic and control flow
+              </li>
+              <li><strong>Database Systems:</strong> Query optimization</li>
+              <li><strong>Search Engines:</strong> Complex query processing</li>
+              <li>
+                <strong>AI/ML:</strong> Decision trees and neural network
+                activations
+              </li>
+              <li>
+                <strong>Network Security:</strong> Access control and encryption
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <p>
+          Crafted with <span class="footer-heart">❤</span> by
+          <strong>Kenzy</strong>
+        </p>
+        <p>&copy; 2025 EduHub - Empowering Digital Learning</p>
+      </div>
+    </footer>
+
+    <script>
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+      }
+
+      document.querySelectorAll(".code-block").forEach((block) => {
+        block.addEventListener("mouseover", function () {
+          this.style.transform = "scale(1.02)";
+          this.style.transition = "transform 0.3s ease";
+        });
+
+        block.addEventListener("mouseout", function () {
+          this.style.transform = "scale(1)";
+        });
+      });
+
+      document.querySelectorAll(".gate").forEach((gate) => {
+        gate.addEventListener("click", function () {
+          this.style.animation = "pulse 0.5s ease";
+          setTimeout(() => {
+            this.style.animation = "";
+          }, 500);
+        });
+      });
+    </script>
+  </body>
+</html>
