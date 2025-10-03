@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Systems Exam</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        /* Dark mode colors (primary theme) */
+        --primary: #0066ff;
+        --secondary: #041643ff;
+        --accent: #ff006e;
+        --dark: #0f0f1e;
+        --darker: #090914;
+        --light: #08071bff;
+        --text: #ffffff;
+        --text-secondary: #a0a0b8;
+        --card-bg: rgba(20, 20, 35, 0.7);
+        --border: rgba(255, 255, 255, 0.1);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        --success: #00ff88;
+        --warning: #ffaa00;
+        --danger: #ff006e;
+        --bg-color: #0f0f1e;
+        --nav-bg: rgba(15, 15, 30, 0.9);
+        --sidebar-width: 280px;
+        --scrollbar-width: 6px;
+      }
+
+      /* Light mode colors */
+      [data-theme="light"] {
+        --primary: #0066ff;
+        --secondary: #041643ff;
+        --accent: #ff0055;
+        --dark: #f0f0f5;
+        --darker: #e0e0ea;
+        --light: #ccc;
+        --text: #fff;
+        --text2: #041643ff;
+        --text-secondary: #666688;
+        --card-bg: rgba(255, 255, 255, 0.9);
+        --border: rgba(0, 0, 0, 0.1);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        --success: #00aa55;
+        --warning: #ff8800;
+        --danger: #ff0055;
+        --bg-color: #f5f5fa;
+        --nav-bg: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: var(--scrollbar-width);
+        height: var(--scrollbar-width);
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--darker);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text2);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        overflow-x: hidden;
+      }
+
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      /* Header Styles */
+      .header {
+        background: var(--gradient);
+        color: var(--text);
+        box-shadow: var(--shadow);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .theme-toggle {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: var(--text);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .timer-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+
+      .timer {
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .timer.warning {
+        background-color: rgba(255, 170, 0, 0.2);
+        border-color: rgba(255, 170, 0, 0.3);
+      }
+
+      .timer.danger {
+        background-color: rgba(255, 0, 110, 0.2);
+        border-color: rgba(255, 0, 110, 0.3);
+      }
+
+      /* Progress Bar */
+      .progress-container {
+        height: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.3);
+        width: 100%;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--success), var(--primary));
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      /* Main Content */
+      .main-content {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Sidebar Toggle Button */
+      .sidebar-toggle {
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--gradient);
+        color: var(--text);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 0 8px 8px 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 101;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-toggle.open {
+        left: var(--sidebar-width);
+      }
+
+      /* Sidebar Navigation */
+      .sidebar {
+        width: var(--sidebar-width);
+        background-color: var(--nav-bg);
+        padding: 1.5rem;
+        overflow-y: auto;
+        box-shadow: var(--shadow);
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+        transition: transform 0.3s ease;
+        position: fixed;
+        left: 0;
+        top: 120px;
+        height: calc(100vh - 120px);
+        z-index: 10;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-header {
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+      }
+
+      .section-title {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .question-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.75rem;
+      }
+
+      .question-btn {
+        aspect-ratio: 1;
+        border-radius: 0.5rem;
+        border: 1px solid var(--border);
+        background-color: var(--card-bg);
+        color: var(--text-secondary);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      .question-btn:hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: var(--text);
+      }
+
+      .question-btn.active {
+        background-color: var(--primary);
+        color: var(--text);
+        border-color: var(--primary);
+      }
+
+      .question-btn.answered {
+        background-color: var(--secondary);
+        color: var(--text);
+        border-color: var(--secondary);
+      }
+
+      .question-btn.flagged::after {
+        content: "\f024";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        color: var(--danger);
+        font-size: 0.75rem;
+      }
+
+      /* Quiz Content */
+      .quiz-content {
+        flex: 1;
+        padding: 2rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        transition: margin-left 0.3s ease;
+        scroll-behavior: smooth;
+      }
+
+      .quiz-content.shifted {
+        margin-left: var(--sidebar-width);
+      }
+
+      .questions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .question-card {
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .question-number {
+        font-weight: 600;
+        color: var(--primary);
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .section-badge {
+        background: var(--gradient);
+        color: var(--text);
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .flag-btn {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-size: 1.25rem;
+        transition: color 0.2s ease;
+      }
+
+      .flag-btn:hover {
+        color: var(--danger);
+      }
+
+      .flag-btn.flagged {
+        color: var(--danger);
+      }
+
+      .question-text {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        color: var(--text2);
+      }
+
+      .options-container {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .option-card {
+        background-color: var(--light);
+        border: 2px solid transparent;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .option-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      .option-card.selected {
+        border-color: var(--primary);
+        background-color: rgba(0, 217, 255, 0.1);
+      }
+
+      .option-indicator {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 50%;
+        background-color: var(--card-bg);
+        border: 2px solid var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+
+      .option-card.selected .option-indicator {
+        background-color: var(--primary);
+        color: var(--text2);
+      }
+
+      .option-text {
+        font-weight: 500;
+        color: var(--text2);
+      }
+
+      /* Table styles for truth table question */
+      .truth-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+      }
+
+      .truth-table th,
+      .truth-table td {
+        border: 1px solid var(--border);
+        padding: 0.5rem;
+        text-align: center;
+      }
+
+      .truth-table th {
+        background-color: var(--primary);
+        color: var(--text2);
+      }
+
+      .truth-table input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--text2);
+        text-align: center;
+        padding: 0.25rem;
+      }
+
+      /* Fill in the blanks styles */
+      .fill-blank-input {
+        background: transparent;
+        border-bottom: 2px solid var(--primary);
+        color: var(--text2);
+        padding: 0.25rem;
+        margin: 0 0.25rem;
+        width: 100px;
+        text-align: center;
+      }
+
+      /* Navigation Controls */
+      .navigation {
+        display: flex;
+        justify-content: space-between;
+        padding: 1.5rem 2rem;
+        background-color: var(--nav-bg);
+        box-shadow: var(--shadow);
+        transition: margin-left 0.3s ease;
+      }
+
+      .navigation.shifted {
+        margin-left: var(--sidebar-width);
+      }
+
+      .nav-btn {
+        background: var(--gradient);
+        color: var(--text2);
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-btn:disabled {
+        background: var(--text-secondary);
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .nav-btn.secondary {
+        background-color: var(--card-bg);
+        color: var(--text2);
+        border: 1px solid var(--primary);
+      }
+
+      .nav-btn.secondary:hover {
+        background-color: var(--light);
+      }
+
+      /* Submit Button in Sidebar */
+      .submit-sidebar-btn {
+        background: var(--gradient);
+        color: var(--text);
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .submit-sidebar-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      /* Home Screen */
+      .home-screen {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+
+      .home-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+
+      .home-description {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .exam-info {
+        display: flex;
+        justify-content: space-around;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .info-card {
+        background: linear-gradient(135deg, var(--light), var(--card-bg));
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        min-width: 150px;
+        text-align: center;
+        border: 1px solid var(--border);
+      }
+
+      .info-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .info-label {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .start-btn {
+        background: var(--gradient);
+        color: var(--text);
+        border: none;
+        border-radius: 0.5rem;
+        padding: 1rem 2rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .start-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+
+      /* Password Screen */
+      .password-screen {
+        max-width: 500px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+        text-align: center;
+        display: none;
+      }
+
+      .password-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .password-description {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .password-input-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .password-input {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--border);
+        background-color: var(--light);
+        color: var(--text);
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .password-error {
+        color: var(--danger);
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        display: none;
+      }
+
+      .password-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      /* Submit Confirmation Screen */
+      .submit-screen {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+        display: none;
+      }
+
+      .submit-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .submit-description {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .submit-questions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 0.5rem;
+      }
+
+      .submit-question-item {
+        background-color: var(--light);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .submit-question-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      .submit-question-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .submit-question-number {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: var(--card-bg);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .submit-question-item.answered .submit-question-number {
+        background-color: var(--success);
+        color: var(--text2);
+      }
+
+      .submit-question-item.unanswered .submit-question-number {
+        background-color: var(--danger);
+        color: var(--text);
+      }
+
+      .submit-question-text {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        color: var(--text);
+      }
+
+      .submit-question-status {
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .submit-question-item.answered .submit-question-status {
+        background-color: rgba(0, 255, 136, 0.2);
+        color: var(--success);
+      }
+
+      .submit-question-item.unanswered .submit-question-status {
+        background-color: rgba(255, 0, 110, 0.2);
+        color: var(--danger);
+      }
+
+      .submit-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      /* Result Screen */
+      .result-screen {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+        text-align: center;
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .result-title {
+        font-size: 2rem;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+
+      .score-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 2rem auto;
+      }
+
+      .score-circle {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: conic-gradient(var(--primary) 0%, var(--secondary) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .score-circle::before {
+        content: "";
+        position: absolute;
+        width: 85%;
+        height: 85%;
+        border-radius: 50%;
+        background-color: var(--card-bg);
+      }
+
+      .score-value {
+        position: relative;
+        font-size: 2rem;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .score-message {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+      }
+
+      .result-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .navigation {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-btn-group {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header {
+          padding: 1rem;
+        }
+
+        .logo {
+          font-size: 1.25rem;
+        }
+
+        .timer {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.875rem;
+        }
+
+        .question-card {
+          padding: 1.25rem;
+        }
+
+        .question-text {
+          font-size: 1rem;
+        }
+
+        .option-card {
+          padding: 0.875rem;
+        }
+
+        .question-grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <i class="fas fa-microchip"></i>
+          <span>Digital Systems Exam</span>
+        </div>
+        <div class="header-controls">
+          <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <div class="timer-container">
+            <i class="fas fa-clock"></i>
+            <div class="timer" id="timer">
+              <span id="time-remaining">40:00</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Sidebar Toggle Button -->
+        <button class="sidebar-toggle" id="sidebar-toggle">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Home Screen -->
+        <div class="home-screen" id="home-screen">
+          <h1 class="home-title">Digital Systems Exam</h1>
+          <p class="home-description">
+            This exam covers topics in digital systems including binary
+            representation, Boolean algebra, and computer architecture. Please
+            read the instructions carefully before starting.
+          </p>
+
+          <div class="exam-info">
+            <div class="info-card">
+              <div class="info-value">24</div>
+              <div class="info-label">Questions</div>
+            </div>
+            <div class="info-card">
+              <div class="info-value">40</div>
+              <div class="info-label">Minutes</div>
+            </div>
+            <div class="info-card">
+              <div class="info-value">4</div>
+              <div class="info-label">Sections</div>
+            </div>
+          </div>
+
+          <div class="instructions">
+            <h3 style="color: var(--primary); margin-bottom: 1rem">
+              Exam Instructions
+            </h3>
+            <ul
+              style="
+                text-align: left;
+                color: var(--text-secondary);
+                line-height: 1.8;
+              "
+            >
+              <li>The exam consists of 24 questions across 4 sections</li>
+              <li>You have 40 minutes to complete the exam</li>
+              <li>The timer will continue even if you refresh the page</li>
+              <li>
+                When time runs out, your exam will be automatically submitted
+              </li>
+              <li>Answer all questions to the best of your ability</li>
+              <li>After submission, you will see your final score</li>
+              <li>Make sure you have a stable internet connection</li>
+            </ul>
+          </div>
+
+          <button class="start-btn" id="start-quiz">Start Exam</button>
+        </div>
+
+        <!-- Password Screen -->
+        <div class="password-screen" id="password-screen">
+          <h1 class="password-title">Enter Exam Password</h1>
+          <p class="password-description">
+            Please enter the exam password to proceed. This is to ensure only
+            authorized individuals can take the exam.
+          </p>
+
+          <div class="password-input-group">
+            <input
+              type="password"
+              class="password-input"
+              id="password-input"
+              placeholder="Enter password"
+            />
+            <div class="password-error" id="password-error">
+              Incorrect password. Please try again.
+            </div>
+          </div>
+
+          <div class="password-actions">
+            <button class="nav-btn secondary" id="cancel-password-btn">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="nav-btn" id="submit-password-btn">
+              <i class="fas fa-check"></i> Submit
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Content -->
+        <div class="quiz-content" id="quiz-content" style="display: none">
+          <div class="questions-container" id="questions-container">
+            <!-- Questions will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-header">Question Navigation</div>
+
+          <div>
+            <div class="section-title">True/False</div>
+            <div class="question-grid" id="truefalse-grid">
+              <!-- True/False questions will be dynamically inserted here -->
+            </div>
+          </div>
+
+          <div>
+            <div class="section-title">Truth Table</div>
+            <div class="question-grid" id="truthtable-grid">
+              <!-- Truth table question will be dynamically inserted here -->
+            </div>
+          </div>
+
+          <div>
+            <div class="section-title">Fill in Blanks</div>
+            <div class="question-grid" id="fillblanks-grid">
+              <!-- Fill in blanks questions will be dynamically inserted here -->
+            </div>
+          </div>
+
+          <div>
+            <div class="section-title">Multiple Choice</div>
+            <div class="question-grid" id="mcq-grid">
+              <!-- MCQ questions will be dynamically inserted here -->
+            </div>
+          </div>
+
+          <button class="submit-sidebar-btn" id="submit-sidebar-btn">
+            <i class="fas fa-paper-plane"></i> Submit Exam
+          </button>
+        </aside>
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="navigation" id="navigation" style="display: none">
+        <button class="nav-btn secondary" id="prev-btn">
+          <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="nav-btn" id="next-btn">
+          Next <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Submit Confirmation Screen -->
+      <div class="submit-screen" id="submit-screen">
+        <h1 class="submit-title">Submit Exam</h1>
+        <p class="submit-description">
+          Review your answers before submitting. You cannot change your answers
+          after submission.
+        </p>
+
+        <div class="submit-questions" id="submit-questions">
+          <!-- Questions will be dynamically inserted here -->
+        </div>
+
+        <div class="submit-actions">
+          <button class="nav-btn secondary" id="cancel-submit-btn">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button class="nav-btn" id="confirm-submit-btn">
+            <i class="fas fa-check"></i> Confirm Submit
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Screen -->
+      <div class="result-screen" id="result-screen">
+        <h1 class="result-title">Exam Completed!</h1>
+
+        <div class="score-container">
+          <div class="score-circle">
+            <div class="score-value" id="score-value">0/24</div>
+          </div>
+        </div>
+
+        <div class="score-message" id="score-message">
+          Thank you for completing the exam.
+        </div>
+        <p>A detailed review has been sent to the instructor.</p>
+
+        <div class="result-actions">
+          <button class="nav-btn" id="restart-btn">
+            <i class="fas fa-redo"></i> Take Exam Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM Elements
+        const homeScreen = document.getElementById("home-screen");
+        const passwordScreen = document.getElementById("password-screen");
+        const quizContent = document.getElementById("quiz-content");
+        const sidebar = document.getElementById("sidebar");
+        const navigation = document.getElementById("navigation");
+        const resultScreen = document.getElementById("result-screen");
+        const submitScreen = document.getElementById("submit-screen");
+        const startQuizBtn = document.getElementById("start-quiz");
+        const cancelPasswordBtn = document.getElementById(
+          "cancel-password-btn"
+        );
+        const submitPasswordBtn = document.getElementById(
+          "submit-password-btn"
+        );
+        const passwordInput = document.getElementById("password-input");
+        const passwordError = document.getElementById("password-error");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const restartBtn = document.getElementById("restart-btn");
+        const submitSidebarBtn = document.getElementById("submit-sidebar-btn");
+        const cancelSubmitBtn = document.getElementById("cancel-submit-btn");
+        const confirmSubmitBtn = document.getElementById("confirm-submit-btn");
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const themeToggle = document.getElementById("theme-toggle");
+        const timerElement = document.getElementById("timer");
+        const timeRemainingElement = document.getElementById("time-remaining");
+        const progressBar = document.getElementById("progress-bar");
+        const questionsContainer = document.getElementById(
+          "questions-container"
+        );
+        const submitQuestionsContainer =
+          document.getElementById("submit-questions");
+        const scoreValue = document.getElementById("score-value");
+        const scoreMessage = document.getElementById("score-message");
+
+        // Timer variables
+        const examDuration = 60 * 40; // 40 minutes in seconds
+        let timeRemaining = examDuration;
+        let timerInterval;
+
+        // Quiz state
+        let currentPage = 0;
+        const questionsPerPage = 5;
+        let userAnswers = {};
+        let flaggedQuestions = new Set();
+        let examStartTime;
+        let quizStarted = false;
+        let quizCompleted = false;
+
+        // Theme management
+        const currentTheme = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener("click", () => {
+          const newTheme =
+            document.documentElement.getAttribute("data-theme") === "light"
+              ? "dark"
+              : "light";
+          document.documentElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+          updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+          const icon = themeToggle.querySelector("i");
+          icon.className = theme === "light" ? "fas fa-moon" : "fas fa-sun";
+        }
+
+        // Questions data
+        const questions = [
+          // True/False Questions
+          {
+            id: 1,
+            section: "True/False",
+            question:
+              "In two's complement representation, the MSB determines the sign of the number.",
+            type: "truefalse",
+            answer: "True",
+          },
+          {
+            id: 2,
+            section: "True/False",
+            question:
+              "An n-bit binary system can represent exactly 2^n unique values.",
+            type: "truefalse",
+            answer: "True",
+          },
+          {
+            id: 3,
+            section: "True/False",
+            question:
+              "Sign extension means replicating the sign bit when increasing word size.",
+            type: "truefalse",
+            answer: "True",
+          },
+          {
+            id: 4,
+            section: "True/False",
+            question: "In Boolean algebra, A + A·B = A.",
+            type: "truefalse",
+            answer: "True",
+          },
+          {
+            id: 5,
+            section: "True/False",
+            question: "In LC-3, the word size is 16 bits.",
+            type: "truefalse",
+            answer: "True",
+          },
+
+          // Truth Table Question
+          {
+            id: 6,
+            section: "Truth Table",
+            question:
+              "Construct the truth table for the Boolean expression: F(A,B,C) = (A+B)·(¬A+C)",
+            type: "truthtable",
+            answer: {
+              "000": "0",
+              "001": "0",
+              "010": "1",
+              "011": "1",
+              100: "0",
+              101: "1",
+              110: "0",
+              111: "1",
+            },
+          },
+
+          // Fill in the Blanks Questions
+          {
+            id: 7,
+            section: "Fill in Blanks",
+            question:
+              "Convert 10110101₂ (8-bit two's complement) to decimal: <input type='text' class='fill-blank-input' data-question='7' data-blank='0'>.",
+            type: "fillblank",
+            answer: ["-75"],
+          },
+          {
+            id: 8,
+            section: "Fill in Blanks",
+            question:
+              "The hexadecimal number 0x2F is <input type='text' class='fill-blank-input' data-question='8' data-blank='0'> in decimal and <input type='text' class='fill-blank-input' data-question='8' data-blank='1'> in binary.",
+            type: "fillblank",
+            answer: ["47", "00101111₂"],
+          },
+          {
+            id: 9,
+            section: "Fill in Blanks",
+            question:
+              "Perform: 56 - 29 using two's complement (8-bit). Result = <input type='text' class='fill-blank-input' data-question='9' data-blank='0'> (binary), <input type='text' class='fill-blank-input' data-question='9' data-blank='1'> (decimal).",
+            type: "fillblank",
+            answer: ["00011011₂", "27"],
+          },
+          {
+            id: 10,
+            section: "Fill in Blanks",
+            question:
+              "The range of an n-bit signed two's complement system is from <input type='text' class='fill-blank-input' data-question='10' data-blank='0'> to <input type='text' class='fill-blank-input' data-question='10' data-blank='1'>.",
+            type: "fillblank",
+            answer: ["-2^(n-1)", "2^(n-1)-1"],
+          },
+          {
+            id: 11,
+            section: "Fill in Blanks",
+            question:
+              "Simplify the Boolean expression: A·B + A·¬B. Result = <input type='text' class='fill-blank-input' data-question='11' data-blank='0'>.",
+            type: "fillblank",
+            answer: ["A"],
+          },
+          {
+            id: 12,
+            section: "Fill in Blanks",
+            question:
+              "In LC-3, the opcode field of each instruction is <input type='text' class='fill-blank-input' data-question='12' data-blank='0'> bits wide.",
+            type: "fillblank",
+            answer: ["4"],
+          },
+
+          // Multiple Choice Questions
+          {
+            id: 13,
+            section: "Multiple Choice",
+            question:
+              "Which binary number represents -12 in 8-bit two's complement?",
+            type: "mcq",
+            options: [
+              { id: "A", text: "11110100" },
+              { id: "B", text: "11110101" },
+              { id: "C", text: "00001100" },
+              { id: "D", text: "10001100" },
+            ],
+            answer: "A",
+          },
+          {
+            id: 14,
+            section: "Multiple Choice",
+            question: "The decimal equivalent of 100110₂ is:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "38" },
+              { id: "B", text: "36" },
+              { id: "C", text: "32" },
+              { id: "D", text: "34" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 15,
+            section: "Multiple Choice",
+            question: "The result of 1011₂ + 0110₂ (4-bit unsigned) is:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "10001₂" },
+              { id: "B", text: "0001₂ (with carry)" },
+              { id: "C", text: "1111₂" },
+              { id: "D", text: "01001₂" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 16,
+            section: "Multiple Choice",
+            question: "The simplification of (A + B)·(A + ¬B) is:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "A" },
+              { id: "B", text: "B" },
+              { id: "C", text: "¬B" },
+              { id: "D", text: "A + B" },
+            ],
+            answer: "A",
+          },
+          {
+            id: 17,
+            section: "Multiple Choice",
+            question: "Which gate is called a universal gate?",
+            type: "mcq",
+            options: [
+              { id: "A", text: "AND" },
+              { id: "B", text: "NAND" },
+              { id: "C", text: "OR" },
+              { id: "D", text: "XOR" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 18,
+            section: "Multiple Choice",
+            question: "Overflow occurs when:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "Adding numbers of opposite signs" },
+              { id: "B", text: "Carry into MSB ≠ carry out of MSB" },
+              { id: "C", text: "Carry out = 1" },
+              { id: "D", text: "MSB of result = 0" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 19,
+            section: "Multiple Choice",
+            question: "The range of an 8-bit unsigned integer is:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "-128 to +127" },
+              { id: "B", text: "0 to 255" },
+              { id: "C", text: "0 to 127" },
+              { id: "D", text: "-255 to +255" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 20,
+            section: "Multiple Choice",
+            question: "The Boolean expression equivalent to ¬(A + B) is:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "¬A + ¬B" },
+              { id: "B", text: "¬A · ¬B" },
+              { id: "C", text: "A·B" },
+              { id: "D", text: "(¬A ⊕ ¬B)" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 21,
+            section: "Multiple Choice",
+            question: "The binary fraction 0.011₂ equals:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "0.25" },
+              { id: "B", text: "0.375" },
+              { id: "C", text: "0.5" },
+              { id: "D", text: "0.75" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 22,
+            section: "Multiple Choice",
+            question: "In LC-3, how many general-purpose registers exist?",
+            type: "mcq",
+            options: [
+              { id: "A", text: "4" },
+              { id: "B", text: "6" },
+              { id: "C", text: "8" },
+              { id: "D", text: "16" },
+            ],
+            answer: "C",
+          },
+          {
+            id: 23,
+            section: "Multiple Choice",
+            question:
+              "Which of these minterms are included in the function: Σm(1,3,7)?",
+            type: "mcq",
+            options: [
+              { id: "A", text: "A·¬B·¬C" },
+              { id: "B", text: "¬A·B·C" },
+              { id: "C", text: "¬A·¬B·C" },
+              { id: "D", text: "A·B·C" },
+            ],
+            answer: "B",
+          },
+          {
+            id: 24,
+            section: "Multiple Choice",
+            question: "The hexadecimal number 7E is equivalent to:",
+            type: "mcq",
+            options: [
+              { id: "A", text: "124 decimal" },
+              { id: "B", text: "126 decimal" },
+              { id: "C", text: "120 decimal" },
+              { id: "D", text: "122 decimal" },
+            ],
+            answer: "B",
+          },
+        ];
+
+        // Initialize the quiz
+        function initQuiz() {
+          // Always show the home screen first
+          homeScreen.style.display = "block";
+          passwordScreen.style.display = "none";
+          quizContent.style.display = "none";
+          sidebar.style.display = "none";
+          navigation.style.display = "none";
+          resultScreen.style.display = "none";
+          submitScreen.style.display = "none";
+          sidebarToggle.style.display = "none";
+
+          // Create question navigation grid
+          createQuestionGrid();
+
+          // Set up event listeners
+          startQuizBtn.addEventListener("click", showPasswordScreen);
+          cancelPasswordBtn.addEventListener("click", hidePasswordScreen);
+          submitPasswordBtn.addEventListener("click", checkPassword);
+          passwordInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+              checkPassword();
+            }
+          });
+          prevBtn.addEventListener("click", goToPreviousPage);
+          nextBtn.addEventListener("click", goToNextPage);
+          restartBtn.addEventListener("click", restartQuiz);
+          submitSidebarBtn.addEventListener("click", showSubmitScreen);
+          cancelSubmitBtn.addEventListener("click", hideSubmitScreen);
+          confirmSubmitBtn.addEventListener("click", submitQuiz);
+          sidebarToggle.addEventListener("click", toggleSidebar);
+
+          // Check for existing quiz state only if the quiz was already started
+          // Don't automatically restore the quiz state on page load
+          // The user must go through the password prompt again
+        }
+
+        // Show password screen
+        function showPasswordScreen() {
+          homeScreen.style.display = "none";
+          passwordScreen.style.display = "block";
+          passwordInput.value = "";
+          passwordError.style.display = "none";
+          passwordInput.focus();
+        }
+
+        // Hide password screen
+        function hidePasswordScreen() {
+          passwordScreen.style.display = "none";
+          homeScreen.style.display = "block";
+        }
+
+        // Check password
+        function checkPassword() {
+          const password = passwordInput.value;
+          if (password === "Quiz-Official") {
+            passwordScreen.style.display = "none";
+            startQuiz();
+          } else {
+            passwordError.style.display = "block";
+            passwordInput.value = "";
+            passwordInput.focus();
+          }
+        }
+
+        // Start the quiz
+        function startQuiz() {
+          quizStarted = true;
+          quizCompleted = false;
+          homeScreen.style.display = "none";
+          quizContent.style.display = "flex";
+          sidebar.style.display = "flex";
+          navigation.style.display = "flex";
+          sidebarToggle.style.display = "flex";
+
+          // Initialize timer
+          examStartTime = new Date();
+          startTimer();
+
+          // Display first page of questions
+          displayQuestions();
+
+          // Save initial state
+          saveQuizState();
+        }
+
+        // Save quiz state
+        function saveQuizState() {
+          const state = {
+            quizStarted: quizStarted,
+            quizCompleted: quizCompleted,
+            currentPage: currentPage,
+            userAnswers: userAnswers,
+            flaggedQuestions: Array.from(flaggedQuestions),
+            examStartTime: examStartTime.toISOString(),
+          };
+          localStorage.setItem("quizState", JSON.stringify(state));
+        }
+
+        // Create question navigation grid
+        function createQuestionGrid() {
+          const trueFalseGrid = document.getElementById("truefalse-grid");
+          const truthTableGrid = document.getElementById("truthtable-grid");
+          const fillBlanksGrid = document.getElementById("fillblanks-grid");
+          const mcqGrid = document.getElementById("mcq-grid");
+
+          questions.forEach((question, index) => {
+            const questionBtn = document.createElement("button");
+            questionBtn.className = "question-btn";
+            questionBtn.textContent = index + 1;
+            questionBtn.dataset.index = index;
+
+            questionBtn.addEventListener("click", () => {
+              const targetPage = Math.floor(index / questionsPerPage);
+              if (targetPage !== currentPage) {
+                currentPage = targetPage;
+                displayQuestions();
+              }
+            });
+
+            if (question.section === "True/False") {
+              trueFalseGrid.appendChild(questionBtn);
+            } else if (question.section === "Truth Table") {
+              truthTableGrid.appendChild(questionBtn);
+            } else if (question.section === "Fill in Blanks") {
+              fillBlanksGrid.appendChild(questionBtn);
+            } else if (question.section === "Multiple Choice") {
+              mcqGrid.appendChild(questionBtn);
+            }
+          });
+        }
+
+        // Start the timer
+        function startTimer() {
+          updateTimerDisplay();
+          timerInterval = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay();
+            saveQuizState(); // Save state on each timer tick
+
+            if (timeRemaining <= 0) {
+              clearInterval(timerInterval);
+              submitQuiz(true); // Auto-submit when time runs out
+            }
+          }, 1000);
+        }
+
+        // Update timer display
+        function updateTimerDisplay() {
+          const minutes = Math.floor(timeRemaining / 60);
+          const seconds = timeRemaining % 60;
+          timeRemainingElement.textContent = `${minutes}:${
+            seconds < 10 ? "0" : ""
+          }${seconds}`;
+
+          // Update timer styling based on time remaining
+          timerElement.classList.remove("warning", "danger");
+          if (timeRemaining <= 60) {
+            timerElement.classList.add("danger");
+          } else if (timeRemaining <= 300) {
+            timerElement.classList.add("warning");
+          }
+        }
+
+        // Display the current page of questions
+        function displayQuestions() {
+          // Clear previous questions
+          questionsContainer.innerHTML = "";
+
+          // Calculate start and end indices for current page
+          const startIndex = currentPage * questionsPerPage;
+          const endIndex = Math.min(
+            startIndex + questionsPerPage,
+            questions.length
+          );
+
+          // Create question cards for current page
+          for (let i = startIndex; i < endIndex; i++) {
+            const question = questions[i];
+            createQuestionCard(question);
+          }
+
+          // Scroll to top
+          quizContent.scrollTop = 0;
+
+          // Update navigation buttons
+          updateNavigationButtons();
+
+          // Update question grid
+          updateQuestionGrid();
+
+          // Update progress bar
+          updateProgressBar();
+
+          // Save state
+          saveQuizState();
+        }
+
+        // Create a question card
+        function createQuestionCard(question) {
+          const questionCard = document.createElement("div");
+          questionCard.className = "question-card";
+          questionCard.dataset.questionId = question.id;
+
+          // Question header
+          const questionHeader = document.createElement("div");
+          questionHeader.className = "question-header";
+
+          const questionNumber = document.createElement("div");
+          questionNumber.className = "question-number";
+          questionNumber.innerHTML = `
+                    <span>Question ${question.id}</span>
+                    <span class="section-badge">${question.section}</span>
+                `;
+
+          const flagBtn = document.createElement("button");
+          flagBtn.className = "flag-btn";
+          flagBtn.innerHTML = flaggedQuestions.has(question.id)
+            ? '<i class="fas fa-flag"></i>'
+            : '<i class="far fa-flag"></i>';
+
+          if (flaggedQuestions.has(question.id)) {
+            flagBtn.classList.add("flagged");
+          }
+
+          flagBtn.addEventListener("click", () =>
+            toggleFlag(question.id, flagBtn)
+          );
+
+          questionHeader.appendChild(questionNumber);
+          questionHeader.appendChild(flagBtn);
+
+          // Question text
+          const questionText = document.createElement("div");
+          questionText.className = "question-text";
+          questionText.innerHTML = question.question;
+
+          // Options container
+          const optionsContainer = document.createElement("div");
+          optionsContainer.className = "options-container";
+
+          // Create options based on question type
+          if (question.type === "truefalse") {
+            createTrueFalseOptions(question, optionsContainer);
+          } else if (question.type === "truthtable") {
+            createTruthTable(question, optionsContainer);
+          } else if (question.type === "fillblank") {
+            // Fill in blanks inputs are already in the question HTML
+            // Just add event listeners
+            const inputs = questionText.querySelectorAll(".fill-blank-input");
+            inputs.forEach((input, index) => {
+              // Check if this value was previously entered
+              if (userAnswers[question.id] && userAnswers[question.id][index]) {
+                input.value = userAnswers[question.id][index];
+              }
+
+              input.addEventListener("input", () => {
+                if (!userAnswers[question.id]) {
+                  userAnswers[question.id] = {};
+                }
+                userAnswers[question.id][index] = input.value;
+                updateQuestionGrid();
+                updateProgressBar();
+                saveQuizState();
+              });
+            });
+          } else if (question.type === "mcq") {
+            createMCQOptions(question, optionsContainer);
+          }
+
+          // Assemble the question card
+          questionCard.appendChild(questionHeader);
+          questionCard.appendChild(questionText);
+          questionCard.appendChild(optionsContainer);
+
+          questionsContainer.appendChild(questionCard);
+        }
+
+        // Create True/False options
+        function createTrueFalseOptions(question, container) {
+          const options = ["True", "False"];
+
+          options.forEach((option) => {
+            const optionCard = document.createElement("div");
+            optionCard.className = "option-card";
+
+            const optionIndicator = document.createElement("div");
+            optionIndicator.className = "option-indicator";
+            optionIndicator.textContent = option[0];
+
+            const optionText = document.createElement("div");
+            optionText.className = "option-text";
+            optionText.textContent = option;
+
+            optionCard.appendChild(optionIndicator);
+            optionCard.appendChild(optionText);
+
+            // Check if this option was previously selected
+            if (userAnswers[question.id] === option) {
+              optionCard.classList.add("selected");
+            }
+
+            // Add click event
+            optionCard.addEventListener("click", () => {
+              selectOption(question.id, option, optionCard);
+            });
+
+            container.appendChild(optionCard);
+          });
+        }
+
+        // Create Truth Table
+        function createTruthTable(question, container) {
+          const table = document.createElement("table");
+          table.className = "truth-table";
+
+          // Table header
+          const headerRow = document.createElement("tr");
+          headerRow.innerHTML = `
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>A+B</th>
+                    <th>¬A+C</th>
+                    <th>F</th>
+                `;
+          table.appendChild(headerRow);
+
+          // Table rows
+          const combinations = [
+            "000",
+            "001",
+            "010",
+            "011",
+            "100",
+            "101",
+            "110",
+            "111",
+          ];
+
+          combinations.forEach((combo) => {
+            const row = document.createElement("tr");
+
+            // A, B, C columns
+            for (let i = 0; i < 3; i++) {
+              const cell = document.createElement("td");
+              cell.textContent = combo[i];
+              row.appendChild(cell);
+            }
+
+            // A+B column (input)
+            const aPlusBCell = document.createElement("td");
+            const aPlusBInput = document.createElement("input");
+            aPlusBInput.type = "text";
+            aPlusBInput.maxLength = 1;
+            aPlusBInput.dataset.combo = combo;
+            aPlusBInput.dataset.column = "aPlusB";
+
+            // Check if this value was previously entered
+            if (
+              userAnswers[question.id] &&
+              userAnswers[question.id][combo] &&
+              userAnswers[question.id][combo]["aPlusB"]
+            ) {
+              aPlusBInput.value = userAnswers[question.id][combo]["aPlusB"];
+            }
+
+            aPlusBInput.addEventListener("input", () => {
+              if (!userAnswers[question.id]) {
+                userAnswers[question.id] = {};
+              }
+              if (!userAnswers[question.id][combo]) {
+                userAnswers[question.id][combo] = {};
+              }
+              userAnswers[question.id][combo]["aPlusB"] = aPlusBInput.value;
+              updateQuestionGrid();
+              updateProgressBar();
+              saveQuizState();
+            });
+
+            aPlusBCell.appendChild(aPlusBInput);
+            row.appendChild(aPlusBCell);
+
+            // ¬A+C column (input)
+            const notAPlusCCell = document.createElement("td");
+            const notAPlusCInput = document.createElement("input");
+            notAPlusCInput.type = "text";
+            notAPlusCInput.maxLength = 1;
+            notAPlusCInput.dataset.combo = combo;
+            notAPlusCInput.dataset.column = "notAPlusC";
+
+            // Check if this value was previously entered
+            if (
+              userAnswers[question.id] &&
+              userAnswers[question.id][combo] &&
+              userAnswers[question.id][combo]["notAPlusC"]
+            ) {
+              notAPlusCInput.value =
+                userAnswers[question.id][combo]["notAPlusC"];
+            }
+
+            notAPlusCInput.addEventListener("input", () => {
+              if (!userAnswers[question.id]) {
+                userAnswers[question.id] = {};
+              }
+              if (!userAnswers[question.id][combo]) {
+                userAnswers[question.id][combo] = {};
+              }
+              userAnswers[question.id][combo]["notAPlusC"] =
+                notAPlusCInput.value;
+              updateQuestionGrid();
+              updateProgressBar();
+              saveQuizState();
+            });
+
+            notAPlusCCell.appendChild(notAPlusCInput);
+            row.appendChild(notAPlusCCell);
+
+            // F column (input)
+            const fCell = document.createElement("td");
+            const fInput = document.createElement("input");
+            fInput.type = "text";
+            fInput.maxLength = 1;
+            fInput.dataset.combo = combo;
+            fInput.dataset.column = "f";
+
+            // Check if this value was previously entered
+            if (
+              userAnswers[question.id] &&
+              userAnswers[question.id][combo] &&
+              userAnswers[question.id][combo]["f"]
+            ) {
+              fInput.value = userAnswers[question.id][combo]["f"];
+            }
+
+            fInput.addEventListener("input", () => {
+              if (!userAnswers[question.id]) {
+                userAnswers[question.id] = {};
+              }
+              if (!userAnswers[question.id][combo]) {
+                userAnswers[question.id][combo] = {};
+              }
+              userAnswers[question.id][combo]["f"] = fInput.value;
+              updateQuestionGrid();
+              updateProgressBar();
+              saveQuizState();
+            });
+
+            fCell.appendChild(fInput);
+            row.appendChild(fCell);
+
+            table.appendChild(row);
+          });
+
+          container.appendChild(table);
+        }
+
+        // Create MCQ options
+        function createMCQOptions(question, container) {
+          question.options.forEach((option) => {
+            const optionCard = document.createElement("div");
+            optionCard.className = "option-card";
+
+            const optionIndicator = document.createElement("div");
+            optionIndicator.className = "option-indicator";
+            optionIndicator.textContent = option.id;
+
+            const optionText = document.createElement("div");
+            optionText.className = "option-text";
+            optionText.textContent = option.text;
+
+            optionCard.appendChild(optionIndicator);
+            optionCard.appendChild(optionText);
+
+            // Check if this option was previously selected
+            if (userAnswers[question.id] === option.id) {
+              optionCard.classList.add("selected");
+            }
+
+            // Add click event
+            optionCard.addEventListener("click", () => {
+              selectOption(question.id, option.id, optionCard);
+            });
+
+            container.appendChild(optionCard);
+          });
+        }
+
+        // Select an option
+        function selectOption(questionId, optionId, optionElement) {
+          // Save the answer
+          userAnswers[questionId] = optionId;
+
+          // Update UI
+          const allOptions = optionElement
+            .closest(".options-container")
+            .querySelectorAll(".option-card");
+          allOptions.forEach((card) => {
+            card.classList.remove("selected");
+          });
+          optionElement.classList.add("selected");
+
+          // Update question grid
+          updateQuestionGrid();
+
+          // Update progress bar
+          updateProgressBar();
+
+          // Save state
+          saveQuizState();
+        }
+
+        // Toggle flag for a question
+        function toggleFlag(questionId, flagButton) {
+          if (flaggedQuestions.has(questionId)) {
+            flaggedQuestions.delete(questionId);
+            flagButton.classList.remove("flagged");
+            flagButton.innerHTML = '<i class="far fa-flag"></i>';
+          } else {
+            flaggedQuestions.add(questionId);
+            flagButton.classList.add("flagged");
+            flagButton.innerHTML = '<i class="fas fa-flag"></i>';
+          }
+
+          updateQuestionGrid();
+          saveQuizState();
+        }
+
+        // Update question grid
+        function updateQuestionGrid() {
+          const questionButtons = document.querySelectorAll(".question-btn");
+
+          questionButtons.forEach((btn, index) => {
+            const questionId = questions[index].id;
+
+            // Remove all state classes
+            btn.classList.remove("active", "answered", "flagged");
+
+            // Add appropriate classes
+            const questionPage = Math.floor(index / questionsPerPage);
+            if (questionPage === currentPage) {
+              btn.classList.add("active");
+            }
+
+            // Check if question is answered
+            let isAnswered = false;
+            const question = questions[index];
+
+            if (question.type === "truthtable") {
+              // For truth table, check if all values are filled
+              if (userAnswers[questionId]) {
+                const combos = [
+                  "000",
+                  "001",
+                  "010",
+                  "011",
+                  "100",
+                  "101",
+                  "110",
+                  "111",
+                ];
+                isAnswered = combos.every(
+                  (combo) =>
+                    userAnswers[questionId][combo] &&
+                    userAnswers[questionId][combo]["aPlusB"] &&
+                    userAnswers[questionId][combo]["notAPlusC"] &&
+                    userAnswers[questionId][combo]["f"]
+                );
+              }
+            } else if (question.type === "fillblank") {
+              // For fill in blanks, check if all blanks are filled
+              if (userAnswers[questionId]) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = question.question;
+                const blanks = tempDiv.querySelectorAll(".fill-blank-input");
+                isAnswered =
+                  blanks.length === Object.keys(userAnswers[questionId]).length;
+              }
+            } else {
+              // For other question types, just check if there's an answer
+              isAnswered = !!userAnswers[questionId];
+            }
+
+            if (isAnswered) {
+              btn.classList.add("answered");
+            }
+
+            if (flaggedQuestions.has(questionId)) {
+              btn.classList.add("flagged");
+            }
+          });
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+          const totalQuestions = questions.length;
+          let answeredQuestions = 0;
+
+          questions.forEach((question) => {
+            if (question.type === "truthtable") {
+              // For truth table, check if all values are filled
+              if (userAnswers[question.id]) {
+                const combos = [
+                  "000",
+                  "001",
+                  "010",
+                  "011",
+                  "100",
+                  "101",
+                  "110",
+                  "111",
+                ];
+                if (
+                  combos.every(
+                    (combo) =>
+                      userAnswers[question.id][combo] &&
+                      userAnswers[question.id][combo]["aPlusB"] &&
+                      userAnswers[question.id][combo]["notAPlusC"] &&
+                      userAnswers[question.id][combo]["f"]
+                  )
+                ) {
+                  answeredQuestions++;
+                }
+              }
+            } else if (question.type === "fillblank") {
+              // For fill in blanks, check if all blanks are filled
+              if (userAnswers[question.id]) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = question.question;
+                const blanks = tempDiv.querySelectorAll(".fill-blank-input");
+                if (
+                  blanks.length === Object.keys(userAnswers[question.id]).length
+                ) {
+                  answeredQuestions++;
+                }
+              }
+            } else {
+              // For other question types, just check if there's an answer
+              if (userAnswers[question.id]) {
+                answeredQuestions++;
+              }
+            }
+          });
+
+          const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+          progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+          // Previous button
+          prevBtn.disabled = currentPage === 0;
+
+          // Next button
+          const totalPages = Math.ceil(questions.length / questionsPerPage);
+          if (currentPage >= totalPages - 1) {
+            nextBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+          } else {
+            nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+          }
+        }
+
+        // Go to previous page
+        function goToPreviousPage() {
+          if (currentPage > 0) {
+            currentPage--;
+            displayQuestions();
+          }
+        }
+
+        // Go to next page
+        function goToNextPage() {
+          const totalPages = Math.ceil(questions.length / questionsPerPage);
+          if (currentPage < totalPages - 1) {
+            currentPage++;
+            displayQuestions();
+          } else {
+            // If on the last page, show submit screen
+            showSubmitScreen();
+          }
+        }
+
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+          sidebar.classList.toggle("open");
+          sidebarToggle.classList.toggle("open");
+          quizContent.classList.toggle("shifted");
+          navigation.classList.toggle("shifted");
+
+          // Change icon based on sidebar state
+          const icon = sidebarToggle.querySelector("i");
+          if (sidebar.classList.contains("open")) {
+            icon.className = "fas fa-chevron-left";
+          } else {
+            icon.className = "fas fa-chevron-right";
+          }
+        }
+
+        // Show submit confirmation screen
+        function showSubmitScreen() {
+          quizContent.style.display = "none";
+          sidebar.style.display = "none";
+          navigation.style.display = "none";
+          sidebarToggle.style.display = "none";
+          submitScreen.style.display = "block";
+
+          // Populate submit questions list
+          populateSubmitQuestions();
+        }
+
+        // Hide submit confirmation screen
+        function hideSubmitScreen() {
+          submitScreen.style.display = "none";
+          quizContent.style.display = "flex";
+          sidebar.style.display = "flex";
+          navigation.style.display = "flex";
+          sidebarToggle.style.display = "flex";
+        }
+
+        // Populate submit questions list
+        function populateSubmitQuestions() {
+          submitQuestionsContainer.innerHTML = "";
+
+          questions.forEach((question, index) => {
+            const submitQuestionItem = document.createElement("div");
+            submitQuestionItem.className = "submit-question-item";
+
+            // Check if question is answered
+            let isAnswered = false;
+
+            if (question.type === "truthtable") {
+              // For truth table, check if all values are filled
+              if (userAnswers[question.id]) {
+                const combos = [
+                  "000",
+                  "001",
+                  "010",
+                  "011",
+                  "100",
+                  "101",
+                  "110",
+                  "111",
+                ];
+                isAnswered = combos.every(
+                  (combo) =>
+                    userAnswers[question.id][combo] &&
+                    userAnswers[question.id][combo]["aPlusB"] &&
+                    userAnswers[question.id][combo]["notAPlusC"] &&
+                    userAnswers[question.id][combo]["f"]
+                );
+              }
+            } else if (question.type === "fillblank") {
+              // For fill in blanks, check if all blanks are filled
+              if (userAnswers[question.id]) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = question.question;
+                const blanks = tempDiv.querySelectorAll(".fill-blank-input");
+                isAnswered =
+                  blanks.length ===
+                  Object.keys(userAnswers[question.id]).length;
+              }
+            } else {
+              // For other question types, just check if there's an answer
+              isAnswered = !!userAnswers[question.id];
+            }
+
+            if (isAnswered) {
+              submitQuestionItem.classList.add("answered");
+            } else {
+              submitQuestionItem.classList.add("unanswered");
+            }
+
+            const submitQuestionLeft = document.createElement("div");
+            submitQuestionLeft.className = "submit-question-left";
+
+            const questionNumber = document.createElement("div");
+            questionNumber.className = "submit-question-number";
+            questionNumber.textContent = question.id;
+
+            const questionText = document.createElement("div");
+            questionText.className = "submit-question-text";
+            questionText.textContent = question.question.replace(
+              /<[^>]*>?/gm,
+              ""
+            ); // Remove HTML tags
+
+            submitQuestionLeft.appendChild(questionNumber);
+            submitQuestionLeft.appendChild(questionText);
+
+            const questionStatus = document.createElement("div");
+            questionStatus.className = "submit-question-status";
+            questionStatus.textContent = isAnswered ? "Answered" : "Unanswered";
+
+            submitQuestionItem.appendChild(submitQuestionLeft);
+            submitQuestionItem.appendChild(questionStatus);
+
+            // Add click event to navigate to question
+            submitQuestionItem.addEventListener("click", () => {
+              const targetPage = Math.floor(index / questionsPerPage);
+              currentPage = targetPage;
+              hideSubmitScreen();
+              displayQuestions();
+            });
+
+            submitQuestionsContainer.appendChild(submitQuestionItem);
+          });
+        }
+
+        // Submit the quiz
+        function submitQuiz(isAutoSubmit = false) {
+          clearInterval(timerInterval);
+
+          // Calculate score
+          let score = 0;
+          const results = [];
+
+          questions.forEach((question) => {
+            let userAnswer = null;
+            let isCorrect = false;
+
+            if (question.type === "truthtable") {
+              // For truth table, check if all values are correct
+              if (userAnswers[question.id]) {
+                const combos = [
+                  "000",
+                  "001",
+                  "010",
+                  "011",
+                  "100",
+                  "101",
+                  "110",
+                  "111",
+                ];
+                const allCorrect = combos.every(
+                  (combo) =>
+                    userAnswers[question.id][combo] &&
+                    userAnswers[question.id][combo]["f"] ===
+                      question.answer[combo]
+                );
+                if (allCorrect) {
+                  score++;
+                  isCorrect = true;
+                }
+                userAnswer = "Truth table values";
+              } else {
+                userAnswer = "Not answered";
+              }
+            } else if (question.type === "fillblank") {
+              // For fill in blanks, check if all blanks are correct
+              if (userAnswers[question.id]) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = question.question;
+                const blanks = tempDiv.querySelectorAll(".fill-blank-input");
+                const allCorrect = blanks.every(
+                  (blank, index) =>
+                    userAnswers[question.id][index] === question.answer[index]
+                );
+                if (allCorrect) {
+                  score++;
+                  isCorrect = true;
+                }
+                userAnswer = question.answer.join(", ");
+              } else {
+                userAnswer = "Not answered";
+              }
+            } else {
+              // For other question types, just check if the answer is correct
+              userAnswer = userAnswers[question.id] || "Not answered";
+              isCorrect = userAnswer === question.answer;
+              if (isCorrect) {
+                score++;
+              }
+            }
+
+            results.push({
+              questionId: question.id,
+              section: question.section,
+              question: question.question.replace(/<[^>]*>?/gm, ""), // Remove HTML tags
+              userAnswer: userAnswer,
+              correctAnswer: question.answer,
+              isCorrect: isCorrect,
+              type: question.type,
+            });
+          });
+
+          const percentage = Math.round((score / questions.length) * 100);
+
+          // Mark quiz as completed
+          quizCompleted = true;
+          saveQuizState();
+
+          // Display results
+          displayResults(score, percentage);
+
+          // Send results to instructor
+          sendResultsToEmail(results, score, percentage, isAutoSubmit);
+        }
+
+        // Display results to user
+        function displayResults(score, percentage) {
+          submitScreen.style.display = "none";
+          resultScreen.style.display = "block";
+
+          // Animate score
+          animateScore(score, percentage);
+
+          // Set message based on score
+          if (percentage >= 80) {
+            scoreMessage.textContent =
+              "Excellent work! You have a strong understanding of digital systems.";
+          } else if (percentage >= 60) {
+            scoreMessage.textContent =
+              "Good job! You demonstrate solid knowledge of the concepts.";
+          } else if (percentage >= 40) {
+            scoreMessage.textContent =
+              "Fair effort! Review the material to strengthen your understanding.";
+          } else {
+            scoreMessage.textContent =
+              "Keep studying! Focus on the key concepts and try again.";
+          }
+        }
+
+        // Animate score display
+        function animateScore(score, targetPercentage) {
+          let currentScore = 0;
+          const increment = score / 50;
+          const timer = setInterval(() => {
+            currentScore += increment;
+            if (currentScore >= score) {
+              currentScore = score;
+              clearInterval(timer);
+            }
+            scoreValue.textContent = `${Math.round(currentScore)}/${
+              questions.length
+            }`;
+          }, 20);
+        }
+
+        // Send results to email via Formspree
+        function sendResultsToEmail(results, score, percentage, isAutoSubmit) {
+          // Create email content
+          let emailContent = `Digital Systems Exam Results\n\n`;
+          emailContent += `Student Score: ${score}/${questions.length} (${percentage}%)\n`;
+          emailContent += `Submission Type: ${
+            isAutoSubmit ? "Auto-submitted (time expired)" : "Manual submission"
+          }\n`;
+          emailContent += `Submission Time: ${new Date().toLocaleString()}\n\n`;
+          emailContent += `Detailed Results:\n\n`;
+
+          // Group results by section
+          const sections = {};
+          results.forEach((result) => {
+            if (!sections[result.section]) {
+              sections[result.section] = [];
+            }
+            sections[result.section].push(result);
+          });
+
+          // Add section results
+          Object.keys(sections).forEach((section) => {
+            emailContent += `${section.toUpperCase()} SECTION:\n\n`;
+
+            sections[section].forEach((result) => {
+              emailContent += `Question ${result.questionId}: ${result.question}\n\n`;
+
+              if (result.type === "truthtable") {
+                emailContent += `Truth Table Values:\n`;
+                emailContent += `Student's Answer: ${result.userAnswer}\n`;
+                emailContent += `Correct Answer: Truth table with specific values\n`;
+              } else if (result.type === "fillblank") {
+                emailContent += `Fill in the Blanks:\n`;
+                emailContent += `Student's Answer: ${result.userAnswer}\n`;
+                emailContent += `Correct Answer: ${result.correctAnswer}\n`;
+              } else {
+                emailContent += `Student's Answer: ${result.userAnswer}\n`;
+                emailContent += `Correct Answer: ${result.correctAnswer}\n`;
+              }
+
+              emailContent += `Result: ${
+                result.isCorrect ? "Correct" : "Incorrect"
+              }\n`;
+
+              emailContent += `\n${"=".repeat(50)}\n\n`;
+            });
+          });
+
+          // Create a hidden form and submit it to Formspree
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "https://formspree.io/f/mgvypvgr";
+          form.target = "_blank";
+
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = "message";
+          input.value = emailContent;
+          form.appendChild(input);
+
+          document.body.appendChild(form);
+          form.submit();
+          document.body.removeChild(form);
+
+          // For demonstration, also log to console
+          console.log("=== EMAIL CONTENT ===");
+          console.log(emailContent);
+          console.log("=== END EMAIL ===");
+        }
+
+        // Restart the quiz
+        function restartQuiz() {
+          // Reset state
+          currentPage = 0;
+          userAnswers = {};
+          flaggedQuestions.clear();
+          timeRemaining = examDuration;
+          quizStarted = false;
+          quizCompleted = false;
+
+          // Clear saved state
+          localStorage.removeItem("quizState");
+
+          // Reset UI
+          resultScreen.style.display = "none";
+          homeScreen.style.display = "block";
+
+          // Reset timer styling
+          timerElement.classList.remove("warning", "danger");
+        }
+
+        // Initialize the quiz when DOM is loaded
+        initQuiz();
+      });
+    </script>
+  </body>
+</html>

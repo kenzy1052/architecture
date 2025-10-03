@@ -191,6 +191,31 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .nav-link {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode .nav-link {
+        color: var(--text-dark);
+      }
+
+      .nav-link:hover {
+        background: rgba(99, 102, 241, 0.1);
       }
 
       .theme-toggle {
@@ -534,11 +559,16 @@
 
     <nav>
       <div class="nav-container">
-        <div class="logo">
+        <a href="index.html" class="logo">
           <i class="fas fa-graduation-cap"></i>
           EduHub
+        </a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">
+            <i class="fas fa-home"></i> Home
+          </a>
+          <div class="theme-toggle" onclick="toggleTheme()"></div>
         </div>
-        <div class="theme-toggle" onclick="toggleTheme()"></div>
       </div>
     </nav>
 

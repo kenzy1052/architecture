@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduHub - Architecture Course</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 40%,
+          #ec4899 100%
+        );
+        --secondary-gradient: linear-gradient(
+          135deg,
+          #06b6d4 0%,
+          #3b82f6 50%,
+          #6366f1 100%
+        );
+        --accent-gradient: linear-gradient(
+          135deg,
+          #f472b6 0%,
+          #fb7185 40%,
+          #f59e0b 100%
+        );
+        --success-gradient: linear-gradient(
+          135deg,
+          #22c55e 0%,
+          #10b981 50%,
+          #06b6d4 100%
+        );
+        --warning-gradient: linear-gradient(
+          135deg,
+          #facc15 0%,
+          #f97316 40%,
+          #ef4444 100%
+        );
+        --dark-gradient: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #334155 100%
+        );
+
+        --bg-light: #f9fafb;
+        --bg-dark: #0a0f1e;
+        --card-light: rgba(255, 255, 255, 0.95);
+        --card-dark: rgba(15, 23, 42, 0.92);
+        --text-light: #1e293b;
+        --text-dark: #f1f5f9;
+        --border-light: rgba(148, 163, 184, 0.15);
+        --border-dark: rgba(148, 163, 184, 0.1);
+        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
+          0 8px 16px rgba(0, 0, 0, 0.05);
+        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
+          0 8px 16px rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        transition: all 0.3s ease;
+        background: var(--bg-light);
+        color: var(--text-light);
+        overflow-x: hidden;
+      }
+
+      body.dark-mode {
+        background: var(--bg-dark);
+        color: var(--text-dark);
+      }
+
+      /* Animated Background */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.1;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        top: 10%;
+        left: 10%;
+        animation-duration: 25s;
+      }
+
+      .circle:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(135deg, #ec4899, #f472b6);
+        top: 60%;
+        right: 15%;
+        animation-duration: 30s;
+        animation-delay: -5s;
+      }
+
+      .circle:nth-child(3) {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
+        bottom: 15%;
+        left: 20%;
+        animation-duration: 35s;
+        animation-delay: -10s;
+      }
+
+      .circle:nth-child(4) {
+        width: 180px;
+        height: 180px;
+        background: linear-gradient(135deg, #22c55e, #10b981);
+        top: 40%;
+        right: 30%;
+        animation-duration: 28s;
+        animation-delay: -15s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(50px, -50px) rotate(90deg);
+        }
+        50% {
+          transform: translate(-30px, 40px) rotate(180deg);
+        }
+        75% {
+          transform: translate(40px, 30px) rotate(270deg);
+        }
+      }
+
+      /* Navigation */
+      nav {
+        background: var(--card-light);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-light);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode nav {
+        background: var(--card-dark);
+        border-bottom-color: var(--border-dark);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .nav-link {
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .dark-mode .nav-link {
+        color: var(--text-dark);
+      }
+
+      .nav-link:hover {
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      .theme-toggle {
+        position: relative;
+        width: 60px;
+        height: 30px;
+        background: var(--primary-gradient);
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .dark-mode .theme-toggle::before {
+        transform: translateX(30px);
+      }
+
+      /* Main Content */
+      main {
+        margin-top: 100px;
+        min-height: calc(100vh - 100px);
+        position: relative;
+        z-index: 1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 4rem 0;
+        background: var(--primary-gradient);
+        color: white;
+        margin: -2rem -2rem 4rem -2rem;
+        border-radius: 0 0 2rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="20" fill="url(%23grain)"/></svg>');
+        opacity: 0.1;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Course Overview */
+      .course-overview {
+        background: var(--card-light);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .dark-mode .course-overview {
+        background: var(--card-dark);
+        box-shadow: var(--shadow-dark);
+        border-color: var(--border-dark);
+      }
+
+      .overview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .overview-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .progress-container {
+        width: 200px;
+      }
+
+      .progress-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-light);
+      }
+
+      .dark-mode .progress-label {
+        color: var(--text-dark);
+      }
+
+      .progress-bar {
+        height: 10px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: var(--primary-gradient);
+        border-radius: 5px;
+        transition: width 1.5s ease;
+      }
+
+      .overview-content {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .overview-text {
+        flex: 2;
+      }
+
+      .overview-stats {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .stat-card {
+        background: rgba(99, 102, 241, 0.1);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #6366f1;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
+
+      .dark-mode .stat-label {
+        color: var(--text-dark);
+      }
+
+      /* Section Headers */
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .view-all-btn {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .view-all-btn:hover {
+        background: rgba(99, 102, 241, 0.2);
+      }
+
+      /* Course Cards */
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .course-card {
+        background: var(--card-light);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .dark-mode .course-card {
+        background: var(--card-dark);
+        box-shadow: var(--shadow-dark);
+        border-color: var(--border-dark);
+      }
+
+      .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .course-card-header {
+        padding: 1.5rem;
+        background: var(--secondary-gradient);
+        color: white;
+        position: relative;
+      }
+
+      .course-number {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .course-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .course-duration {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .course-card-body {
+        padding: 1.5rem;
+      }
+
+      .course-description {
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+      }
+
+      .dark-mode .course-description {
+        color: var(--text-dark);
+      }
+
+      .course-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .course-tag {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .course-card-footer {
+        padding: 1rem 1.5rem;
+        background: rgba(99, 102, 241, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .course-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
+
+      .dark-mode .course-status {
+        color: var(--text-dark);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+
+      .status-dot.locked {
+        background: #f59e0b;
+      }
+
+      .course-btn {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .course-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .course-btn.locked {
+        background: var(--warning-gradient);
+        cursor: not-allowed;
+      }
+
+      /* Quiz Section */
+      .quiz-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .quiz-card {
+        background: var(--card-light);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .dark-mode .quiz-card {
+        background: var(--card-dark);
+        box-shadow: var(--shadow-dark);
+        border-color: var(--border-dark);
+      }
+
+      .quiz-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .quiz-card-header {
+        padding: 1.5rem;
+        background: var(--accent-gradient);
+        color: white;
+        position: relative;
+      }
+
+      .quiz-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .quiz-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .quiz-questions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .quiz-card-body {
+        padding: 1.5rem;
+      }
+
+      .quiz-description {
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+      }
+
+      .dark-mode .quiz-description {
+        color: var(--text-dark);
+      }
+
+      .quiz-topics {
+        margin-bottom: 1.5rem;
+      }
+
+      .quiz-topic {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
+
+      .dark-mode .quiz-topic {
+        color: var(--text-dark);
+      }
+
+      .quiz-card-footer {
+        padding: 1rem 1.5rem;
+        background: rgba(244, 114, 182, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .quiz-difficulty {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .difficulty-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      .difficulty-dot.easy {
+        background: #22c55e;
+      }
+
+      .difficulty-dot.medium {
+        background: #f59e0b;
+      }
+
+      .difficulty-dot.hard {
+        background: #ef4444;
+      }
+
+      .quiz-btn {
+        background: var(--accent-gradient);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .quiz-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark-gradient);
+        color: white;
+        text-align: center;
+        padding: 3rem 2rem;
+        margin-top: 4rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-heart {
+        color: #ff6b6b;
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.2);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.2);
+        }
+        70% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+
+        .overview-content {
+          flex-direction: column;
+        }
+
+        .course-grid,
+        .quiz-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="animated-bg">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
+
+    <nav>
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          EduHub
+        </a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">
+            <i class="fas fa-home"></i> Home
+          </a>
+          <div class="theme-toggle" onclick="toggleTheme()"></div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="hero">
+        <h1>Computer Architecture</h1>
+        <p>
+          Master the fundamentals of computer architecture, from binary systems
+          to advanced data types and operations
+        </p>
+      </div>
+
+      <div class="container">
+        <!-- Course Overview -->
+        <section class="course-overview">
+          <div class="overview-header">
+            <h2 class="overview-title">Course Overview</h2>
+            <div class="progress-container">
+              <div class="progress-label">Your Progress</div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+              </div>
+            </div>
+          </div>
+          <div class="overview-content">
+            <div class="overview-text">
+              <p>
+                This comprehensive course covers the fundamental concepts of
+                computer architecture, including binary systems, data
+                representation, and logical operations. You'll learn how
+                computers process information at the most basic level and gain a
+                deep understanding of the building blocks of modern computing
+                systems.
+              </p>
+            </div>
+            <div class="overview-stats">
+              <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Lectures</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value">2</div>
+                <div class="stat-label">Quizzes</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value">6h</div>
+                <div class="stat-label">Duration</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Lectures Section -->
+        <section>
+          <div class="section-header">
+            <h2 class="section-title">Course Lectures</h2>
+          </div>
+          <div class="course-grid">
+            <!-- Lecture 1 -->
+            <div class="course-card">
+              <div class="course-card-header">
+                <div class="course-number">Lecture 1</div>
+                <h3 class="course-title">Introduction</h3>
+                <div class="course-duration">
+                  <i class="fas fa-clock"></i>
+                  <span>2 hours</span>
+                </div>
+              </div>
+              <div class="course-card-body">
+                <p class="course-description">
+                  Learn the fundamentals of computer architecture, including how
+                  computers represent and process data at the most basic level.
+                </p>
+                <div class="course-tags">
+                  <span class="course-tag">Binary System</span>
+                  <span class="course-tag">Data Types</span>
+                  <span class="course-tag">Introduction</span>
+                </div>
+              </div>
+              <div class="course-card-footer">
+                <div class="course-status">
+                  <div class="status-dot"></div>
+                  <span>Available</span>
+                </div>
+                <a href="lecture1.html" class="course-btn">Start Learning</a>
+              </div>
+            </div>
+
+            <!-- Lecture 2 -->
+            <div class="course-card">
+              <div class="course-card-header">
+                <div class="course-number">Lecture 2</div>
+                <h3 class="course-title">Hexadecimal Calculations</h3>
+                <div class="course-duration">
+                  <i class="fas fa-clock"></i>
+                  <span>2 hours</span>
+                </div>
+              </div>
+              <div class="course-card-body">
+                <p class="course-description">
+                  Master hexadecimal notation and calculations, an essential
+                  skill for working with computer systems and programming.
+                </p>
+                <div class="course-tags">
+                  <span class="course-tag">Hexadecimal</span>
+                  <span class="course-tag">Number Systems</span>
+                  <span class="course-tag">Calculations</span>
+                </div>
+              </div>
+              <div class="course-card-footer">
+                <div class="course-status">
+                  <div class="status-dot"></div>
+                  <span>Available</span>
+                </div>
+                <a href="lecture2.html" class="course-btn">Start Learning</a>
+              </div>
+            </div>
+
+            <!-- Lecture 2.5 -->
+            <div class="course-card">
+              <div class="course-card-header">
+                <div class="course-number">Lecture 2.5</div>
+                <h3 class="course-title">Boolean Algebra</h3>
+                <div class="course-duration">
+                  <i class="fas fa-clock"></i>
+                  <span>2 hours</span>
+                </div>
+              </div>
+              <div class="course-card-body">
+                <p class="course-description">
+                  Explore Boolean algebra and logical operations that form the
+                  foundation of digital circuits and computer processing.
+                </p>
+                <div class="course-tags">
+                  <span class="course-tag">Boolean Logic</span>
+                  <span class="course-tag">Logical Operations</span>
+                  <span class="course-tag">Digital Circuits</span>
+                </div>
+              </div>
+              <div class="course-card-footer">
+                <div class="course-status">
+                  <div class="status-dot"></div>
+                  <span>Available</span>
+                </div>
+                <a href="lecture-2.html" class="course-btn">Start Learning</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quizzes Section -->
+        <section>
+          <div class="section-header">
+            <h2 class="section-title">Course Quizzes</h2>
+          </div>
+          <div class="quiz-grid">
+            <!-- Quiz 1 -->
+            <div class="quiz-card">
+              <div class="quiz-card-header">
+                <div class="quiz-icon">
+                  <i class="fas fa-question-circle"></i>
+                </div>
+                <h3 class="quiz-title">Quiz 1</h3>
+                <div class="quiz-questions">
+                  <i class="fas fa-tasks"></i>
+                  <span>10 Questions</span>
+                </div>
+              </div>
+              <div class="quiz-card-body">
+                <p class="quiz-description">
+                  Test your understanding of the fundamental concepts covered in
+                  Lecture 1.
+                </p>
+                <div class="quiz-topics">
+                  <div class="quiz-topic">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Covers: Lecture 1</span>
+                  </div>
+                </div>
+              </div>
+              <div class="quiz-card-footer">
+                <div class="quiz-difficulty">
+                  <div class="difficulty-dot easy"></div>
+                  <span>Beginner</span>
+                </div>
+                <a href="quiz1.html" class="quiz-btn">Start Quiz</a>
+              </div>
+            </div>
+
+            <!-- Quiz 2 -->
+            <div class="quiz-card">
+              <div class="quiz-card-header">
+                <div class="quiz-icon">
+                  <i class="fas fa-trophy"></i>
+                </div>
+                <h3 class="quiz-title">Quiz 2</h3>
+                <div class="quiz-questions">
+                  <i class="fas fa-tasks"></i>
+                  <span>15 Questions</span>
+                </div>
+              </div>
+              <div class="quiz-card-body">
+                <p class="quiz-description">
+                  Comprehensive quiz covering all topics from Lectures 1, 2, and
+                  2.5.
+                </p>
+                <div class="quiz-topics">
+                  <div class="quiz-topic">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Covers: Lectures 1-2.5</span>
+                  </div>
+                </div>
+              </div>
+              <div class="quiz-card-footer">
+                <div class="quiz-difficulty">
+                  <div class="difficulty-dot medium"></div>
+                  <span>Intermediate</span>
+                </div>
+                <a href="Quiz-Official.html" class="quiz-btn">Start Quiz</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <p>
+          Crafted with <span class="footer-heart">❤</span> by
+          <strong>Kenzy</strong>
+        </p>
+        <p>&copy; 2025 EduHub - Empowering Digital Learning</p>
+      </div>
+    </footer>
+
+    <script>
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("dark-mode") ? "dark" : "light"
+        );
+      }
+
+      // Load saved theme
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          document.body.classList.add("dark-mode");
+        }
+
+        // Animate progress bar
+        setTimeout(() => {
+          document.getElementById("progress-fill").style.width = "35%";
+        }, 500);
+      });
+
+      // Add interactive hover effects
+      document.querySelectorAll(".course-card, .quiz-card").forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-10px)";
+        });
+
+        card.addEventListener("mouseleave", function () {
+          this.style.transform = "translateY(0)";
+        });
+      });
+    </script>
+  </body>
+</html>

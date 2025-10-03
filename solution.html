@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Logic Function — F = (A ⊕ B) · ¬(¬C + B)</title>
+    <style>
+      :root {
+        --bg1: #0f172a; /* navy-ish */
+        --bg2: #04263a; /* deep teal */
+        --card: rgba(255, 255, 255, 0.06);
+        --accent: rgba(99, 102, 241, 0.95);
+        --glass: rgba(255, 255, 255, 0.06);
+        --glass-2: rgba(255, 255, 255, 0.03);
+        --muted: rgba(255, 255, 255, 0.7);
+      }
+      * {
+        box-sizing: border-box;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--bg1) 0%,
+          #08303f 40%,
+          #042b46 60%,
+          #061425 100%
+        );
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px;
+      }
+      .wrap {
+        max-width: 980px;
+        width: 100%;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.015)
+        );
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      header {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        box-shadow: 0 6px 18px rgba(7, 89, 133, 0.18);
+        font-weight: 700;
+        font-size: 20px;
+        color: white;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+      p.lead {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 18px;
+        margin-top: 18px;
+      }
+      .card {
+        background: var(--glass);
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      pre.code {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 14px;
+        border-radius: 10px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        font-size: 13px;
+        color: #f8fafc;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 8px 10px;
+        text-align: center;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+      }
+      thead th {
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+      }
+
+      .highlight {
+        background: linear-gradient(90deg, #06b6d4 0%, #7c3aed 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .steps {
+        line-height: 1.6;
+      }
+
+      .footer {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 14px;
+      }
+      .btn {
+        padding: 8px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /* responsive */
+      @media (max-width: 920px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        pre.code {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">LOG</div>
+        <div>
+          <h1>
+            Logic function:
+            <span class="highlight">F = (A ⊕ B) · ¬(¬C + B)</span>
+          </h1>
+          <p class="lead">
+            Simplified form, step-by-step reasoning, and the full truth table —
+            presented with a clean gradient UI.
+          </p>
+        </div>
+      </header>
+
+      <div class="grid">
+        <div class="card">
+          <h3 style="margin-top: 0">Algebraic simplification</h3>
+          <div class="steps muted">
+            <ol>
+              <li>Apply De Morgan: <code>¬(¬C + B) = C · ¬B</code>.</li>
+              <li>Substitute: <code>F = (A ⊕ B) · (C · ¬B)</code>.</li>
+              <li>Expand XOR: <code>A ⊕ B = A·¬B + ¬A·B</code>.</li>
+              <li>
+                Multiply:
+                <code>F = (A·¬B + ¬A·B)·C·¬B = A·¬B·C + ¬A·B·C·¬B</code>.
+              </li>
+              <li>
+                Since <code>B·¬B = 0</code>, the second term is 0. So
+                <div style="margin-top: 8px" class="muted">
+                  <strong>Final:</strong> <code>F = A · ¬B · C</code>
+                </div>
+              </li>
+              <li class="muted">
+                Interpretation:
+                <em>F is true only when A=1, B=0, and C=1</em> (minterm index
+                5).
+              </li>
+            </ol>
+          </div>
+
+          <div style="margin-top: 14px">
+            <h4 style="margin: 0">Boolean (minterm)</h4>
+            <pre class="code">F = A·¬B·C  // Σm(5)</pre>
+          </div>
+
+          <div class="footer">
+            <button class="btn" onclick="copyToClipboard()">
+              Copy expression
+            </button>
+            <button class="btn" onclick="downloadHTML()">Download HTML</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top: 0">Truth table</h3>
+          <div style="overflow: auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>C</th>
+                  <th>A⊕B</th>
+                  <th>C·¬B</th>
+                  <th>F</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      rgba(124, 58, 237, 0.08),
+                      rgba(6, 182, 212, 0.06)
+                    );
+                    font-weight: 700;
+                  "
+                >
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 12px" class="muted">
+            Note: the highlighted row (A=1, B=0, C=1) is the only input
+            combination where <strong>F = 1</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px" class="card">
+        <h3 style="margin-top: 0">Gate-level diagram (ASCII)</h3>
+        <pre class="code">
+     A ----●      
+            |      
+          [AND]----●--- F
+         /  |      |
+    (NOT B) |      |
+           C ----●  
+
+  This represents: F = A AND (NOT B) AND C
+      </pre
+        >
+        <div class="muted" style="margin-top: 6px">
+          Want a downloadable PNG of this diagram or a Verilog snippet? Click
+          download above or ask me to add it.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function copyToClipboard() {
+        const text = "F = A · ¬B · C";
+        navigator.clipboard?.writeText(text).then(
+          () => {
+            alert("Expression copied: " + text);
+          },
+          () => {
+            alert("Copy failed — select and copy manually.");
+          }
+        );
+      }
+
+      function downloadHTML() {
+        const html = document.documentElement.outerHTML;
+        const blob = new Blob([html], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "F_A_xor_B_not_notC_plus_B.html";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+    </script>
+  </body>
+</html>
