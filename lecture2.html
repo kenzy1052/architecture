@@ -10,64 +10,82 @@
     />
     <style>
       :root {
-        /* Color schemes */
+        /* Dark mode colors */
+        --bg-dark-start: #0a0f1e;
+        --bg-dark-end: #050a14;
+        --blob-dark-1: #1a237e;
+        --blob-dark-2: #283593;
+        --blob-dark-3: #3949ab;
+        --blob-dark-4: #1e88e5;
+
+        /* Light mode colors */
+        --bg-light-start: #f9fafb;
+        --bg-light-end: #e3f2fd;
+        --blob-light-1: #90caf9;
+        --blob-light-2: #64b5f6;
+        --blob-light-3: #42a5f5;
+        --blob-light-4: #2196f3;
+
+        /* Text colors */
+        --text-dark: #f1f5f9;
+        --text-light: #1e293b;
+
+        /* Card colors */
+        --card-dark: rgba(15, 23, 42, 0.92);
+        --card-light: rgba(255, 255, 255, 0.95);
+
+        /* Accent colors */
+        --accent-primary: #6366f1;
+        --accent-secondary: #8b5cf6;
+        --accent-tertiary: #ec4899;
+
+        /* Border colors */
+        --border-light: rgba(148, 163, 184, 0.15);
+        --border-dark: rgba(148, 163, 184, 0.1);
+
+        /* Shadow colors */
+        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
+          0 8px 16px rgba(0, 0, 0, 0.05);
+        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
+          0 8px 16px rgba(0, 0, 0, 0.25);
+
+        /* Gradients */
         --primary-gradient: linear-gradient(
           135deg,
           #6366f1 0%,
           #8b5cf6 40%,
           #ec4899 100%
         );
-
         --secondary-gradient: linear-gradient(
           135deg,
           #06b6d4 0%,
           #3b82f6 50%,
           #6366f1 100%
         );
-
         --accent-gradient: linear-gradient(
           135deg,
           #f472b6 0%,
           #fb7185 40%,
           #f59e0b 100%
         );
-
         --success-gradient: linear-gradient(
           135deg,
           #22c55e 0%,
           #10b981 50%,
           #06b6d4 100%
         );
-
         --warning-gradient: linear-gradient(
           135deg,
           #facc15 0%,
           #f97316 40%,
           #ef4444 100%
         );
-
         --dark-gradient: linear-gradient(
           135deg,
           #0f172a 0%,
           #1e293b 50%,
           #334155 100%
         );
-
-        /* Light & Dark modes */
-        --bg-light: #f9fafb;
-        --bg-dark: #0a0f1e;
-        --card-light: rgba(255, 255, 255, 0.95);
-        --card-dark: rgba(15, 23, 42, 0.92);
-        --text-light: #1e293b;
-        --text-dark: #f1f5f9;
-        --border-light: rgba(148, 163, 184, 0.15);
-        --border-dark: rgba(148, 163, 184, 0.1);
-
-        /* Shadows */
-        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
-          0 8px 16px rgba(0, 0, 0, 0.05);
-        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
-          0 8px 16px rgba(0, 0, 0, 0.25);
       }
 
       * {
@@ -76,18 +94,31 @@
         box-sizing: border-box;
       }
 
+      html {
+        overflow-x: hidden; /* Prevent horizontal scrolling at the root level */
+      }
+
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         transition: all 0.3s ease;
-        background: var(--bg-light);
+        background: linear-gradient(
+          135deg,
+          var(--bg-light-start),
+          var(--bg-light-end)
+        );
         color: var(--text-light);
-        overflow-x: hidden;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
         position: relative;
+        min-height: 100vh;
       }
 
       body.dark-mode {
-        background: var(--bg-dark);
+        background: linear-gradient(
+          135deg,
+          var(--bg-dark-start),
+          var(--bg-dark-end)
+        );
         color: var(--text-dark);
       }
 
@@ -102,77 +133,83 @@
         overflow: hidden;
       }
 
-      .circle {
+      .blob {
         position: absolute;
         border-radius: 50%;
         filter: blur(40px);
-        opacity: 0.3;
+        opacity: 0.4;
         animation: float 20s infinite ease-in-out;
       }
 
-      .circle:nth-child(1) {
-        width: 300px;
-        height: 300px;
-        background: #6366f1;
-        top: 10%;
-        left: 10%;
-        animation-delay: 0s;
+      .blob-1 {
+        width: 400px;
+        height: 400px;
+        background: var(--blob-dark-1);
+        top: -100px;
+        left: -100px;
         animation-duration: 25s;
       }
 
-      .circle:nth-child(2) {
-        width: 250px;
-        height: 250px;
-        background: #8b5cf6;
-        top: 60%;
-        left: 70%;
-        animation-delay: 2s;
+      .blob-2 {
+        width: 300px;
+        height: 300px;
+        background: var(--blob-dark-2);
+        bottom: -50px;
+        right: -50px;
         animation-duration: 30s;
+        animation-delay: -5s;
       }
 
-      .circle:nth-child(3) {
-        width: 200px;
-        height: 200px;
-        background: #ec4899;
-        top: 30%;
-        left: 80%;
-        animation-delay: 4s;
-        animation-duration: 22s;
-      }
-
-      .circle:nth-child(4) {
+      .blob-3 {
         width: 350px;
         height: 350px;
-        background: #06b6d4;
-        top: 70%;
-        left: 20%;
-        animation-delay: 6s;
-        animation-duration: 28s;
+        background: var(--blob-dark-3);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-duration: 35s;
+        animation-delay: -10s;
       }
 
-      .circle:nth-child(5) {
-        width: 220px;
-        height: 220px;
-        background: #3b82f6;
-        top: 20%;
-        left: 50%;
-        animation-delay: 8s;
-        animation-duration: 24s;
+      .blob-4 {
+        width: 250px;
+        height: 250px;
+        background: var(--blob-dark-4);
+        top: 30%;
+        right: 20%;
+        animation-duration: 28s;
+        animation-delay: -15s;
+      }
+
+      body:not(.dark-mode) .blob-1 {
+        background: var(--blob-light-1);
+      }
+
+      body:not(.dark-mode) .blob-2 {
+        background: var(--blob-light-2);
+      }
+
+      body:not(.dark-mode) .blob-3 {
+        background: var(--blob-light-3);
+      }
+
+      body:not(.dark-mode) .blob-4 {
+        background: var(--blob-light-4);
       }
 
       @keyframes float {
         0%,
         100% {
-          transform: translate(0, 0) scale(1);
+          transform: translate(0, 0) rotate(0deg);
         }
         25% {
-          transform: translate(50px, -50px) scale(1.1);
+          transform: translate(50px, -50px) rotate(90deg);
         }
         50% {
-          transform: translate(-30px, 30px) scale(0.9);
+          transform: translate(-30px, 40px) rotate(180deg);
         }
         75% {
-          transform: translate(40px, 20px) scale(1.05);
+          transform: translate(40px, 30px) rotate(270deg);
         }
       }
 
@@ -200,7 +237,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 2rem;
+        padding: 0 1rem;
+        width: 100%; /* Ensure container doesn't exceed viewport */
       }
 
       .logo {
@@ -213,6 +251,7 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        text-decoration: none;
       }
 
       .nav-links {
@@ -247,6 +286,7 @@
         border-radius: 15px;
         cursor: pointer;
         transition: all 0.3s ease;
+        margin-right: 0.5rem; /* Add margin to prevent it from going to the edge */
       }
 
       .theme-toggle::before {
@@ -268,24 +308,25 @@
 
       /* Main Content */
       main {
-        margin-top: 100px;
-        min-height: calc(100vh - 100px);
+        margin-top: 70px;
+        min-height: calc(100vh - 70px);
       }
 
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 1rem;
+        width: 100%; /* Ensure container doesn't exceed viewport */
       }
 
       /* Hero Section */
       .hero {
         text-align: center;
-        padding: 4rem 0;
+        padding: 3rem 1rem;
         background: var(--primary-gradient);
         color: white;
-        margin: -2rem -2rem 4rem -2rem;
-        border-radius: 0 0 2rem 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+        border-radius: 0 0 1rem 1rem;
         position: relative;
         overflow: hidden;
       }
@@ -302,14 +343,15 @@
       }
 
       .hero h1 {
-        font-size: 3rem;
+        font-size: 2rem;
         margin-bottom: 1rem;
         position: relative;
         z-index: 1;
+        word-wrap: break-word; /* Prevent long text from overflowing */
       }
 
       .hero p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         opacity: 0.9;
         position: relative;
         z-index: 1;
@@ -319,13 +361,14 @@
       .section-card {
         background: var(--card-light);
         border-radius: 1rem;
-        padding: 2rem;
-        margin-bottom: 2rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         box-shadow: var(--shadow-light);
         border: 1px solid var(--border-light);
         transition: all 0.3s ease;
         position: relative;
         overflow: visible;
+        width: 100%; /* Ensure card doesn't exceed container */
       }
 
       .dark-mode .section-card {
@@ -344,7 +387,7 @@
       }
 
       .section-title {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
         background: var(--primary-gradient);
@@ -356,18 +399,22 @@
         gap: 0.5rem;
       }
 
-      /* Tables */
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
+      /* Tables - Make them responsive */
+      .table-container {
+        overflow-x: auto; /* Allow horizontal scrolling for tables only */
         margin: 1rem 0;
         border-radius: 0.5rem;
-        overflow: hidden;
         box-shadow: var(--shadow-light);
       }
 
-      .dark-mode .data-table {
+      .dark-mode .table-container {
         box-shadow: var(--shadow-dark);
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 500px; /* Set minimum width for table */
       }
 
       .data-table th {
@@ -400,9 +447,10 @@
         padding: 1.5rem;
         border-radius: 0.5rem;
         margin: 1rem 0;
-        overflow-x: auto;
+        overflow-x: auto; /* Allow horizontal scrolling for code blocks */
         font-family: "Consolas", "Monaco", "Courier New", monospace;
         position: relative;
+        width: 100%; /* Ensure code blocks don't exceed container */
       }
 
       .code-block::before {
@@ -451,6 +499,7 @@
         margin: 1rem 0;
         border: 2px solid var(--border-light);
         transition: all 0.3s ease;
+        width: 100%; /* Ensure examples don't exceed container */
       }
 
       .dark-mode .interactive-example {
@@ -471,6 +520,7 @@
         font-family: "Consolas", "Monaco", "Courier New", monospace;
         display: inline-block;
         margin: 0.25rem;
+        word-wrap: break-word; /* Prevent long expressions from overflowing */
       }
 
       /* Hex visualization */
@@ -522,6 +572,7 @@
         background: var(--card-light);
         border-radius: 0.5rem;
         border: 2px solid var(--border-light);
+        width: 100%; /* Ensure tool doesn't exceed container */
       }
 
       .dark-mode .conversion-tool {
@@ -533,6 +584,7 @@
         display: flex;
         gap: 1rem;
         align-items: center;
+        flex-wrap: wrap; /* Allow wrapping on small screens */
       }
 
       .conversion-input {
@@ -543,6 +595,7 @@
         background: var(--bg-light);
         color: var(--text-light);
         font-family: "Consolas", "Monaco", "Courier New", monospace;
+        min-width: 150px; /* Ensure minimum width */
       }
 
       .dark-mode .conversion-input {
@@ -572,8 +625,9 @@
         background: var(--dark-gradient);
         color: white;
         text-align: center;
-        padding: 3rem 2rem;
+        padding: 3rem 1rem;
         margin-top: 4rem;
+        width: 100%; /* Ensure footer doesn't exceed container */
       }
 
       .footer-content {
@@ -604,64 +658,267 @@
         }
       }
 
-      /* Responsive */
-      @media (max-width: 768px) {
-        .nav-container {
-          padding: 0 1rem;
-        }
-
-        .nav-links {
-          gap: 1rem;
-        }
-
+      /* Mobile First Responsive Design */
+      /* Base styles for mobile (375px and up) */
+      @media (min-width: 375px) {
         .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1.2rem;
+        }
+
+        .section-title {
+          font-size: 1.6rem;
+        }
+      }
+
+      /* 425px and up */
+      @media (min-width: 425px) {
+        .hero h1 {
+          font-size: 2.4rem;
+        }
+
+        .hero p {
+          font-size: 1.3rem;
+        }
+
+        .section-title {
+          font-size: 1.7rem;
+        }
+
+        .container {
+          padding: 1.5rem;
+        }
+
+        .section-card {
+          padding: 1.8rem;
+        }
+      }
+
+      /* 640px and up */
+      @media (min-width: 640px) {
+        .hero h1 {
+          font-size: 2.6rem;
+        }
+
+        .hero p {
+          font-size: 1.4rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .container {
+          padding: 2rem;
+        }
+
+        .section-card {
+          padding: 2rem;
+        }
+
+        .hex-demo {
+          grid-template-columns: repeat(8, 1fr);
+        }
+
+        .blob-1 {
+          width: 450px;
+          height: 450px;
+        }
+
+        .blob-2 {
+          width: 350px;
+          height: 350px;
+        }
+
+        .blob-3 {
+          width: 400px;
+          height: 400px;
+        }
+
+        .blob-4 {
+          width: 300px;
+          height: 300px;
+        }
+      }
+
+      /* 768px and up */
+      @media (min-width: 768px) {
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+
+        .hero p {
+          font-size: 1.5rem;
+        }
+
+        .section-title {
+          font-size: 1.9rem;
+        }
+
+        .nav-container {
+          padding: 0 2rem;
+        }
+
+        .blob-1 {
+          width: 500px;
+          height: 500px;
+        }
+
+        .blob-2 {
+          width: 400px;
+          height: 400px;
+        }
+
+        .blob-3 {
+          width: 450px;
+          height: 450px;
+        }
+
+        .blob-4 {
+          width: 350px;
+          height: 350px;
+        }
+      }
+
+      /* 1024px and up */
+      @media (min-width: 1024px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+
+        .hero p {
+          font-size: 1.6rem;
+        }
+
+        .section-title {
           font-size: 2rem;
         }
 
         .container {
-          padding: 1rem;
-        }
-
-        .hex-demo {
-          grid-template-columns: repeat(4, 1fr);
-        }
-
-        .data-table {
-          font-size: 0.9rem;
+          padding: 2.5rem;
         }
 
         .section-card {
-          padding: 1.5rem;
+          padding: 2.5rem;
         }
 
-        .conversion-row {
-          flex-direction: column;
+        .blob-1 {
+          width: 550px;
+          height: 550px;
         }
 
-        .conversion-input {
-          width: 100%;
+        .blob-2 {
+          width: 450px;
+          height: 450px;
+        }
+
+        .blob-3 {
+          width: 500px;
+          height: 500px;
+        }
+
+        .blob-4 {
+          width: 400px;
+          height: 400px;
         }
       }
 
-      @media (max-width: 480px) {
-        .hex-demo {
-          grid-template-columns: repeat(2, 1fr);
+      /* 1280px and up */
+      @media (min-width: 1280px) {
+        .hero h1 {
+          font-size: 3.2rem;
         }
 
-        .hex-digit {
-          width: 35px;
-          height: 35px;
+        .hero p {
+          font-size: 1.7rem;
+        }
+
+        .section-title {
+          font-size: 2.1rem;
+        }
+
+        .container {
+          padding: 3rem;
+        }
+
+        .section-card {
+          padding: 3rem;
+        }
+
+        .blob-1 {
+          width: 600px;
+          height: 600px;
+        }
+
+        .blob-2 {
+          width: 500px;
+          height: 500px;
+        }
+
+        .blob-3 {
+          width: 550px;
+          height: 550px;
+        }
+
+        .blob-4 {
+          width: 450px;
+          height: 450px;
+        }
+      }
+
+      /* 1536px and up */
+      @media (min-width: 1536px) {
+        .hero h1 {
+          font-size: 3.5rem;
+        }
+
+        .hero p {
+          font-size: 1.8rem;
+        }
+
+        .section-title {
+          font-size: 2.3rem;
+        }
+
+        .container {
+          padding: 3.5rem;
+        }
+
+        .section-card {
+          padding: 3.5rem;
+        }
+
+        .blob-1 {
+          width: 650px;
+          height: 650px;
+        }
+
+        .blob-2 {
+          width: 550px;
+          height: 550px;
+        }
+
+        .blob-3 {
+          width: 600px;
+          height: 600px;
+        }
+
+        .blob-4 {
+          width: 500px;
+          height: 500px;
         }
       }
     </style>
   </head>
   <body>
     <div class="bg-animation">
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
     </div>
 
     <nav>
@@ -705,66 +962,68 @@
           </div>
 
           <h3>Hexadecimal Digit Values</h3>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Hex Digit</th>
-                <th>Decimal Value</th>
-                <th>Hex Digit</th>
-                <th>Decimal Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>8</td>
-                <td>8</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>9</td>
-                <td>9</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>2</td>
-                <td>A</td>
-                <td>10</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>3</td>
-                <td>B</td>
-                <td>11</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>4</td>
-                <td>C</td>
-                <td>12</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>5</td>
-                <td>D</td>
-                <td>13</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>6</td>
-                <td>E</td>
-                <td>14</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>7</td>
-                <td>F</td>
-                <td>15</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Hex Digit</th>
+                  <th>Decimal Value</th>
+                  <th>Hex Digit</th>
+                  <th>Decimal Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>8</td>
+                  <td>8</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>9</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>2</td>
+                  <td>A</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>3</td>
+                  <td>B</td>
+                  <td>11</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>4</td>
+                  <td>C</td>
+                  <td>12</td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>5</td>
+                  <td>D</td>
+                  <td>13</td>
+                </tr>
+                <tr>
+                  <td>6</td>
+                  <td>6</td>
+                  <td>E</td>
+                  <td>14</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>7</td>
+                  <td>F</td>
+                  <td>15</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <h3>Why Use Hexadecimal?</h3>
           <div class="highlight-box success">
@@ -793,8 +1052,6 @@
             <div class="hex-digit">0</div>
             <div class="hex-digit">D</div>
             <div class="hex-digit">E</div>
-            <div class="hex-digit">1</div>
-            <div class="hex-digit">B</div>
           </div>
         </section>
 
@@ -1043,66 +1300,68 @@
           </div>
 
           <h3>Common Hex Values to Memorize</h3>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Decimal</th>
-                <th>Binary</th>
-                <th>Hex</th>
-                <th>Common Use</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>0000</td>
-                <td>0</td>
-                <td>Zero value</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0001</td>
-                <td>1</td>
-                <td>Single bit set</td>
-              </tr>
-              <tr>
-                <td>15</td>
-                <td>1111</td>
-                <td>F</td>
-                <td>4 bits all set</td>
-              </tr>
-              <tr>
-                <td>16</td>
-                <td>00010000</td>
-                <td>10</td>
-                <td>Base of hex</td>
-              </tr>
-              <tr>
-                <td>255</td>
-                <td>11111111</td>
-                <td>FF</td>
-                <td>8 bits all set (1 byte)</td>
-              </tr>
-              <tr>
-                <td>256</td>
-                <td>0000000100000000</td>
-                <td>100</td>
-                <td>2⁸</td>
-              </tr>
-              <tr>
-                <td>4095</td>
-                <td>111111111111</td>
-                <td>FFF</td>
-                <td>12 bits all set</td>
-              </tr>
-              <tr>
-                <td>65535</td>
-                <td>1111111111111111</td>
-                <td>FFFF</td>
-                <td>16 bits all set (2 bytes)</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Decimal</th>
+                  <th>Binary</th>
+                  <th>Hex</th>
+                  <th>Common Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0000</td>
+                  <td>0</td>
+                  <td>Zero value</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0001</td>
+                  <td>1</td>
+                  <td>Single bit set</td>
+                </tr>
+                <tr>
+                  <td>15</td>
+                  <td>1111</td>
+                  <td>F</td>
+                  <td>4 bits all set</td>
+                </tr>
+                <tr>
+                  <td>16</td>
+                  <td>00010000</td>
+                  <td>10</td>
+                  <td>Base of hex</td>
+                </tr>
+                <tr>
+                  <td>255</td>
+                  <td>11111111</td>
+                  <td>FF</td>
+                  <td>8 bits all set (1 byte)</td>
+                </tr>
+                <tr>
+                  <td>256</td>
+                  <td>0000000100000000</td>
+                  <td>100</td>
+                  <td>2⁸</td>
+                </tr>
+                <tr>
+                  <td>4095</td>
+                  <td>111111111111</td>
+                  <td>FFF</td>
+                  <td>12 bits all set</td>
+                </tr>
+                <tr>
+                  <td>65535</td>
+                  <td>1111111111111111</td>
+                  <td>FFFF</td>
+                  <td>16 bits all set (2 bytes)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <!-- Practice Exercises Section -->

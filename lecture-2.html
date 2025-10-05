@@ -10,6 +10,46 @@
     />
     <style>
       :root {
+        /* Dark mode colors */
+        --bg-dark-start: #0a0f1e;
+        --bg-dark-end: #050a14;
+        --blob-dark-1: #1a237e;
+        --blob-dark-2: #283593;
+        --blob-dark-3: #3949ab;
+        --blob-dark-4: #1e88e5;
+        
+        /* Light mode colors */
+        --bg-light-start: #f9fafb;
+        --bg-light-end: #e3f2fd;
+        --blob-light-1: #90caf9;
+        --blob-light-2: #64b5f6;
+        --blob-light-3: #42a5f5;
+        --blob-light-4: #2196f3;
+        
+        /* Text colors */
+        --text-dark: #f1f5f9;
+        --text-light: #1e293b;
+        
+        /* Card colors */
+        --card-dark: rgba(15, 23, 42, 0.92);
+        --card-light: rgba(255, 255, 255, 0.95);
+        
+        /* Accent colors */
+        --accent-primary: #6366f1;
+        --accent-secondary: #8b5cf6;
+        --accent-tertiary: #ec4899;
+        
+        /* Border colors */
+        --border-light: rgba(148, 163, 184, 0.15);
+        --border-dark: rgba(148, 163, 184, 0.1);
+        
+        /* Shadow colors */
+        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
+          0 8px 16px rgba(0, 0, 0, 0.05);
+        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
+          0 8px 16px rgba(0, 0, 0, 0.25);
+          
+        /* Gradients */
         --primary-gradient: linear-gradient(
           135deg,
           #6366f1 0%,
@@ -46,19 +86,6 @@
           #1e293b 50%,
           #334155 100%
         );
-
-        --bg-light: #f9fafb;
-        --bg-dark: #0a0f1e;
-        --card-light: rgba(255, 255, 255, 0.95);
-        --card-dark: rgba(15, 23, 42, 0.92);
-        --text-light: #1e293b;
-        --text-dark: #f1f5f9;
-        --border-light: rgba(148, 163, 184, 0.15);
-        --border-dark: rgba(148, 163, 184, 0.1);
-        --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1),
-          0 8px 16px rgba(0, 0, 0, 0.05);
-        --shadow-dark: 0 20px 40px rgba(0, 0, 0, 0.35),
-          0 8px 16px rgba(0, 0, 0, 0.25);
       }
 
       * {
@@ -67,17 +94,22 @@
         box-sizing: border-box;
       }
 
+      html {
+        overflow-x: hidden; /* Prevent horizontal scrolling at the root level */
+      }
+
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
         transition: all 0.3s ease;
-        background: var(--bg-light);
+        background: linear-gradient(135deg, var(--bg-light-start), var(--bg-light-end));
         color: var(--text-light);
-        overflow-x: hidden;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        min-height: 100vh;
       }
 
       body.dark-mode {
-        background: var(--bg-dark);
+        background: linear-gradient(135deg, var(--bg-dark-start), var(--bg-dark-end));
         color: var(--text-dark);
       }
 
@@ -92,55 +124,72 @@
         overflow: hidden;
       }
 
-      .circle {
+      .blob {
         position: absolute;
         border-radius: 50%;
-        opacity: 0.1;
+        filter: blur(40px);
+        opacity: 0.4;
         animation: float 20s infinite ease-in-out;
       }
 
-      .circle:nth-child(1) {
-        width: 300px;
-        height: 300px;
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        top: 10%;
-        left: 10%;
+      .blob-1 {
+        width: 400px;
+        height: 400px;
+        background: var(--blob-dark-1);
+        top: -100px;
+        left: -100px;
         animation-duration: 25s;
       }
 
-      .circle:nth-child(2) {
-        width: 200px;
-        height: 200px;
-        background: linear-gradient(135deg, #ec4899, #f472b6);
-        top: 60%;
-        right: 15%;
+      .blob-2 {
+        width: 300px;
+        height: 300px;
+        background: var(--blob-dark-2);
+        bottom: -50px;
+        right: -50px;
         animation-duration: 30s;
         animation-delay: -5s;
       }
 
-      .circle:nth-child(3) {
-        width: 250px;
-        height: 250px;
-        background: linear-gradient(135deg, #06b6d4, #3b82f6);
-        bottom: 15%;
-        left: 20%;
+      .blob-3 {
+        width: 350px;
+        height: 350px;
+        background: var(--blob-dark-3);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         animation-duration: 35s;
         animation-delay: -10s;
       }
 
-      .circle:nth-child(4) {
-        width: 180px;
-        height: 180px;
-        background: linear-gradient(135deg, #22c55e, #10b981);
-        top: 40%;
-        right: 30%;
+      .blob-4 {
+        width: 250px;
+        height: 250px;
+        background: var(--blob-dark-4);
+        top: 30%;
+        right: 20%;
         animation-duration: 28s;
         animation-delay: -15s;
       }
 
+      body:not(.dark-mode) .blob-1 {
+        background: var(--blob-light-1);
+      }
+
+      body:not(.dark-mode) .blob-2 {
+        background: var(--blob-light-2);
+      }
+
+      body:not(.dark-mode) .blob-3 {
+        background: var(--blob-light-3);
+      }
+
+      body:not(.dark-mode) .blob-4 {
+        background: var(--blob-light-4);
+      }
+
       @keyframes float {
-        0%,
-        100% {
+        0%, 100% {
           transform: translate(0, 0) rotate(0deg);
         }
         25% {
@@ -178,7 +227,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 2rem;
+        padding: 0 1rem;
+        width: 100%; /* Ensure container doesn't exceed viewport */
       }
 
       .logo {
@@ -226,6 +276,7 @@
         border-radius: 15px;
         cursor: pointer;
         transition: all 0.3s ease;
+        margin-right: 0.5rem; /* Add margin to prevent it from going to the edge */
       }
 
       .theme-toggle::before {
@@ -247,8 +298,8 @@
 
       /* Main Content */
       main {
-        margin-top: 100px;
-        min-height: calc(100vh - 100px);
+        margin-top: 70px;
+        min-height: calc(100vh - 70px);
         position: relative;
         z-index: 1;
       }
@@ -256,17 +307,18 @@
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 1rem;
+        width: 100%; /* Ensure container doesn't exceed viewport */
       }
 
       /* Hero Section */
       .hero {
         text-align: center;
-        padding: 4rem 0;
+        padding: 3rem 1rem;
         background: var(--primary-gradient);
         color: white;
-        margin: -2rem -2rem 4rem -2rem;
-        border-radius: 0 0 2rem 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+        border-radius: 0 0 1rem 1rem;
         position: relative;
         overflow: hidden;
       }
@@ -283,14 +335,15 @@
       }
 
       .hero h1 {
-        font-size: 3rem;
+        font-size: 2rem;
         margin-bottom: 1rem;
         position: relative;
         z-index: 1;
+        word-wrap: break-word; /* Prevent long text from overflowing */
       }
 
       .hero p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         opacity: 0.9;
         position: relative;
         z-index: 1;
@@ -300,12 +353,13 @@
       .section-card {
         background: var(--card-light);
         border-radius: 1rem;
-        padding: 2rem;
-        margin-bottom: 2rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         box-shadow: var(--shadow-light);
         border: 1px solid var(--border-light);
         transition: all 0.3s ease;
         position: relative;
+        width: 100%; /* Ensure card doesn't exceed container */
       }
 
       .dark-mode .section-card {
@@ -324,7 +378,7 @@
       }
 
       .section-title {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
         background: var(--primary-gradient);
@@ -337,23 +391,27 @@
       }
 
       h3 {
-        font-size: 1.4rem;
-        margin: 1.5rem 0 1rem 0;
+        font-size: 1.2rem;
+        margin: 1.2rem 0 0.8rem 0;
         color: inherit;
       }
 
-      /* Tables */
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
+      /* Tables - Make them responsive */
+      .table-container {
+        overflow-x: auto; /* Allow horizontal scrolling for tables only */
         margin: 1rem 0;
         border-radius: 0.5rem;
-        overflow: hidden;
         box-shadow: var(--shadow-light);
       }
 
-      .dark-mode .data-table {
+      .dark-mode .table-container {
         box-shadow: var(--shadow-dark);
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 500px; /* Set minimum width for table */
       }
 
       .data-table th {
@@ -414,9 +472,11 @@
         padding: 1.5rem;
         border-radius: 0.5rem;
         margin: 1rem 0;
-        overflow-x: auto;
+        overflow-x: auto; /* Allow horizontal scrolling for code blocks */
         font-family: "Consolas", "Monaco", "Courier New", monospace;
         position: relative;
+        width: 100%; /* Ensure code blocks don't exceed container */
+        word-wrap: break-word; /* Prevent long code from overflowing */
       }
 
       .code-block::before {
@@ -437,6 +497,7 @@
         margin: 1rem 0;
         border: 2px solid var(--border-light);
         transition: all 0.3s ease;
+        width: 100%; /* Ensure examples don't exceed container */
       }
 
       .dark-mode .interactive-example {
@@ -454,6 +515,7 @@
         flex-wrap: wrap;
         gap: 1rem;
         margin: 1rem 0;
+        justify-content: center; /* Center gates on small screens */
       }
 
       .gate {
@@ -465,6 +527,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         text-align: center;
+        min-width: 100px; /* Ensure minimum width for gates */
       }
 
       .gate:hover {
@@ -473,9 +536,8 @@
       }
 
       /* Lists */
-      ul,
-      ol {
-        margin: 1rem 0 1rem 2rem;
+      ul, ol {
+        margin: 1rem 0 1rem 1.5rem;
       }
 
       li {
@@ -491,10 +553,11 @@
         background: var(--dark-gradient);
         color: white;
         text-align: center;
-        padding: 3rem 2rem;
+        padding: 3rem 1rem;
         margin-top: 4rem;
         position: relative;
         z-index: 1;
+        width: 100%; /* Ensure footer doesn't exceed container */
       }
 
       .footer-content {
@@ -525,36 +588,291 @@
         }
       }
 
-      /* Responsive */
-      @media (max-width: 768px) {
-        .nav-container {
-          padding: 0 1rem;
-        }
-
+      /* Mobile First Responsive Design */
+      /* Base styles for mobile (375px and up) */
+      @media (min-width: 375px) {
         .hero h1 {
-          font-size: 2rem;
+          font-size: 2.2rem;
         }
+        
+        .hero p {
+          font-size: 1.2rem;
+        }
+        
+        .section-title {
+          font-size: 1.6rem;
+        }
+        
+        h3 {
+          font-size: 1.3rem;
+        }
+      }
 
+      /* 425px and up */
+      @media (min-width: 425px) {
+        .hero h1 {
+          font-size: 2.4rem;
+        }
+        
+        .hero p {
+          font-size: 1.3rem;
+        }
+        
+        .section-title {
+          font-size: 1.7rem;
+        }
+        
+        h3 {
+          font-size: 1.4rem;
+        }
+        
         .container {
-          padding: 1rem;
-        }
-
-        .section-card {
           padding: 1.5rem;
         }
+        
+        .section-card {
+          padding: 1.8rem;
+        }
+      }
 
-        .gate-demo {
-          justify-content: center;
+      /* 640px and up */
+      @media (min-width: 640px) {
+        .hero h1 {
+          font-size: 2.6rem;
+        }
+        
+        .hero p {
+          font-size: 1.4rem;
+        }
+        
+        .section-title {
+          font-size: 1.8rem;
+        }
+        
+        h3 {
+          font-size: 1.5rem;
+        }
+        
+        .container {
+          padding: 2rem;
+        }
+        
+        .section-card {
+          padding: 2rem;
+        }
+        
+        .blob-1 {
+          width: 450px;
+          height: 450px;
+        }
+        
+        .blob-2 {
+          width: 350px;
+          height: 350px;
+        }
+        
+        .blob-3 {
+          width: 400px;
+          height: 400px;
+        }
+        
+        .blob-4 {
+          width: 300px;
+          height: 300px;
+        }
+      }
+
+      /* 768px and up */
+      @media (min-width: 768px) {
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+        
+        .hero p {
+          font-size: 1.5rem;
+        }
+        
+        .section-title {
+          font-size: 1.9rem;
+        }
+        
+        h3 {
+          font-size: 1.6rem;
+        }
+        
+        .nav-container {
+          padding: 0 2rem;
+        }
+        
+        .blob-1 {
+          width: 500px;
+          height: 500px;
+        }
+        
+        .blob-2 {
+          width: 400px;
+          height: 400px;
+        }
+        
+        .blob-3 {
+          width: 450px;
+          height: 450px;
+        }
+        
+        .blob-4 {
+          width: 350px;
+          height: 350px;
+        }
+      }
+
+      /* 1024px and up */
+      @media (min-width: 1024px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+        
+        .hero p {
+          font-size: 1.6rem;
+        }
+        
+        .section-title {
+          font-size: 2rem;
+        }
+        
+        h3 {
+          font-size: 1.7rem;
+        }
+        
+        .container {
+          padding: 2.5rem;
+        }
+        
+        .section-card {
+          padding: 2.5rem;
+        }
+        
+        .blob-1 {
+          width: 550px;
+          height: 550px;
+        }
+        
+        .blob-2 {
+          width: 450px;
+          height: 450px;
+        }
+        
+        .blob-3 {
+          width: 500px;
+          height: 500px;
+        }
+        
+        .blob-4 {
+          width: 400px;
+          height: 400px;
+        }
+      }
+
+      /* 1280px and up */
+      @media (min-width: 1280px) {
+        .hero h1 {
+          font-size: 3.2rem;
+        }
+        
+        .hero p {
+          font-size: 1.7rem;
+        }
+        
+        .section-title {
+          font-size: 2.1rem;
+        }
+        
+        h3 {
+          font-size: 1.8rem;
+        }
+        
+        .container {
+          padding: 3rem;
+        }
+        
+        .section-card {
+          padding: 3rem;
+        }
+        
+        .blob-1 {
+          width: 600px;
+          height: 600px;
+        }
+        
+        .blob-2 {
+          width: 500px;
+          height: 500px;
+        }
+        
+        .blob-3 {
+          width: 550px;
+          height: 550px;
+        }
+        
+        .blob-4 {
+          width: 450px;
+          height: 450px;
+        }
+      }
+
+      /* 1536px and up */
+      @media (min-width: 1536px) {
+        .hero h1 {
+          font-size: 3.5rem;
+        }
+        
+        .hero p {
+          font-size: 1.8rem;
+        }
+        
+        .section-title {
+          font-size: 2.3rem;
+        }
+        
+        h3 {
+          font-size: 1.9rem;
+        }
+        
+        .container {
+          padding: 3.5rem;
+        }
+        
+        .section-card {
+          padding: 3.5rem;
+        }
+        
+        .blob-1 {
+          width: 650px;
+          height: 650px;
+        }
+        
+        .blob-2 {
+          width: 550px;
+          height: 550px;
+        }
+        
+        .blob-3 {
+          width: 600px;
+          height: 600px;
+        }
+        
+        .blob-4 {
+          width: 500px;
+          height: 500px;
         }
       }
     </style>
   </head>
   <body>
     <div class="animated-bg">
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
-      <div class="circle"></div>
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
     </div>
 
     <nav>
@@ -627,37 +945,39 @@
             means A AND B).
           </p>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>A</th>
-                <th>B</th>
-                <th>A · B</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A · B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="highlight-box info">
             <strong>Real-world analogy:</strong> Think of two switches in
@@ -670,37 +990,39 @@
             denoted by the + symbol.
           </p>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>A</th>
-                <th>B</th>
-                <th>A + B</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>0</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A + B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="highlight-box info">
             <strong>Real-world analogy:</strong> Think of two switches in
@@ -713,24 +1035,26 @@
             a bar over the variable (Ā).
           </p>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>A</th>
-                <th>¬A (NOT A)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>¬A (NOT A)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="highlight-box success">
             <strong>Remember:</strong> NOT simply flips the value: 0 becomes 1,
@@ -754,31 +1078,32 @@
           <h3>Identity Laws</h3>
           <div class="interactive-example">
             <div class="code-block">
-              A · 1 = A (AND with 1 gives back A) A + 0 = A (OR with 0 gives
-              back A)
+              A · 1 = A (AND with 1 gives back A)<br>
+              A + 0 = A (OR with 0 gives back A)
             </div>
           </div>
 
           <h3>Null (Dominance) Laws</h3>
           <div class="interactive-example">
             <div class="code-block">
-              A · 0 = 0 (AND with 0 always gives 0) A + 1 = 1 (OR with 1 always
-              gives 1)
+              A · 0 = 0 (AND with 0 always gives 0)<br>
+              A + 1 = 1 (OR with 1 always gives 1)
             </div>
           </div>
 
           <h3>Idempotent Laws</h3>
           <div class="interactive-example">
             <div class="code-block">
-              A · A = A (A AND A equals A) A + A = A (A OR A equals A)
+              A · A = A (A AND A equals A)<br>
+              A + A = A (A OR A equals A)
             </div>
           </div>
 
           <h3>Complement Laws</h3>
           <div class="interactive-example">
             <div class="code-block">
-              A · ¬A = 0 (A AND NOT-A is always 0) A + ¬A = 1 (A OR NOT-A is
-              always 1)
+              A · ¬A = 0 (A AND NOT-A is always 0)<br>
+              A + ¬A = 1 (A OR NOT-A is always 1)
             </div>
           </div>
 
@@ -797,8 +1122,8 @@
           <p>The order of operands doesn't matter:</p>
           <div class="interactive-example">
             <div class="code-block">
-              A · B = B · A (AND is commutative) A + B = B + A (OR is
-              commutative)
+              A · B = B · A (AND is commutative)<br>
+              A + B = B + A (OR is commutative)
             </div>
           </div>
 
@@ -806,8 +1131,8 @@
           <p>Grouping doesn't matter when all operations are the same:</p>
           <div class="interactive-example">
             <div class="code-block">
-              (A · B) · C = A · (B · C) (AND is associative) (A + B) + C = A +
-              (B + C) (OR is associative)
+              (A · B) · C = A · (B · C) (AND is associative)<br>
+              (A + B) + C = A + (B + C) (OR is associative)
             </div>
           </div>
 
@@ -815,8 +1140,8 @@
           <p>These laws show how AND and OR interact:</p>
           <div class="interactive-example">
             <div class="code-block">
-              A · (B + C) = (A · B) + (A · C) (AND distributes over OR) A + (B ·
-              C) = (A + B) · (A + C) (OR distributes over AND)
+              A · (B + C) = (A · B) + (A · C) (AND distributes over OR)<br>
+              A + (B · C) = (A + B) · (A + C) (OR distributes over AND)
             </div>
           </div>
 
@@ -829,7 +1154,8 @@
           <h3>Absorption Laws</h3>
           <div class="interactive-example">
             <div class="code-block">
-              A + (A · B) = A (A absorbs A·B) A · (A + B) = A (A absorbs A+B)
+              A + (A · B) = A (A absorbs A·B)<br>
+              A · (A + B) = A (A absorbs A+B)
             </div>
           </div>
 
@@ -837,14 +1163,14 @@
           <p>These crucial laws show how to negate compound expressions:</p>
           <div class="interactive-example">
             <div class="code-block">
-              ¬(A · B) = ¬A + ¬B (NOT of AND becomes OR of NOTs) ¬(A + B) = ¬A ·
-              ¬B (NOT of OR becomes AND of NOTs)
+              ¬(A · B) = ¬A + ¬B (NOT of AND becomes OR of NOTs)<br>
+              ¬(A + B) = ¬A · ¬B (NOT of OR becomes AND of NOTs)
             </div>
           </div>
 
           <div class="highlight-box success">
-            <strong>De Morgan's Laws in plain English:</strong><br />
-            • "Not (A and B)" is the same as "(not A) or (not B)"<br />
+            <strong>De Morgan's Laws in plain English:</strong><br>
+            • "Not (A and B)" is the same as "(not A) or (not B)"<br>
             • "Not (A or B)" is the same as "(not A) and (not B)"
           </div>
         </section>
@@ -865,36 +1191,40 @@
           <h3>Example 1: Using Complement Laws</h3>
           <div class="interactive-example">
             <div class="code-block">
-              Simplify: A · B + A · ¬B Solution: A · B + A · ¬B = A · (B + ¬B)
-              [Distributive law] = A · 1 [Complement law: B + ¬B = 1] = A
-              [Identity law: A · 1 = A]
+              Simplify: A · B + A · ¬B<br>
+              Solution: A · B + A · ¬B = A · (B + ¬B) [Distributive law]<br>
+              = A · 1 [Complement law: B + ¬B = 1]<br>
+              = A [Identity law: A · 1 = A]
             </div>
           </div>
 
           <h3>Example 2: Using Absorption</h3>
           <div class="interactive-example">
             <div class="code-block">
-              Simplify: A + A · B Solution: A + A · B = A · 1 + A · B [Identity:
-              A = A · 1] = A · (1 + B) [Distributive law] = A · 1 [Null law: 1 +
-              B = 1] = A [Identity law]
+              Simplify: A + A · B<br>
+              Solution: A + A · B = A · 1 + A · B [Identity: A = A · 1]<br>
+              = A · (1 + B) [Distributive law]<br>
+              = A · 1 [Null law: 1 + B = 1]<br>
+              = A [Identity law]
             </div>
           </div>
 
           <h3>Example 3: Complex Simplification</h3>
           <div class="interactive-example">
             <div class="code-block">
-              Simplify: (A + B) · (A + ¬B) Solution: (A + B) · (A + ¬B) = A + (B
-              · ¬B) [Distributive law] = A + 0 [Complement: B · ¬B = 0] = A
-              [Identity: A + 0 = A]
+              Simplify: (A + B) · (A + ¬B)<br>
+              Solution: (A + B) · (A + ¬B) = A + (B · ¬B) [Distributive law]<br>
+              = A + 0 [Complement: B · ¬B = 0]<br>
+              = A [Identity: A + 0 = A]
             </div>
           </div>
 
           <div class="highlight-box warning">
-            <strong>Strategy for Simplification:</strong><br />
-            1. Look for complement pairs (A and ¬A)<br />
-            2. Apply distributive laws to factor<br />
-            3. Use identity and null laws<br />
-            4. Apply absorption when possible<br />
+            <strong>Strategy for Simplification:</strong><br>
+            1. Look for complement pairs (A and ¬A)<br>
+            2. Apply distributive laws to factor<br>
+            3. Use identity and null laws<br>
+            4. Apply absorption when possible<br>
             5. Check if De Morgan's laws can help
           </div>
         </section>
@@ -920,7 +1250,7 @@
               <strong>OR Gate:</strong> Outputs 1 when at least one input is 1
             </li>
             <li>
-              <strong>NOT Gate (Inverter):</strong> Outputs the opposite of the
+              <strong>NOT Gate (Inverter):strong> Outputs the opposite of the
               input
             </li>
             <li>
@@ -999,91 +1329,93 @@
 
           <div class="interactive-example">
             <h4>Example: F = A · B + ¬C</h4>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>A</th>
-                  <th>B</th>
-                  <th>C</th>
-                  <th>A · B</th>
-                  <th>¬C</th>
-                  <th>F = A·B + ¬C</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-                <tr>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>A · B</th>
+                    <th>¬C</th>
+                    <th>F = A·B + ¬C</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div class="highlight-box success">
-            <strong>Truth Table Tips:</strong><br />
-            • List inputs in binary counting order (000, 001, 010, 011...)<br />
-            • Work through intermediate steps in separate columns<br />
-            • Double-check each row calculation<br />
+            <strong>Truth Table Tips:</strong><br>
+            • List inputs in binary counting order (000, 001, 010, 011...)<br>
+            • Work through intermediate steps in separate columns<br>
+            • Double-check each row calculation<br>
             • Truth tables can verify if two expressions are equivalent
           </div>
 
@@ -1095,57 +1427,59 @@
 
           <div class="interactive-example">
             <h4>Verify: ¬(A · B) = ¬A + ¬B (De Morgan's Law)</h4>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>A</th>
-                  <th>B</th>
-                  <th>A · B</th>
-                  <th>¬(A · B)</th>
-                  <th>¬A</th>
-                  <th>¬B</th>
-                  <th>¬A + ¬B</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>A · B</th>
+                    <th>¬(A · B)</th>
+                    <th>¬A</th>
+                    <th>¬B</th>
+                    <th>¬A + ¬B</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <p>
               <strong>Result:</strong> Both expressions have identical outputs,
               confirming De Morgan's Law!
@@ -1173,16 +1507,17 @@
 
           <div class="interactive-example">
             <div class="code-block">
-              F = A·B·C + A·¬B·C + ¬A·B·¬C Structure: (product) + (product) +
-              (product) Each product is called a "minterm"
+              F = A·B·C + A·¬B·C + ¬A·B·¬C<br>
+              Structure: (product) + (product) + (product)<br>
+              Each product is called a "minterm"
             </div>
           </div>
 
           <div class="highlight-box info">
-            <strong>Creating SOP from Truth Table:</strong><br />
-            1. Find all rows where output is 1<br />
-            2. For each row, create a product term with all variables<br />
-            3. Use the variable if it's 1, use ¬variable if it's 0<br />
+            <strong>Creating SOP from Truth Table:</strong><br>
+            1. Find all rows where output is 1<br>
+            2. For each row, create a product term with all variables<br>
+            3. Use the variable if it's 1, use ¬variable if it's 0<br>
             4. OR all the product terms together
           </div>
 
@@ -1194,102 +1529,105 @@
 
           <div class="interactive-example">
             <div class="code-block">
-              F = (A + B + C) · (A + ¬B + C) · (¬A + B + ¬C) Structure: (sum) ·
-              (sum) · (sum) Each sum is called a "maxterm"
+              F = (A + B + C) · (A + ¬B + C) · (¬A + B + ¬C)<br>
+              Structure: (sum) · (sum) · (sum)<br>
+              Each sum is called a "maxterm"
             </div>
           </div>
 
           <div class="highlight-box info">
-            <strong>Creating POS from Truth Table:</strong><br />
-            1. Find all rows where output is 0<br />
-            2. For each row, create a sum term with all variables<br />
-            3. Use ¬variable if it's 1, use variable if it's 0<br />
+            <strong>Creating POS from Truth Table:</strong><br>
+            1. Find all rows where output is 0<br>
+            2. For each row, create a sum term with all variables<br>
+            3. Use ¬variable if it's 1, use variable if it's 0<br>
             4. AND all the sum terms together
           </div>
 
           <h3>Example: Converting Truth Table to SOP</h3>
           <div class="interactive-example">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Row</th>
-                  <th>A</th>
-                  <th>B</th>
-                  <th>C</th>
-                  <th>F</th>
-                  <th>Minterm</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>¬A·¬B·C</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>¬A·B·C</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>A·¬B·C</td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>A·B·C</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Row</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>F</th>
+                    <th>Minterm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>¬A·¬B·C</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>¬A·B·C</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>A·¬B·C</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>A·B·C</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div class="code-block">
-              SOP Form: F = ¬A·¬B·C + ¬A·B·C + A·¬B·C + A·B·C Simplified: F =
-              C·(¬A·¬B + ¬A·B + A·¬B + A·B) = C
+              SOP Form: F = ¬A·¬B·C + ¬A·B·C + A·¬B·C + A·B·C<br>
+              Simplified: F = C·(¬A·¬B + ¬A·B + A·¬B + A·B) = C
             </div>
           </div>
         </section>
@@ -1315,40 +1653,50 @@
           </p>
 
           <div class="highlight-box info">
-            <strong>K-Map Rules:</strong><br />
-            • Each cell represents one row from the truth table<br />
-            • Adjacent cells (including wraparound) differ by exactly one bit<br />
-            • Group 1s in rectangles of size 1, 2, 4, 8, 16...<br />
-            • Larger groups lead to simpler expressions<br />
-            • Groups can overlap<br />
+            <strong>K-Map Rules:</strong><br>
+            • Each cell represents one row from the truth table<br>
+            • Adjacent cells (including wraparound) differ by exactly one bit<br>
+            • Group 1s in rectangles of size 1, 2, 4, 8, 16...<br>
+            • Larger groups lead to simpler expressions<br>
+            • Groups can overlap<br>
             • Every 1 must be in at least one group
           </div>
 
           <h3>2-Variable K-Map Example</h3>
           <div class="interactive-example">
             <div class="code-block">
-              B 0 1 ┌───┬───┐ 0 │ 1 │ 0 │ A ├───┼───┤ 1 │ 1 │ 1 │ └───┴───┘
-              Groups: • Vertical group (A=1): covers A·¬B and A·B → simplifies
-              to A • Horizontal group (B=0): covers ¬A·¬B and A·¬B → simplifies
-              to ¬B Result: F = A + ¬B
+              B 0 1<br>
+              ┌───┬───┐<br>
+              0 │ 1 │ 0 │ A<br>
+              ├───┼───┤<br>
+              1 │ 1 │ 1 │<br>
+              └───┴───┘<br>
+              Groups:<br>
+              • Vertical group (A=1): covers A·¬B and A·B → simplifies to A<br>
+              • Horizontal group (B=0): covers ¬A·¬B and A·¬B → simplifies to ¬B<br>
+              Result: F = A + ¬B
             </div>
           </div>
 
           <h3>3-Variable K-Map Structure</h3>
           <div class="interactive-example">
             <div class="code-block">
-              BC 00 01 11 10 ┌───┬───┬───┬───┐ 0 │ 0 │ 1 │ 1 │ 0 │ A
-              ├───┼───┼───┼───┤ 1 │ 1 │ 1 │ 0 │ 0 │ └───┴───┴───┴───┘ Note: Gray
-              code ordering (00, 01, 11, 10) Adjacent cells differ by only one
-              bit
+              BC 00 01 11 10<br>
+              ┌───┬───┬───┬───┐<br>
+              0 │ 0 │ 1 │ 1 │ 0 │ A<br>
+              ├───┼───┼───┼───┤<br>
+              1 │ 1 │ 1 │ 0 │ 0 │<br>
+              └───┴───┴───┴───┘<br>
+              Note: Gray code ordering (00, 01, 11, 10)<br>
+              Adjacent cells differ by only one bit
             </div>
           </div>
 
           <div class="highlight-box success">
-            <strong>Grouping Strategy:</strong><br />
-            1. Find the largest possible groups first<br />
-            2. Cover all 1s with minimum number of groups<br />
-            3. Each group eliminates one or more variables<br />
+            <strong>Grouping Strategy:</strong><br>
+            1. Find the largest possible groups first<br>
+            2. Cover all 1s with minimum number of groups<br>
+            3. Each group eliminates one or more variables<br>
             4. Variables that change within a group are eliminated
           </div>
 
@@ -1382,96 +1730,100 @@
           <h3>XOR (Exclusive OR)</h3>
           <p>XOR returns TRUE when inputs are different. Symbol: ⊕</p>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>A</th>
-                <th>B</th>
-                <th>A ⊕ B</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>0</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>0</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A ⊕ B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="interactive-example">
             <h4>XOR in Boolean Algebra:</h4>
             <div class="code-block">
-              A ⊕ B = A·¬B + ¬A·B (one is true, but not both) A ⊕ B = (A +
-              B)·¬(A·B) (at least one, but not both)
+              A ⊕ B = A·¬B + ¬A·B (one is true, but not both)<br>
+              A ⊕ B = (A + B)·¬(A·B) (at least one, but not both)
             </div>
           </div>
 
           <div class="highlight-box info">
-            <strong>XOR Properties:</strong><br />
-            • A ⊕ 0 = A (identity)<br />
-            • A ⊕ 1 = ¬A (inversion)<br />
-            • A ⊕ A = 0 (self-cancel)<br />
-            • A ⊕ ¬A = 1 (always true)<br />
-            • A ⊕ B = B ⊕ A (commutative)<br />
+            <strong>XOR Properties:</strong><br>
+            • A ⊕ 0 = A (identity)<br>
+            • A ⊕ 1 = ¬A (inversion)<br>
+            • A ⊕ A = 0 (self-cancel)<br>
+            • A ⊕ ¬A = 1 (always true)<br>
+            • A ⊕ B = B ⊕ A (commutative)<br>
             • (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C) (associative)
           </div>
 
           <h3>XNOR (Exclusive NOR)</h3>
           <p>XNOR returns TRUE when inputs are the same. Symbol: ⊙ or ≡</p>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>A</th>
-                <th>B</th>
-                <th>A ⊙ B</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A ⊙ B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="interactive-example">
             <h4>XNOR in Boolean Algebra:</h4>
             <div class="code-block">
-              A ⊙ B = A·B + ¬A·¬B (both same value) A ⊙ B = ¬(A ⊕ B) (NOT of
-              XOR)
+              A ⊙ B = A·B + ¬A·¬B (both same value)<br>
+              A ⊙ B = ¬(A ⊕ B) (NOT of XOR)
             </div>
           </div>
 
@@ -1510,9 +1862,17 @@
 
             <p><strong>Solution:</strong></p>
             <div class="code-block">
-              Truth Table: A B C | Output 0 0 0 | 0 0 0 1 | 0 0 1 0 | 0 0 1 1 |
-              1 (2 votes) 1 0 0 | 0 1 0 1 | 1 (2 votes) 1 1 0 | 1 (2 votes) 1 1
-              1 | 1 (3 votes) SOP Form: F = ¬A·B·C + A·¬B·C + A·B·¬C + A·B·C
+              Truth Table:<br>
+              A B C | Output<br>
+              0 0 0 | 0<br>
+              0 0 1 | 0<br>
+              0 1 0 | 0<br>
+              0 1 1 | 1 (2 votes)<br>
+              1 0 0 | 0<br>
+              1 0 1 | 1 (2 votes)<br>
+              1 1 0 | 1 (2 votes)<br>
+              1 1 1 | 1 (3 votes)<br>
+              SOP Form: F = ¬A·B·C + A·¬B·C + A·B·¬C + A·B·C<br>
               Simplified: F = B·C + A·C + A·B (any two voting yes is sufficient)
             </div>
           </div>
@@ -1525,9 +1885,13 @@
             </p>
 
             <div class="code-block">
-              If I₃ = 1, output 11 (highest priority) If I₃ = 0 and I₂ = 1,
-              output 10 If I₃ = 0, I₂ = 0, and I₁ = 1, output 01 If only I₀ = 1,
-              output 00 Boolean expressions: O₁ = I₃ + I₂·¬I₃ O₀ = I₃ + ¬I₂·I₁
+              If I₃ = 1, output 11 (highest priority)<br>
+              If I₃ = 0 and I₂ = 1, output 10<br>
+              If I₃ = 0, I₂ = 0, and I₁ = 1, output 01<br>
+              If only I₀ = 1, output 00<br>
+              Boolean expressions:<br>
+              O₁ = I₃ + I₂·¬I₃<br>
+              O₀ = I₃ + ¬I₂·I₁
             </div>
           </div>
 
@@ -1544,9 +1908,10 @@
             </p>
 
             <div class="code-block">
-              Example for segment 'a': Lights up for: 0, 2, 3, 5, 6, 7, 8, 9
-              Doesn't light for: 1, 4 Using K-map and simplification: a = A + C
-              + B·D + ¬B·¬D
+              Example for segment 'a':<br>
+              Lights up for: 0, 2, 3, 5, 6, 7, 8, 9<br>
+              Doesn't light for: 1, 4<br>
+              Using K-map and simplification: a = A + C + B·D + ¬B·¬D
             </div>
           </div>
         </section>
