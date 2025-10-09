@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kenzy-tour - Premium Travel & Tour Experiences</title>
+    <meta
+      name="description"
+      content="Discover extraordinary destinations with Kenzy-tour. Premium travel experiences tailored to your dreams. Book your next adventure today."
+    />
+
+    <!-- Open Graph Tags -->
+    <meta
+      property="og:title"
+      content="Kenzy-tour - Premium Travel & Tour Experiences"
+    />
+    <meta
+      property="og:description"
+      content="Discover extraordinary destinations with Kenzy-tour. Premium travel experiences tailored to your dreams."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kenzy-tour.com" />
+    <meta
+      property="og:image"
+      content="https://kenzy-tour.com/assets/images/og-image.jpg"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* CSS Variables */
+      :root {
+        --primary-teal: #0f766e;
+        --accent-rose: #ef4444;
+        --neutral-dark: #0f172a;
+        --warm-light: #f7efe6;
+        --muted-text: #6b7280;
+        --white: #ffffff;
+        --card-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+        --transition: all 0.3s ease;
+      }
+
+      /* Dark Theme Variables */
+      .dark {
+        --neutral-dark: #f7efe6;
+        --warm-light: #0f172a;
+        --muted-text: #9ca3af;
+        --white: #1f2937;
+        --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--warm-light);
+        color: var(--neutral-dark);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--neutral-dark);
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+      }
+
+      h3 {
+        font-size: 1.8rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: var(--muted-text);
+      }
+
+      a {
+        color: var(--primary-teal);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      a:hover {
+        color: var(--accent-rose);
+      }
+
+      /* Skip to Content Link */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary-teal);
+        color: white;
+        padding: 8px;
+        z-index: 100;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* Header & Navigation */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .dark header {
+        background-color: rgba(31, 41, 55, 0.95);
+      }
+
+      header.hidden {
+        transform: translateY(-100%);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.5rem;
+        color: var(--primary-teal);
+        font-weight: normal;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        font-weight: 500;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--accent-rose);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .nav-cta {
+        background-color: var(--primary-teal);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .nav-cta:hover {
+        background-color: var(--accent-rose);
+        color: white;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--neutral-dark);
+        transition: var(--transition);
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+      }
+
+      /* Theme Toggle */
+      .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--neutral-dark);
+        margin-left: 1rem;
+        transition: var(--transition);
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+          ),
+          url("https://picsum.photos/seed/kenzy-hero/1920/1080.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        padding: 0 1rem;
+        animation: fadeInUp 1s ease;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: white;
+      }
+
+      .hero .logo {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: white;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: var(--transition);
+        cursor: pointer;
+        border: none;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-teal);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--accent-rose);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-secondary:hover {
+        background-color: white;
+        color: var(--primary-teal);
+      }
+
+      /* Section Styles */
+      section {
+        padding: 5rem 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--accent-rose);
+      }
+
+      /* Destinations Section */
+      .destinations {
+        background-color: var(--white);
+      }
+
+      .destinations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .destination-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        background-color: var(--white);
+      }
+
+      .destination-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .destination-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .destination-info {
+        padding: 1.5rem;
+      }
+
+      .destination-info h3 {
+        margin-bottom: 0.5rem;
+      }
+
+      .destination-info p {
+        margin-bottom: 1rem;
+      }
+
+      .btn-tour {
+        background-color: var(--primary-teal);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 500;
+        display: inline-block;
+        transition: var(--transition);
+      }
+
+      .btn-tour:hover {
+        background-color: var(--accent-rose);
+        transform: translateX(5px);
+      }
+
+      /* Services Section */
+      .services {
+        background-color: var(--warm-light);
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .service-card {
+        background-color: var(--white);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .service-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--primary-teal);
+      }
+
+      .service-card h3 {
+        margin-bottom: 1rem;
+      }
+
+      /* Gallery Section */
+      .gallery {
+        background-color: var(--white);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        height: 250px;
+        cursor: pointer;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+
+      .gallery-overlay span {
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .lightbox.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .lightbox-content {
+        max-width: 90%;
+        max-height: 90%;
+        position: relative;
+      }
+
+      .lightbox-content img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .lightbox-close:hover {
+        transform: scale(1.1);
+      }
+
+      /* Testimonials Section */
+      .testimonials {
+        background-color: var(--warm-light);
+      }
+
+      .testimonials-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .testimonial-card {
+        background-color: var(--white);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        position: relative;
+      }
+
+      .testimonial-card::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 20px;
+        font-size: 5rem;
+        color: var(--primary-teal);
+        opacity: 0.3;
+        font-family: "Playfair Display", serif;
+      }
+
+      .testimonial-text {
+        margin-bottom: 1.5rem;
+        font-style: italic;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .author-info h4 {
+        margin-bottom: 0.2rem;
+      }
+
+      .rating {
+        color: #ffc107;
+      }
+
+      /* FAQ Section */
+      .faq {
+        background-color: var(--white);
+      }
+
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        margin-bottom: 1rem;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+      }
+
+      .faq-question {
+        background-color: var(--warm-light);
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: var(--transition);
+      }
+
+      .faq-question:hover {
+        background-color: var(--primary-teal);
+        color: white;
+      }
+
+      .faq-question h3 {
+        margin: 0;
+      }
+
+      .faq-icon {
+        transition: var(--transition);
+      }
+
+      .faq-item.active .faq-icon {
+        transform: rotate(180deg);
+      }
+
+      .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 1.5rem;
+        max-height: 500px;
+      }
+
+      /* Contact Section */
+      .contact {
+        background-color: var(--warm-light);
+      }
+
+      .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+
+      .contact-info h3 {
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-icon {
+        font-size: 1.5rem;
+        color: var(--primary-teal);
+      }
+
+      .contact-form {
+        background-color: var(--white);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-family: inherit;
+        transition: var(--transition);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-teal);
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .form-message {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .form-message.success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #10b981;
+      }
+
+      .form-message.error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #ef4444;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--neutral-dark);
+        color: var(--warm-light);
+        padding: 3rem 5% 1rem;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-column h3 {
+        color: var(--warm-light);
+        margin-bottom: 1rem;
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-column a {
+        color: var(--muted-text);
+        transition: var(--transition);
+      }
+
+      .footer-column a:hover {
+        color: var(--primary-teal);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: var(--warm-light);
+        transition: var(--transition);
+      }
+
+      .social-links a:hover {
+        background-color: var(--primary-teal);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--muted-text);
+      }
+
+      /* Back to Top Button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--primary-teal);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+        z-index: 999;
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background-color: var(--accent-rose);
+        transform: translateY(-5px);
+      }
+
+      .progress-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(-90deg);
+      }
+
+      .progress-ring__circle {
+        stroke: rgba(255, 255, 255, 0.3);
+        stroke-width: 3;
+        fill: transparent;
+        r: 22;
+        cx: 25;
+        cy: 25;
+      }
+
+      .progress-ring__progress {
+        stroke: white;
+        stroke-width: 3;
+        fill: transparent;
+        r: 22;
+        cx: 25;
+        cy: 25;
+        stroke-dasharray: 138.23;
+        stroke-dashoffset: 138.23;
+        transition: stroke-dashoffset 0.1s linear;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 992px) {
+        .contact-container {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 70%;
+          height: 100vh;
+          background-color: var(--white);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          transition: right 0.3s ease;
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .nav-links {
+          background-color: var(--neutral-dark);
+        }
+
+        .nav-links.active {
+          right: 0;
+        }
+
+        .hamburger {
+          display: flex;
+          z-index: 1001;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero .logo {
+          font-size: 3rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .destinations-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .gallery-grid {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 576px) {
+        section {
+          padding: 3rem 5%;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero .logo {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .btn {
+          padding: 0.6rem 1.5rem;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-link">Skip to Content</a>
+
+    <!-- Header & Navigation -->
+    <header id="header">
+      <nav>
+        <div class="logo">Kenzy-tour</div>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact" class="nav-cta">Book Now</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button
+            class="theme-toggle"
+            id="theme-toggle"
+            aria-label="Toggle Theme"
+          >
+            <span id="theme-icon">🌙</span>
+          </button>
+          <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="logo">Kenzy-tour</div>
+        <h1>Discover Your Next Adventure</h1>
+        <p>
+          Experience the world's most breathtaking destinations with our premium
+          travel experiences tailored just for you.
+        </p>
+        <div class="hero-buttons">
+          <a href="#destinations" class="btn btn-primary"
+            >Explore Destinations</a
+          >
+          <a href="#contact" class="btn btn-secondary">Get a Quote</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="destinations" id="destinations">
+      <div class="section-title fade-in">
+        <h2>Popular Destinations</h2>
+        <p>Explore our handpicked selection of extraordinary destinations</p>
+      </div>
+      <div class="destinations-grid">
+        <div class="destination-card fade-in">
+          <img
+            src="https://picsum.photos/seed/bali-destination/600/400.jpg"
+            alt="Bali, Indonesia"
+          />
+          <div class="destination-info">
+            <h3>Bali, Indonesia</h3>
+            <p>
+              Discover the enchanting island of Bali with its pristine beaches,
+              ancient temples, and vibrant culture.
+            </p>
+            <a href="#" class="btn-tour">View Tour</a>
+          </div>
+        </div>
+        <div class="destination-card fade-in">
+          <img
+            src="https://picsum.photos/seed/santorini-destination/600/400.jpg"
+            alt="Santorini, Greece"
+          />
+          <div class="destination-info">
+            <h3>Santorini, Greece</h3>
+            <p>
+              Experience the stunning sunsets, white-washed buildings, and
+              crystal-clear waters of this Greek paradise.
+            </p>
+            <a href="#" class="btn-tour">View Tour</a>
+          </div>
+        </div>
+        <div class="destination-card fade-in">
+          <img
+            src="https://picsum.photos/seed/kyoto-destination/600/400.jpg"
+            alt="Kyoto, Japan"
+          />
+          <div class="destination-info">
+            <h3>Kyoto, Japan</h3>
+            <p>
+              Immerse yourself in the rich history and traditions of Japan's
+              ancient capital.
+            </p>
+            <a href="#" class="btn-tour">View Tour</a>
+          </div>
+        </div>
+        <div class="destination-card fade-in">
+          <img
+            src="https://picsum.photos/seed/maldives-destination/600/400.jpg"
+            alt="Maldives"
+          />
+          <div class="destination-info">
+            <h3>Maldives</h3>
+            <p>
+              Escape to a tropical paradise with overwater bungalows and
+              pristine coral reefs.
+            </p>
+            <a href="#" class="btn-tour">View Tour</a>
+          </div>
+        </div>
+        <div class="destination-card fade-in">
+          <img
+            src="https://picsum.photos/seed/safari-destination/600/400.jpg"
+            alt="Safari, Kenya"
+          />
+          <div class="destination-info">
+            <h3>Safari, Kenya</h3>
+            <p>
+              Witness the incredible wildlife and breathtaking landscapes of the
+              African savanna.
+            </p>
+            <a href="#" class="btn-tour">View Tour</a>
+          </div>
+        </div>
+        <div class="destination-card fade-in">
+          <img
+            src="https://picsum.photos/seed/iceland-destination/600/400.jpg"
+            alt="Iceland"
+          />
+          <div class="destination-info">
+            <h3>Iceland</h3>
+            <p>
+              Explore the land of fire and ice with its dramatic volcanoes,
+              glaciers, and Northern Lights.
+            </p>
+            <a href="#" class="btn-tour">View Tour</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+      <div class="section-title fade-in">
+        <h2>Our Services</h2>
+        <p>Everything you need for the perfect travel experience</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-in">
+          <div class="service-icon">✈️</div>
+          <h3>Custom Tours</h3>
+          <p>
+            Personalized itineraries designed around your interests, schedule,
+            and budget.
+          </p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">🏨</div>
+          <h3>Luxury Accommodations</h3>
+          <p>
+            Handpicked premium hotels, resorts, and unique stays for ultimate
+            comfort.
+          </p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">🍽️</div>
+          <h3>Culinary Experiences</h3>
+          <p>
+            Taste the local flavors with curated dining experiences and food
+            tours.
+          </p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">🚗</div>
+          <h3>Transportation</h3>
+          <p>
+            Seamless transfers and private transportation throughout your
+            journey.
+          </p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">📸</div>
+          <h3>Photography Tours</h3>
+          <p>
+            Capture your memories with professional photography services and
+            tours.
+          </p>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-icon">🎯</div>
+          <h3>Adventure Activities</h3>
+          <p>
+            Thrilling experiences from hiking and diving to cultural immersions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+      <div class="section-title fade-in">
+        <h2>Travel Gallery</h2>
+        <p>Glimpses of unforgettable moments from our journeys</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery1/400/300.jpg"
+            alt="Beach sunset"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery2/400/300.jpg"
+            alt="Mountain landscape"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery3/400/300.jpg"
+            alt="City skyline"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery4/400/300.jpg"
+            alt="Local market"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery5/400/300.jpg"
+            alt="Historic monument"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery6/400/300.jpg"
+            alt="Wildlife"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery7/400/300.jpg"
+            alt="Beach resort"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+        <div class="gallery-item fade-in">
+          <img
+            src="https://picsum.photos/seed/gallery8/400/300.jpg"
+            alt="Cultural performance"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span>🔍</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <img src="" alt="Gallery image" id="lightbox-img" />
+      </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+      <div class="section-title fade-in">
+        <h2>What Our Travelers Say</h2>
+        <p>Real experiences from real adventurers</p>
+      </div>
+      <div class="testimonials-container">
+        <div class="testimonial-card fade-in">
+          <p class="testimonial-text">
+            "Kenzy-tour planned the most incredible honeymoon for us in Greece.
+            Every detail was perfect, from the luxury accommodations to the
+            private sailing tour. We couldn't have asked for a better
+            experience!"
+          </p>
+          <div class="testimonial-author">
+            <img
+              src="https://picsum.photos/seed/author1/100/100.jpg"
+              alt="Sarah Johnson"
+              class="author-avatar"
+            />
+            <div class="author-info">
+              <h4>Sarah Johnson</h4>
+              <div class="rating">★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-in">
+          <p class="testimonial-text">
+            "As a solo traveler, I was looking for a safe yet adventurous
+            experience in Southeast Asia. Kenzy-tour delivered beyond my
+            expectations with a perfect balance of guided tours and free time to
+            explore on my own."
+          </p>
+          <div class="testimonial-author">
+            <img
+              src="https://picsum.photos/seed/author2/100/100.jpg"
+              alt="Michael Chen"
+              class="author-avatar"
+            />
+            <div class="author-info">
+              <h4>Michael Chen</h4>
+              <div class="rating">★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card fade-in">
+          <p class="testimonial-text">
+            "Our family safari in Kenya was a once-in-a-lifetime experience,
+            thanks to Kenzy-tour. The guides were knowledgeable, the
+            accommodations were comfortable, and we saw all the Big Five
+            animals!"
+          </p>
+          <div class="testimonial-author">
+            <img
+              src="https://picsum.photos/seed/author3/100/100.jpg"
+              alt="Emily Rodriguez"
+              class="author-avatar"
+            />
+            <div class="author-info">
+              <h4>Emily Rodriguez</h4>
+              <div class="rating">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+      <div class="section-title fade-in">
+        <h2>Frequently Asked Questions</h2>
+        <p>Everything you need to know about our services</p>
+      </div>
+      <div class="faq-container">
+        <div class="faq-item fade-in">
+          <div class="faq-question">
+            <h3>How do I book a tour with Kenzy-tour?</h3>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Booking with Kenzy-tour is simple! You can fill out our contact
+              form with your travel preferences, and our team will get back to
+              you with personalized options. Alternatively, you can call us
+              directly at our toll-free number to speak with a travel
+              consultant.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item fade-in">
+          <div class="faq-question">
+            <h3>Can you customize tours based on my interests?</h3>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Absolutely! We specialize in creating custom itineraries tailored
+              to your specific interests, budget, and travel style. Whether
+              you're interested in adventure activities, cultural experiences,
+              culinary tours, or relaxation, we can design the perfect trip for
+              you.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item fade-in">
+          <div class="faq-question">
+            <h3>What is included in your tour packages?</h3>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Our tour packages typically include accommodation, transportation,
+              guided tours, and some meals. The exact inclusions vary by
+              package, and we provide detailed itineraries for each tour. We can
+              also arrange additional services like travel insurance, visa
+              assistance, and special activities upon request.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item fade-in">
+          <div class="faq-question">
+            <h3>Do you offer travel insurance?</h3>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              While we don't directly provide travel insurance, we can recommend
+              trusted insurance providers and help you select the right coverage
+              for your trip. We strongly recommend all our clients purchase
+              comprehensive travel insurance to protect against unexpected
+              events.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item fade-in">
+          <div class="faq-question">
+            <h3>What is your cancellation policy?</h3>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Our cancellation policy varies depending on the tour and how far
+              in advance you cancel. Generally, cancellations made more than 30
+              days before departure receive a full refund minus a small
+              administrative fee. Cancellations made closer to the departure
+              date may incur higher fees. We provide detailed cancellation terms
+              with each booking.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="section-title fade-in">
+        <h2>Get In Touch</h2>
+        <p>Start planning your dream vacation today</p>
+      </div>
+      <div class="contact-container">
+        <div class="contact-info fade-in">
+          <h3>Contact Information</h3>
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <div>
+              <h4>Address</h4>
+              <p>123 Travel Street, Adventure City, AC 12345</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📞</span>
+            <div>
+              <h4>Phone</h4>
+              <p>+1 (555) 123-4567</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">✉️</span>
+            <div>
+              <h4>Email</h4>
+              <p>info@kenzy-tour.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">🕐</span>
+            <div>
+              <h4>Business Hours</h4>
+              <p>
+                Monday - Friday: 9:00 AM - 6:00 PM<br />
+                Saturday: 10:00 AM - 4:00 PM<br />
+                Sunday: Closed
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form fade-in">
+          <h3>Request a Quote</h3>
+          <div class="form-message" id="form-message"></div>
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="destination">Preferred Destination</label>
+              <select id="destination" name="destination" required>
+                <option value="">Select a destination</option>
+                <option value="bali">Bali, Indonesia</option>
+                <option value="santorini">Santorini, Greece</option>
+                <option value="kyoto">Kyoto, Japan</option>
+                <option value="maldives">Maldives</option>
+                <option value="safari">Safari, Kenya</option>
+                <option value="iceland">Iceland</option>
+                <option value="other">Other (please specify)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Tell us about your dream trip</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Request</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="logo">Kenzy-tour</div>
+          <p>
+            Creating unforgettable travel experiences since 2010. Let us be your
+            guide to the world's most amazing destinations.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">f</a>
+            <a href="#" aria-label="Twitter">𝕏</a>
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Popular Destinations</h3>
+          <ul>
+            <li><a href="#">Bali, Indonesia</a></li>
+            <li><a href="#">Santorini, Greece</a></li>
+            <li><a href="#">Kyoto, Japan</a></li>
+            <li><a href="#">Maldives</a></li>
+            <li><a href="#">Safari, Kenya</a></li>
+            <li><a href="#">Iceland</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Legal</h3>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 Kenzy-tour. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+      <svg class="progress-ring" width="50" height="50">
+        <circle class="progress-ring__circle" />
+        <circle class="progress-ring__progress" id="progress" />
+      </svg>
+      <span>↑</span>
+    </div>
+
+    <script>
+      // DOM Elements
+      const header = document.getElementById("header");
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("nav-links");
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      const backToTop = document.getElementById("back-to-top");
+      const progressBar = document.getElementById("progress");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      const lightboxClose = document.getElementById("lightbox-close");
+      const contactForm = document.getElementById("contact-form");
+      const formMessage = document.getElementById("form-message");
+
+      // Theme Toggle
+      function initTheme() {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          document.documentElement.classList.add("dark");
+          themeIcon.textContent = "☀️";
+        }
+      }
+
+      themeToggle.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+        const isDark = document.documentElement.classList.contains("dark");
+        themeIcon.textContent = isDark ? "☀️" : "🌙";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+
+      // Mobile Navigation
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navLinks.classList.toggle("active");
+      });
+
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("active");
+          navLinks.classList.remove("active");
+        });
+      });
+
+      // Hide/Show Header on Scroll
+      let lastScrollTop = 0;
+      window.addEventListener("scroll", () => {
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+          header.classList.add("hidden");
+        } else {
+          header.classList.remove("hidden");
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+        // Show/Hide Back to Top Button
+        if (scrollTop > 300) {
+          backToTop.classList.add("visible");
+        } else {
+          backToTop.classList.remove("visible");
+        }
+
+        // Update Progress Bar
+        const scrollHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+        const circumference = 2 * Math.PI * 22;
+        const offset = circumference - (scrollPercent / 100) * circumference;
+        progressBar.style.strokeDashoffset = offset;
+      });
+
+      // Back to Top
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Gallery Lightbox
+      const galleryItems = document.querySelectorAll(".gallery-item");
+
+      galleryItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const imgSrc = item.querySelector("img").src;
+          lightboxImg.src = imgSrc;
+          lightbox.classList.add("active");
+        });
+      });
+
+      lightboxClose.addEventListener("click", () => {
+        lightbox.classList.remove("active");
+      });
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.classList.remove("active");
+        }
+      });
+
+      // FAQ Accordion
+      const faqItems = document.querySelectorAll(".faq-item");
+
+      faqItems.forEach((item) => {
+        const question = item.querySelector(".faq-question");
+
+        question.addEventListener("click", () => {
+          // Close all other items
+          faqItems.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.classList.remove("active");
+            }
+          });
+
+          // Toggle current item
+          item.classList.toggle("active");
+        });
+      });
+
+      // Contact Form
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Get form data
+        const formData = new FormData(contactForm);
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const destination = formData.get("destination");
+        const message = formData.get("message");
+
+        // Simple validation
+        if (!name || !email || !destination || !message) {
+          showFormMessage("Please fill in all required fields.", "error");
+          return;
+        }
+
+        // Simulate form submission
+        showFormMessage(
+          "Thank you for your inquiry! We will get back to you within 24 hours.",
+          "success"
+        );
+        contactForm.reset();
+      });
+
+      function showFormMessage(message, type) {
+        formMessage.textContent = message;
+        formMessage.className = `form-message ${type}`;
+        formMessage.style.display = "block";
+
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          formMessage.style.display = "none";
+        }, 5000);
+      }
+
+      // Intersection Observer for Fade In Animation
+      const fadeElements = document.querySelectorAll(".fade-in");
+
+      const fadeInObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
+
+      fadeElements.forEach((element) => {
+        fadeInObserver.observe(element);
+      });
+
+      // Lazy Loading for Gallery Images
+      const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.src; // This triggers the loading
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+
+      lazyImages.forEach((img) => {
+        imageObserver.observe(img);
+      });
+
+      // Initialize theme on page load
+      initTheme();
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          if (targetId !== "#") {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              const offsetTop = targetElement.offsetTop - 80; // Account for fixed header
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

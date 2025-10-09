@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kenzy-tour - Your Gateway to Adventure</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              playfair: ["Playfair Display", "serif"],
+              poppins: ["Poppins", "sans-serif"],
+              signature: ["Dancing Script", "cursive"],
+            },
+            colors: {
+              primary: "#3B82F6",
+              secondary: "#F59E0B",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      /* Dark mode scrollbar */
+      .dark ::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+
+      .dark ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+      }
+
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
+
+      /* Horizontal scroll for small screens */
+      .horizontal-scroll {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+      }
+
+      .horizontal-scroll::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
+
+      .horizontal-scroll > * {
+        scroll-snap-align: start;
+        flex: 0 0 auto;
+      }
+
+      /* Navbar hide on scroll */
+      .navbar-hidden {
+        transform: translateY(-100%);
+      }
+
+      /* Loading circle animation */
+      .loading-circle {
+        stroke-dasharray: 126;
+        stroke-dashoffset: 126;
+        animation: loading 1s ease-out forwards;
+      }
+
+      @keyframes loading {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      /* Smooth transitions */
+      * {
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      /* Image hover effect */
+      .image-hover {
+        overflow: hidden;
+      }
+
+      .image-hover img {
+        transition: transform 0.5s ease;
+      }
+
+      .image-hover:hover img {
+        transform: scale(1.1);
+      }
+
+      /* Card hover effect */
+      .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Dark mode card hover */
+      .dark .card-hover:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body
+    class="font-poppins bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+  >
+    <!-- Navigation Bar -->
+    <header
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-md transition-transform duration-300"
+    >
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <!-- Logo -->
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-globe-americas text-primary text-2xl"></i>
+            <h1
+              class="text-2xl font-signature text-primary dark:text-secondary"
+            >
+              Kenzy-tour
+            </h1>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-6">
+            <a
+              href="#home"
+              class="hover:text-primary dark:hover:text-secondary transition-colors"
+              >Home</a
+            >
+            <a
+              href="#destinations"
+              class="hover:text-primary dark:hover:text-secondary transition-colors"
+              >Destinations</a
+            >
+            <a
+              href="#packages"
+              class="hover:text-primary dark:hover:text-secondary transition-colors"
+              >Packages</a
+            >
+            <a
+              href="#about"
+              class="hover:text-primary dark:hover:text-secondary transition-colors"
+              >About</a
+            >
+            <a
+              href="#testimonials"
+              class="hover:text-primary dark:hover:text-secondary transition-colors"
+              >Testimonials</a
+            >
+            <a
+              href="#contact"
+              class="hover:text-primary dark:hover:text-secondary transition-colors"
+              >Contact</a
+            >
+
+            <!-- Theme Toggle -->
+            <button
+              id="theme-toggle"
+              class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            >
+              <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+              <i class="fas fa-moon text-blue-300 hidden dark:block"></i>
+            </button>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button
+            id="mobile-menu-button"
+            class="md:hidden p-2 rounded-lg bg-gray-200 dark:bg-gray-700"
+          >
+            <i class="fas fa-bars text-gray-800 dark:text-gray-200"></i>
+          </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+          <a
+            href="#home"
+            class="block py-2 hover:text-primary dark:hover:text-secondary transition-colors"
+            >Home</a
+          >
+          <a
+            href="#destinations"
+            class="block py-2 hover:text-primary dark:hover:text-secondary transition-colors"
+            >Destinations</a
+          >
+          <a
+            href="#packages"
+            class="block py-2 hover:text-primary dark:hover:text-secondary transition-colors"
+            >Packages</a
+          >
+          <a
+            href="#about"
+            class="block py-2 hover:text-primary dark:hover:text-secondary transition-colors"
+            >About</a
+          >
+          <a
+            href="#testimonials"
+            class="block py-2 hover:text-primary dark:hover:text-secondary transition-colors"
+            >Testimonials</a
+          >
+          <a
+            href="#contact"
+            class="block py-2 hover:text-primary dark:hover:text-secondary transition-colors"
+            >Contact</a
+          >
+
+          <!-- Mobile Theme Toggle -->
+          <button
+            id="mobile-theme-toggle"
+            class="mt-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          >
+            <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+            <i class="fas fa-moon text-blue-300 hidden dark:block"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+      <!-- Hero Section -->
+      <section
+        id="home"
+        class="relative h-screen flex items-center justify-center overflow-hidden"
+      >
+        <div class="absolute inset-0 z-0">
+          <img
+            src="https://picsum.photos/seed/travel-hero/1920/1080.jpg"
+            alt="Travel destination"
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <h2
+            class="text-4xl md:text-6xl font-playfair font-bold text-white mb-4"
+          >
+            Discover Your Next Adventure
+          </h2>
+          <p class="text-lg md:text-xl text-gray-200 mb-8">
+            Explore the world with Kenzy-tour and create memories that last a
+            lifetime
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              class="px-8 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-full transition-colors"
+            >
+              Explore Destinations
+            </button>
+            <button
+              class="px-8 py-3 bg-secondary hover:bg-amber-600 text-white font-semibold rounded-full transition-colors"
+            >
+              Special Offers
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
+        >
+          <i class="fas fa-chevron-down text-white text-2xl"></i>
+        </div>
+      </section>
+
+      <!-- Popular Destinations Section -->
+      <section
+        id="destinations"
+        class="py-16 md:py-24 bg-white dark:bg-gray-800"
+      >
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-4">
+              Popular Destinations
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+            >
+              Discover our handpicked selection of breathtaking destinations
+              around the world
+            </p>
+          </div>
+
+          <!-- Desktop Grid View -->
+          <div class="hidden md:grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Destination Card 1 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/paris/600/400.jpg"
+                  alt="Paris"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Paris, France</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Experience the city of love with its iconic Eiffel Tower,
+                  world-class museums, and charming cafés.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $1,299</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Destination Card 2 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/bali/600/400.jpg"
+                  alt="Bali"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Bali, Indonesia</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Discover tropical paradise with pristine beaches, ancient
+                  temples, and lush rice terraces.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $999</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Destination Card 3 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/tokyo/600/400.jpg"
+                  alt="Tokyo"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Tokyo, Japan</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Immerse yourself in the perfect blend of ancient traditions
+                  and cutting-edge technology.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $1,499</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Horizontal Scroll -->
+          <div class="md:hidden horizontal-scroll gap-4 pb-4">
+            <!-- Destination Card 1 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg w-80"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/paris/600/400.jpg"
+                  alt="Paris"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Paris, France</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Experience the city of love with its iconic Eiffel Tower,
+                  world-class museums, and charming cafés.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $1,299</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Destination Card 2 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg w-80"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/bali/600/400.jpg"
+                  alt="Bali"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Bali, Indonesia</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Discover tropical paradise with pristine beaches, ancient
+                  temples, and lush rice terraces.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $999</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Destination Card 3 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg w-80"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/tokyo/600/400.jpg"
+                  alt="Tokyo"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Tokyo, Japan</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Immerse yourself in the perfect blend of ancient traditions
+                  and cutting-edge technology.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $1,499</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Destination Card 4 -->
+            <div
+              class="card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg w-80"
+            >
+              <div class="image-hover h-64">
+                <img
+                  src="https://picsum.photos/seed/newyork/600/400.jpg"
+                  alt="New York"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">New York, USA</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Experience the city that never sleeps with its iconic skyline,
+                  Broadway shows, and diverse neighborhoods.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-primary font-semibold">From $1,199</span>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Travel Packages Section -->
+      <section id="packages" class="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-4">
+              Travel Packages
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+            >
+              Choose from our carefully curated travel packages designed to suit
+              every budget and preference
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Package Card 1 -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg card-hover"
+            >
+              <div class="relative">
+                <img
+                  src="https://picsum.photos/seed/adventure/600/400.jpg"
+                  alt="Adventure Package"
+                  class="w-full h-48 object-cover"
+                />
+                <div
+                  class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold"
+                >
+                  Popular
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Adventure Seeker</h3>
+                <div class="flex items-center mb-4">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 dark:text-gray-400 text-sm"
+                    >(4.5)</span
+                  >
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  7 days / 6 nights
+                </p>
+                <ul class="mb-4 space-y-2 text-gray-600 dark:text-gray-400">
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Mountain hiking
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    River rafting
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Camping under stars
+                  </li>
+                </ul>
+                <div class="flex justify-between items-center">
+                  <div>
+                    <span class="text-gray-500 line-through text-sm"
+                      >$1,599</span
+                    >
+                    <span class="text-2xl font-bold text-primary ml-2"
+                      >$1,299</span
+                    >
+                  </div>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Package Card 2 -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg card-hover"
+            >
+              <div class="relative">
+                <img
+                  src="https://picsum.photos/seed/romance/600/400.jpg"
+                  alt="Romantic Getaway"
+                  class="w-full h-48 object-cover"
+                />
+                <div
+                  class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold"
+                >
+                  Romantic
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Romantic Getaway</h3>
+                <div class="flex items-center mb-4">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 dark:text-gray-400 text-sm"
+                    >(5.0)</span
+                  >
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  5 days / 4 nights
+                </p>
+                <ul class="mb-4 space-y-2 text-gray-600 dark:text-gray-400">
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Private beach dinner
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Couples spa treatment
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Sunset cruise
+                  </li>
+                </ul>
+                <div class="flex justify-between items-center">
+                  <div>
+                    <span class="text-gray-500 line-through text-sm"
+                      >$2,199</span
+                    >
+                    <span class="text-2xl font-bold text-primary ml-2"
+                      >$1,799</span
+                    >
+                  </div>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Package Card 3 -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg card-hover"
+            >
+              <div class="relative">
+                <img
+                  src="https://picsum.photos/seed/family/600/400.jpg"
+                  alt="Family Fun"
+                  class="w-full h-48 object-cover"
+                />
+                <div
+                  class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold"
+                >
+                  Family
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">Family Fun</h3>
+                <div class="flex items-center mb-4">
+                  <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  <span class="ml-2 text-gray-600 dark:text-gray-400 text-sm"
+                    >(4.0)</span
+                  >
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  6 days / 5 nights
+                </p>
+                <ul class="mb-4 space-y-2 text-gray-600 dark:text-gray-400">
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Theme park tickets
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Kid-friendly activities
+                  </li>
+                  <li class="flex items-center">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    Family suite accommodation
+                  </li>
+                </ul>
+                <div class="flex justify-between items-center">
+                  <div>
+                    <span class="text-gray-500 line-through text-sm"
+                      >$2,499</span
+                    >
+                    <span class="text-2xl font-bold text-primary ml-2"
+                      >$1,999</span
+                    >
+                  </div>
+                  <button
+                    class="px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="py-16 md:py-24 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-6">
+                About Kenzy-tour
+              </h2>
+              <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                At Kenzy-tour, we believe that travel is not just about visiting
+                new places, but about creating unforgettable experiences and
+                memories that last a lifetime. With over 15 years of experience
+                in the travel industry, we've helped thousands of travelers
+                discover the world in their own unique way.
+              </p>
+              <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                Our team of passionate travel experts is dedicated to crafting
+                personalized journeys that cater to your interests, budget, and
+                travel style. Whether you're seeking adventure, relaxation,
+                cultural immersion, or a bit of everything, we're here to make
+                your travel dreams come true.
+              </p>
+              <div class="grid grid-cols-2 gap-6 mb-8">
+                <div>
+                  <h3 class="text-3xl font-bold text-primary mb-2">500+</h3>
+                  <p class="text-gray-600 dark:text-gray-400">Destinations</p>
+                </div>
+                <div>
+                  <h3 class="text-3xl font-bold text-primary mb-2">50K+</h3>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Happy Travelers
+                  </p>
+                </div>
+                <div>
+                  <h3 class="text-3xl font-bold text-primary mb-2">15+</h3>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Years of Experience
+                  </p>
+                </div>
+                <div>
+                  <h3 class="text-3xl font-bold text-primary mb-2">98%</h3>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Satisfaction Rate
+                  </p>
+                </div>
+              </div>
+              <button
+                class="px-8 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-full transition-colors"
+              >
+                Learn More About Us
+              </button>
+            </div>
+            <div class="relative">
+              <img
+                src="https://picsum.photos/seed/about-us/600/700.jpg"
+                alt="About Kenzy-tour"
+                class="rounded-lg shadow-xl"
+              />
+              <div
+                class="absolute -bottom-6 -left-6 bg-secondary text-white p-6 rounded-lg shadow-xl"
+              >
+                <h3 class="text-2xl font-bold mb-2">Award Winning</h3>
+                <p>Best Travel Agency 2023</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section
+        id="testimonials"
+        class="py-16 md:py-24 bg-gray-50 dark:bg-gray-900"
+      >
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-4">
+              What Our Travelers Say
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+            >
+              Read testimonials from our satisfied customers who have
+              experienced the Kenzy-tour difference
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Testimonial Card 1 -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg card-hover"
+            >
+              <div class="flex items-center mb-4">
+                <img
+                  src="https://picsum.photos/seed/person1/100/100.jpg"
+                  alt="Sarah Johnson"
+                  class="w-12 h-12 rounded-full mr-4"
+                />
+                <div>
+                  <h3 class="font-semibold">Sarah Johnson</h3>
+                  <div class="flex text-yellow-400 text-sm">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400 italic">
+                "Our family trip to Bali organized by Kenzy-tour was absolutely
+                perfect! Every detail was taken care of, from accommodations to
+                activities. The kids had a blast, and my husband and I got some
+                much-needed relaxation. Highly recommend!"
+              </p>
+            </div>
+
+            <!-- Testimonial Card 2 -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg card-hover"
+            >
+              <div class="flex items-center mb-4">
+                <img
+                  src="https://picsum.photos/seed/person2/100/100.jpg"
+                  alt="Michael Chen"
+                  class="w-12 h-12 rounded-full mr-4"
+                />
+                <div>
+                  <h3 class="font-semibold">Michael Chen</h3>
+                  <div class="flex text-yellow-400 text-sm">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400 italic">
+                "I've used several travel agencies in the past, but Kenzy-tour
+                stands out by far. Their attention to detail and personalized
+                service made my solo trip to Japan an unforgettable experience.
+                Can't wait for my next adventure with them!"
+              </p>
+            </div>
+
+            <!-- Testimonial Card 3 -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg card-hover"
+            >
+              <div class="flex items-center mb-4">
+                <img
+                  src="https://picsum.photos/seed/person3/100/100.jpg"
+                  alt="Emily Rodriguez"
+                  class="w-12 h-12 rounded-full mr-4"
+                />
+                <div>
+                  <h3 class="font-semibold">Emily Rodriguez</h3>
+                  <div class="flex text-yellow-400 text-sm">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-gray-600 dark:text-gray-400 italic">
+                "Kenzy-tour planned the most romantic getaway for our
+                anniversary. The private beach dinner and couples spa were
+                absolutely magical. They thought of every little detail to make
+                our trip special. Thank you for creating memories we'll cherish
+                forever!"
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <section class="py-16 md:py-24 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-4">
+              Travel Gallery
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+            >
+              Get inspired by these breathtaking destinations from around the
+              world
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery1/400/300.jpg"
+                alt="Gallery Image 1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery2/400/300.jpg"
+                alt="Gallery Image 2"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery3/400/300.jpg"
+                alt="Gallery Image 3"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery4/400/300.jpg"
+                alt="Gallery Image 4"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery5/400/300.jpg"
+                alt="Gallery Image 5"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery6/400/300.jpg"
+                alt="Gallery Image 6"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery7/400/300.jpg"
+                alt="Gallery Image 7"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="image-hover rounded-lg overflow-hidden">
+              <img
+                src="https://picsum.photos/seed/gallery8/400/300.jpg"
+                alt="Gallery Image 8"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-4">
+              Get In Touch
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+            >
+              Have questions or ready to plan your next adventure? We're here to
+              help!
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <form class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+                <div class="mb-6">
+                  <label
+                    for="name"
+                    class="block text-gray-700 dark:text-gray-300 font-semibold mb-2"
+                    >Your Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700"
+                    required
+                  />
+                </div>
+                <div class="mb-6">
+                  <label
+                    for="email"
+                    class="block text-gray-700 dark:text-gray-300 font-semibold mb-2"
+                    >Your Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700"
+                    required
+                  />
+                </div>
+                <div class="mb-6">
+                  <label
+                    for="subject"
+                    class="block text-gray-700 dark:text-gray-300 font-semibold mb-2"
+                    >Subject</label
+                  >
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700"
+                    required
+                  />
+                </div>
+                <div class="mb-6">
+                  <label
+                    for="message"
+                    class="block text-gray-700 dark:text-gray-300 font-semibold mb-2"
+                    >Message</label
+                  >
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full px-6 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+
+            <div>
+              <div
+                class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg mb-6"
+              >
+                <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
+                <div class="space-y-4">
+                  <div class="flex items-start">
+                    <i class="fas fa-map-marker-alt text-primary mt-1 mr-4"></i>
+                    <div>
+                      <h4 class="font-semibold">Address</h4>
+                      <p class="text-gray-600 dark:text-gray-400">
+                        123 Travel Street, Adventure City, AC 12345
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-phone text-primary mt-1 mr-4"></i>
+                    <div>
+                      <h4 class="font-semibold">Phone</h4>
+                      <p class="text-gray-600 dark:text-gray-400">
+                        +1 (555) 123-4567
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-envelope text-primary mt-1 mr-4"></i>
+                    <div>
+                      <h4 class="font-semibold">Email</h4>
+                      <p class="text-gray-600 dark:text-gray-400">
+                        info@kenzy-tour.com
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
+                <h3 class="text-xl font-semibold mb-4">Follow Us</h3>
+                <div class="flex space-x-4">
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-primary hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-primary hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-primary hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <i class="fab fa-instagram"></i>
+                  </a>
+                  <a
+                    href="#"
+                    class="w-10 h-10 bg-primary hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <i class="fab fa-youtube"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Newsletter Section -->
+      <section class="py-16 md:py-24 bg-primary">
+        <div class="container mx-auto px-4">
+          <div class="max-w-3xl mx-auto text-center">
+            <h2
+              class="text-3xl md:text-4xl font-playfair font-bold text-white mb-4"
+            >
+              Subscribe to Our Newsletter
+            </h2>
+            <p class="text-lg text-gray-100 mb-8">
+              Get exclusive travel deals, tips, and inspiration delivered
+              straight to your inbox
+            </p>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+              />
+              <button
+                type="submit"
+                class="px-6 py-3 bg-secondary hover:bg-amber-600 text-white font-semibold rounded-lg transition-colors"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <i class="fas fa-globe-americas text-secondary text-2xl"></i>
+              <h3 class="text-2xl font-signature text-secondary">Kenzy-tour</h3>
+            </div>
+            <p class="text-gray-400 mb-4">
+              Your gateway to unforgettable travel experiences around the world.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="#"
+                class="text-gray-400 hover:text-secondary transition-colors"
+              >
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#destinations"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >Destinations</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#packages"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >Packages</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >About Us</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Support</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >FAQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >Terms & Conditions</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  class="text-gray-400 hover:text-secondary transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Payment Methods</h4>
+            <div class="flex space-x-2 mb-4">
+              <i class="fab fa-cc-visa text-2xl text-gray-400"></i>
+              <i class="fab fa-cc-mastercard text-2xl text-gray-400"></i>
+              <i class="fab fa-cc-amex text-2xl text-gray-400"></i>
+              <i class="fab fa-cc-paypal text-2xl text-gray-400"></i>
+            </div>
+            <p class="text-gray-400">
+              Secure payment options for your peace of mind
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>&copy; 2023 Kenzy-tour. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button
+      id="scroll-to-top"
+      class="fixed bottom-8 right-8 w-12 h-12 bg-primary hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 invisible z-40"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        ></path>
+      </svg>
+      <svg class="absolute inset-0 w-12 h-12 -rotate-90">
+        <circle
+          cx="24"
+          cy="24"
+          r="20"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          class="text-gray-300 dark:text-gray-600"
+        ></circle>
+        <circle
+          cx="24"
+          cy="24"
+          r="20"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"
+          class="text-primary loading-circle"
+          id="loading-circle"
+        ></circle>
+      </svg>
+    </button>
+
+    <script>
+      // Theme Toggle
+      const themeToggle = document.getElementById("theme-toggle");
+      const mobileThemeToggle = document.getElementById("mobile-theme-toggle");
+      const html = document.documentElement;
+
+      // Check for saved theme preference or default to light mode
+      const currentTheme = localStorage.getItem("theme") || "light";
+      if (currentTheme === "dark") {
+        html.classList.add("dark");
+      }
+
+      function toggleTheme() {
+        html.classList.toggle("dark");
+        const theme = html.classList.contains("dark") ? "dark" : "light";
+        localStorage.setItem("theme", theme);
+      }
+
+      themeToggle.addEventListener("click", toggleTheme);
+      mobileThemeToggle.addEventListener("click", toggleTheme);
+
+      // Mobile Menu Toggle
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Close mobile menu when clicking on a link
+      const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+      mobileMenuLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("hidden");
+        });
+      });
+
+      // Navbar Hide on Scroll
+      let lastScrollTop = 0;
+      const navbar = document.getElementById("navbar");
+
+      window.addEventListener("scroll", () => {
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+          // Scrolling down
+          navbar.classList.add("navbar-hidden");
+        } else {
+          // Scrolling up
+          navbar.classList.remove("navbar-hidden");
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      });
+
+      // Show navbar when clicking on the page
+      document.addEventListener("click", (e) => {
+        if (!navbar.contains(e.target)) {
+          navbar.classList.remove("navbar-hidden");
+        }
+      });
+
+      // Scroll to Top Button
+      const scrollToTopButton = document.getElementById("scroll-to-top");
+      const loadingCircle = document.getElementById("loading-circle");
+
+      window.addEventListener("scroll", () => {
+        // Show/hide scroll to top button
+        if (window.pageYOffset > 300) {
+          scrollToTopButton.classList.remove("opacity-0", "invisible");
+          scrollToTopButton.classList.add("opacity-100", "visible");
+        } else {
+          scrollToTopButton.classList.add("opacity-0", "invisible");
+          scrollToTopButton.classList.remove("opacity-100", "visible");
+        }
+
+        // Update loading circle based on scroll position
+        const scrollPercentage =
+          (window.pageYOffset /
+            (document.documentElement.scrollHeight - window.innerHeight)) *
+          100;
+        const circumference = 2 * Math.PI * 20; // radius is 20
+        const offset = circumference - (scrollPercentage / 100) * circumference;
+        loadingCircle.style.strokeDashoffset = offset;
+      });
+
+      scrollToTopButton.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Form submission
+      const forms = document.querySelectorAll("form");
+      forms.forEach((form) => {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          // Here you would typically send the form data to a server
+          // For this demo, we'll just show an alert
+          alert("Thank you for your message! We will get back to you soon.");
+          form.reset();
+        });
+      });
+    </script>
+  </body>
+</html>
